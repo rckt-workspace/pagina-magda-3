@@ -476,7 +476,7 @@
   h1, h2, h3, p, li, a { overflow-wrap: anywhere; }
 
   /* Enlaces largos de fuentes: que nunca desborden */
-  .sources-grid a, .source-link, a[href^="http"] { word-break: break-word; }
+  .sources-prose a, .source-link, a[href^="http"] { word-break: break-word; }
 
   @media (max-width: 1024px) {
     :root { --gutter: 1.5rem; }

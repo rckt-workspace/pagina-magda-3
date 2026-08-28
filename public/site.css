@@ -46,7 +46,8 @@
   img { max-width: 100%; display: block; }
   a { color: inherit; }
   h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; text-wrap: balance; }
-  p, blockquote { margin: 0; text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
+  p, li, blockquote { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
+  p, blockquote { margin: 0; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); position: relative; z-index: 1; }
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }
@@ -499,14 +500,14 @@
   @media (max-width: 700px) {
     :root { --gutter: 1.15rem; }
     .hero h1 { font-size: clamp(1.6rem, 7.2vw, 2.1rem); max-width: 100%; }
-    .hero-lead { max-width: 100%; text-align: left; }
+    .hero-lead { max-width: 100%; text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
     .hero-cta-row { flex-direction: column; align-items: stretch; }
     .hero-cta-row .btn { width: 100%; justify-content: center; }
     .trust-chips .chip { font-size: 0.9rem; padding: 0.5rem 0.9rem; }
     .marquee-strip { padding: 0.9rem 0; }
     .method-card-wrap { min-height: auto; }
     .stats-row div { padding: 1.25rem 0; }
-    p, li, blockquote { text-align: left; hyphens: auto; }
+    p, li, blockquote { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
   }
 
   @media (max-width: 560px) {

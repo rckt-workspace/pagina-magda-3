@@ -180,31 +180,11 @@
   .context-closing { max-width: 720px; margin: 2.75rem auto 0; text-align: center; font-size: 1.05rem; color: var(--ink-soft); }
 
   /* ============ Fuentes normativas ============ */
-  .sources { margin-top: 3.5rem; border-top: 1px solid var(--line); padding-top: 2.75rem; }
-  .sources-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1.75rem; text-align: center; }
-  .sources-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.5rem; align-items: start; }
-  .sources-col:nth-child(-n+3) { grid-column: span 2; }
-  .sources-col:nth-child(n+4) { grid-column: span 3; }
-  @media (max-width: 900px) { .sources-grid { grid-template-columns: repeat(2, 1fr); } .sources-col { grid-column: auto !important; } }
-  @media (max-width: 520px) { .sources-grid { grid-template-columns: 1fr; } }
-  .sources-col { display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem 1.35rem 1.35rem; box-shadow: 0 18px 38px -30px rgba(20,29,51,0.28); transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease); }
-  .sources-col:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); box-shadow: 0 26px 48px -30px rgba(20,29,51,0.35); }
-  .sources-body { position: relative; overflow: hidden; max-height: 17rem; transition: max-height 0.45s var(--ease); }
-  .sources-col.clipped .sources-body::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4.5rem; background: linear-gradient(to bottom, rgba(255,255,255,0), var(--white) 85%); pointer-events: none; transition: opacity 0.3s ease; }
-  .sources-col:not(.clipped) .sources-body { max-height: none; }
-  .sources-col.expanded .sources-body { max-height: 80rem; }
-  .sources-col.expanded .sources-body::after { opacity: 0; }
-  .sources-toggle { align-self: flex-start; margin-top: 0.9rem; padding: 0.3rem 0; background: none; border: none; cursor: pointer; font-family: var(--mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-deep); display: inline-flex; align-items: center; gap: 0.35rem; transition: color 0.2s ease; }
-  .sources-toggle:hover { color: var(--accent); }
-  .sources-toggle svg { width: 0.8rem; height: 0.8rem; transition: transform 0.3s var(--ease); }
-  .sources-col.expanded .sources-toggle svg { transform: rotate(180deg); }
-  .sources-col h4 { font-family: var(--sans); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin: 0 0 0.9rem; padding-bottom: 0.75rem; border-bottom: 2px solid color-mix(in srgb, var(--accent) 45%, var(--paper)); display: flex; align-items: center; gap: 0.5rem; }
-  .sources-col h4::before { content: ""; flex: none; width: 0.55rem; height: 0.55rem; border-radius: 2px; background: linear-gradient(135deg, var(--accent), var(--accent-deep)); }
-  .sources-col a { display: flex; align-items: flex-start; gap: 0.45rem; font-size: 0.8rem; line-height: 1.5; color: var(--ink-soft); text-align: justify; -webkit-hyphens: auto; hyphens: auto; text-decoration: none; margin-bottom: 0.7rem; padding: 0.55rem 0.65rem; border-radius: 8px; background: color-mix(in srgb, var(--paper) 70%, var(--white)); border: 1px solid transparent; transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease; }
-  .sources-col a:last-child { margin-bottom: 0; }
-  .sources-col a:hover { color: var(--accent-deep); background: color-mix(in srgb, var(--accent) 8%, var(--white)); border-color: color-mix(in srgb, var(--accent) 22%, var(--white)); }
-  .sources-col a span { flex: 1; }
-  .sources-col a svg { flex: none; width: 0.85rem; height: 0.85rem; margin-top: 0.2rem; color: var(--ocre); }
+  .sources-prose { margin-top: 3.5rem; border-top: 1px solid var(--line); padding-top: 2.75rem; max-width: 820px; margin-left: auto; margin-right: auto; }
+  .sources-prose .sources-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1.5rem; text-align: center; }
+  .sources-prose p { font-family: var(--sans); font-size: 1rem; line-height: 1.75; color: var(--ink-soft); text-align: justify; -webkit-hyphens: auto; hyphens: auto; margin: 0; }
+  .sources-prose a { color: var(--accent-deep); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; font-weight: 600; transition: color 0.2s ease, text-decoration-color 0.2s ease; word-break: break-word; }
+  .sources-prose a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
   /* ============ About split (photo + text) ============ */
   .about-split { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 3.25rem; align-items: center; margin-bottom: 3.75rem; }
@@ -496,7 +476,7 @@
   h1, h2, h3, p, li, a { overflow-wrap: anywhere; }
 
   /* Enlaces largos de fuentes: que nunca desborden */
-  .sources-grid a, .source-link, a[href^="http"] { word-break: break-word; }
+  .sources-prose a, .source-link, a[href^="http"] { word-break: break-word; }
 
   @media (max-width: 1024px) {
     :root { --gutter: 1.5rem; }

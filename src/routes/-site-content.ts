@@ -89,34 +89,9 @@ export const siteHtml = `
 
       <p class="context-closing reveal">Frente a este mapa regulatorio diverso, traduzco la complejidad de cada país en modelos y narrativas de valor técnicamente sólidos y adaptados a la toma de decisiones del financiador.</p>
 
-      <div class="sources reveal">
+      <div class="sources-prose reveal">
         <div class="sources-label">Marco normativo consultado</div>
-        <div class="sources-grid">
-          <div class="sources-col">
-            <h4>Europa</h4>
-            <a href="https://www.boe.es/doue/2021/458/L00001-00032.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Reglamento (UE) 2021/2282 del Parlamento Europeo y del Consejo, sobre evaluación de las tecnologías sanitarias y por el que se modifica la Directiva 2011/24/UE (aplicable desde el 12 de enero de 2025)</a>
-          </div>
-          <div class="sources-col">
-            <h4>España</h4>
-            <a href="https://www.boe.es/boe/dias/2026/05/29/pdfs/BOE-A-2026-11587.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Real Decreto 415/2026, que crea el Sistema para la Evaluación de las Tecnologías Sanitarias, con dos oficinas independientes: AEMPS para medicamentos (coordinada con las evaluaciones clínicas conjuntas europeas, JCA) y RedETS para tecnologías no farmacológicas, y un Grupo de Adopción que actúa de puente hacia los órganos decisorios</a>
-          </div>
-          <div class="sources-col">
-            <h4>Colombia</h4>
-            <a href="https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/DIJ/circular-018-de-2024.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Comisión Nacional de Precios de Medicamentos y Dispositivos Médicos (CNPMDM): Circular 18 de 2024 (metodología para régimen de control directo de precios vía referenciación internacional) y circulares de actualización; articulado con el artículo 87 de la Ley 1438 de 2011 (que otorga competencia a la CNPMDM) y el Decreto 705 de 2016; el IETS, creado por la misma Ley 1438/2011, es el organismo técnico de evaluación de tecnologías en salud en Colombia, aunque opera en procesos distintos a la fijación de precios</a>
-            <a href="https://www.minsalud.gov.co/Normatividad_Nuevo/LEY%201438%20DE%202011.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Ley 1438 de 2011</a>
-            <a href="https://www.minsalud.gov.co/Normatividad_Nuevo/Decreto%200705%20de%202016.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Decreto 705 de 2016</a>
-          </div>
-          <div class="sources-col">
-            <h4>Brasil</h4>
-            <a href="https://www.gov.br/saude/pt-br/assuntos/noticias-ms/2026/julho/ministerio-da-saude-institui-comite-para-negociacao-de-precos-nas-compras-do-sus" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Portaria GM/MS nº 12.011 (julio de 2026) del Ministério da Saúde: crea el Comitê de Negociação de Preços e Condições Econômicas de Tecnologias em Saúde para el SUS, permitiendo modelos de acceso gestionado y descuentos confidenciales (desconto silenciado / preço confidencial)</a>
-            <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12401.htm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Ley 12.401/2011: Marco legal de CONITEC (Comissão Nacional de Incorporação de Tecnologias no SUS)</a>
-            <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/decreto/d7646.htm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Decreto 7.646/2011: Marco legal de CONITEC</a>
-          </div>
-          <div class="sources-col">
-            <h4>Chile</h4>
-            <a href="https://www.bcn.cl/leychile/navegar?idNorma=1078148" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Ley Nº 20.850 (Ley Ricarte Soto): crea el Sistema de Protección Financiera para Diagnósticos y Tratamientos de Alto Costo, y establece la obligación de un proceso sistemático de evaluación de tecnologías sanitarias basado en evidencia para respaldar las decisiones de cobertura, proceso que actualmente ejecuta el Departamento de Evaluación de Tecnologías Sanitarias y Salud Basada en Evidencia (ETESA-SBE) del MINSAL, creado en 2017</a>
-          </div>
-        </div>
+        <p>En Europa, el marco vigente es el <a href="https://www.boe.es/doue/2021/458/L00001-00032.pdf" target="_blank" rel="noopener">Reglamento (UE) 2021/2282</a> del Parlamento Europeo y del Consejo, sobre evaluación de las tecnologías sanitarias y por el que se modifica la Directiva 2011/24/UE (aplicable desde el 12 de enero de 2025); en España, el <a href="https://www.boe.es/boe/dias/2026/05/29/pdfs/BOE-A-2026-11587.pdf" target="_blank" rel="noopener">Real Decreto 415/2026</a> crea el Sistema para la Evaluación de las Tecnologías Sanitarias, con dos oficinas independientes: AEMPS para medicamentos (coordinada con las evaluaciones clínicas conjuntas europeas, JCA) y RedETS para tecnologías no farmacológicas, además de un Grupo de Adopción que actúa de puente hacia los órganos decisorios. En Colombia, la Comisión Nacional de Precios de Medicamentos y Dispositivos Médicos (CNPMDM) regula el control directo de precios mediante la <a href="https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/DIJ/circular-018-de-2024.pdf" target="_blank" rel="noopener">Circular 18 de 2024</a> (metodología para régimen de control directo de precios vía referenciación internacional) y sus circulares de actualización, articuladas con el artículo 87 de la <a href="https://www.minsalud.gov.co/Normatividad_Nuevo/LEY%201438%20DE%202011.pdf" target="_blank" rel="noopener">Ley 1438 de 2011</a> (que otorga competencia a la CNPMDM) y el <a href="https://www.minsalud.gov.co/Normatividad_Nuevo/Decreto%200705%20de%202016.pdf" target="_blank" rel="noopener">Decreto 705 de 2016</a>; el IETS, creado por la misma Ley 1438/2011, es el organismo técnico de evaluación de tecnologías en salud en el país, aunque opera en procesos distintos a la fijación de precios. En Brasil, la <a href="https://www.gov.br/saude/pt-br/assuntos/noticias-ms/2026/julho/ministerio-da-saude-institui-comite-para-negociacao-de-precos-nas-compras-do-sus" target="_blank" rel="noopener">Portaria GM/MS nº 12.011</a> (julio de 2026) del Ministério da Saúde crea el Comitê de Negociação de Preços e Condições Econômicas de Tecnologias em Saúde para el SUS, permitiendo modelos de acceso gestionado y descuentos confidenciales (desconto silenciado / preço confidencial), en un marco legal sostenido por la <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12401.htm" target="_blank" rel="noopener">Ley 12.401/2011</a> y el <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/decreto/d7646.htm" target="_blank" rel="noopener">Decreto 7.646/2011</a> que regulan a CONITEC (Comissão Nacional de Incorporação de Tecnologias no SUS). Y en Chile, la <a href="https://www.bcn.cl/leychile/navegar?idNorma=1078148" target="_blank" rel="noopener">Ley Nº 20.850</a> (Ley Ricarte Soto) crea el Sistema de Protección Financiera para Diagnósticos y Tratamientos de Alto Costo y establece la obligación de un proceso sistemático de evaluación de tecnologías sanitarias basado en evidencia para respaldar las decisiones de cobertura, proceso que hoy ejecuta el Departamento de Evaluación de Tecnologías Sanitarias y Salud Basada en Evidencia (ETESA-SBE) del MINSAL, creado en 2017.</p>
       </div>
 
     </div>
@@ -501,24 +476,6 @@ export const siteScript = `
     });
   }
 
-  // Fuentes normativas: colapsa cada tarjeta con "Ver más / Ver menos"
-  document.querySelectorAll('.sources-col').forEach(col => {
-    const body = document.createElement('div');
-    body.className = 'sources-body';
-    Array.from(col.querySelectorAll('a')).forEach(a => body.appendChild(a));
-    col.appendChild(body);
-    if (body.scrollHeight <= 276) { body.style.maxHeight = 'none'; return; } // cabe sin recortar: no hace falta toggle
-    col.classList.add('clipped');
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'sources-toggle';
-    btn.innerHTML = '<span>Ver más</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
-    btn.addEventListener('click', () => {
-      const open = col.classList.toggle('expanded');
-      btn.querySelector('span').textContent = open ? 'Ver menos' : 'Ver más';
-    });
-    col.appendChild(btn);
-  });
 
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');

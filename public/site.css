@@ -436,7 +436,7 @@
     background-repeat: no-repeat;
     background-position: top right;
     background-size: 100% auto;
-    background-color: var(--paper);
+    background-color: #F5EFEA;
   }
   .hero .hero-glow { display: none; }
   .hero h1 { font-size: clamp(1.9rem, 3vw, 2.75rem); }

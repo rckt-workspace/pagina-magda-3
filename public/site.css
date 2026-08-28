@@ -400,3 +400,29 @@
   @media (prefers-reduced-motion: reduce) {
     .js-ready .reveal, .js-ready .reveal.is-visible { opacity: 1; transform: none; }
   }
+
+  /* Formulario de contacto */
+  .contact-form { max-width: 640px; margin: 2.75rem auto 0; text-align: left; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(6px); }
+  .cf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 1.25rem; }
+  .cf-field { display: flex; flex-direction: column; gap: 0.45rem; }
+  .cf-field.cf-full { grid-column: 1 / -1; }
+  .cf-field label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; color: var(--cream-soft); }
+  .cf-field input, .cf-field select, .cf-field textarea {
+    font: inherit; color: #fff; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
+    padding: 0.8rem 1rem; width: 100%; transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  }
+  .cf-field select { appearance: none; }
+  .cf-field select option { color: var(--ink); }
+  .cf-field textarea { resize: vertical; min-height: 110px; }
+  .cf-field input::placeholder, .cf-field textarea::placeholder { color: rgba(255,255,255,0.45); }
+  .cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus {
+    outline: none; border-color: var(--accent-soft); background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
+  }
+  .cf-error { color: #ffb4a8; font-size: 0.85rem; margin: 1rem 0 0; }
+  .cf-submit { margin-top: 1.5rem; width: 100%; justify-content: center; }
+  @media (max-width: 640px) {
+    .cf-grid { grid-template-columns: 1fr; }
+    .contact-form { padding: 1.5rem; }
+  }

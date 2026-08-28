@@ -426,3 +426,6 @@
     .cf-grid { grid-template-columns: 1fr; }
     .contact-form { padding: 1.5rem; }
   }
+
+  /* Contacto: centrar la fila de botones en la sección final */
+  .final-cta .hero-cta-row { justify-content: center; }

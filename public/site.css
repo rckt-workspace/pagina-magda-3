@@ -339,3 +339,64 @@
   .footer-bottom { padding-top: 1.5rem; font-size: 0.8rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
   .to-top { width: 2.4rem; height: 2.4rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; color: var(--cream-soft); text-decoration: none; transition: all 0.2s ease; }
   .to-top:hover { border-color: var(--accent-soft); color: #fff; }
+
+  /* ============ Refinamiento de layout tipo SaaS moderno (inspirado en AI SaaS) ============ */
+  :root { --radius: 20px; --radius-sm: 12px; }
+
+  /* Más aire entre secciones */
+  section { padding: 7.5rem 0; }
+  @media (max-width: 700px) { section { padding: 4.75rem 0; } }
+
+  /* Encabezados de sección: titular a la izquierda, bajada a la derecha */
+  @media (min-width: 981px) {
+    .sec-head {
+      max-width: none; margin: 0 0 4.25rem; text-align: left;
+      display: grid; grid-template-columns: 1.05fr 0.95fr; column-gap: 4rem; align-items: end;
+    }
+    .sec-head .eyebrow { grid-column: 1; grid-row: 1; justify-content: flex-start; width: auto; }
+    .sec-head h2 { grid-column: 1; grid-row: 2; margin-top: 1rem; max-width: 16ch; }
+    .sec-head p { grid-column: 2; grid-row: 2; margin: 0; align-self: end; }
+    .final-cta .sec-head { text-align: center; }
+  }
+
+  /* Hero asimétrico: contenido a la izquierda, tarjeta flotante a la derecha */
+  @media (min-width: 981px) {
+    .hero { padding: 6.5rem 0 5.5rem; }
+    .hero .wrap {
+      text-align: left; display: grid;
+      grid-template-columns: 1.08fr 0.82fr; column-gap: 4.5rem; align-items: center;
+    }
+    .hero-badge { grid-column: 1; grid-row: 1; margin: 0 0 1.6rem; justify-self: start; }
+    .hero h1 { grid-column: 1; grid-row: 2; margin: 0; max-width: 15ch; }
+    .hero-lead { grid-column: 1; grid-row: 3; margin: 1.5rem 0 0; max-width: 44ch; }
+    .hero-cta-row { grid-column: 1; grid-row: 4; justify-content: flex-start; margin-top: 2.1rem; }
+    .trust-strip {
+      grid-column: 2; grid-row: 1 / span 4; align-self: center;
+      margin: 0; padding: 2.25rem; border: 1px solid var(--line); border-top: 1px solid var(--line);
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: 0 40px 70px -40px rgba(20,29,51,0.4);
+    }
+    .trust-strip .lbl { text-align: left; }
+    .trust-chips { justify-content: flex-start; }
+    .trust-chips .chip { box-shadow: none; }
+  }
+
+  /* Tarjetas más suaves y con elevación tipo SaaS */
+  .value-card, .service-card, .testimonial-card, .resource-card, .method-card, .compare-card, .highlight-banner {
+    border-radius: var(--radius);
+  }
+  .value-card, .service-card { box-shadow: 0 18px 40px -34px rgba(20,29,51,0.35); }
+  .value-card:hover, .service-card:hover { box-shadow: 0 34px 60px -32px rgba(20,29,51,0.3); }
+
+  /* Botones con presencia y sombra progresiva */
+  .btn { padding: 0.95rem 1.7rem; }
+  .btn-outline-light { background: var(--white); box-shadow: 0 14px 30px -26px rgba(20,29,51,0.6); }
+  .btn-outline-light:hover { transform: translateY(-2px); box-shadow: 0 20px 36px -22px rgba(20,29,51,0.45); }
+
+  /* Reveal con un matiz de escala, más cercano al ritmo de la referencia */
+  .js-ready .reveal { transform: translateY(28px) scale(0.985); transition-duration: 0.9s; }
+  .js-ready .reveal.is-visible { transform: translateY(0) scale(1); }
+  .reveal-group > * { transition-delay: calc(var(--i, 0) * 110ms); }
+  @media (prefers-reduced-motion: reduce) {
+    .js-ready .reveal, .js-ready .reveal.is-visible { opacity: 1; transform: none; }
+  }

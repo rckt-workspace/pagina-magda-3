@@ -501,6 +501,25 @@ export const siteScript = `
     });
   }
 
+  // Fuentes normativas: colapsa cada tarjeta con "Ver más / Ver menos"
+  document.querySelectorAll('.sources-col').forEach(col => {
+    const body = document.createElement('div');
+    body.className = 'sources-body';
+    Array.from(col.querySelectorAll('a')).forEach(a => body.appendChild(a));
+    col.appendChild(body);
+    if (body.scrollHeight <= 276) { body.style.maxHeight = 'none'; return; } // cabe sin recortar: no hace falta toggle
+    col.classList.add('clipped');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'sources-toggle';
+    btn.innerHTML = '<span>Ver más</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+    btn.addEventListener('click', () => {
+      const open = col.classList.toggle('expanded');
+      btn.querySelector('span').textContent = open ? 'Ver menos' : 'Ver más';
+    });
+    col.appendChild(btn);
+  });
+
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {

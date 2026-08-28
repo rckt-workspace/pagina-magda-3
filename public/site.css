@@ -180,11 +180,61 @@
   .context-closing { max-width: 720px; margin: 2.75rem auto 0; text-align: center; font-size: 1.05rem; color: var(--ink-soft); }
 
   /* ============ Fuentes normativas ============ */
-  .sources-prose { margin-top: 3.5rem; border-top: 1px solid var(--line); padding-top: 2.75rem; max-width: 820px; margin-left: auto; margin-right: auto; }
-  .sources-prose .sources-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1.5rem; text-align: center; }
-  .sources-prose p { font-family: var(--sans); font-size: 1rem; line-height: 1.75; color: var(--ink-soft); text-align: justify; -webkit-hyphens: auto; hyphens: auto; margin: 0; }
-  .sources-prose a { color: var(--accent-deep); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; font-weight: 600; transition: color 0.2s ease, text-decoration-color 0.2s ease; word-break: break-word; }
-  .sources-prose a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  .sources-prose {
+    position: relative;
+    margin: 4rem auto 0;
+    max-width: 820px;
+    padding: 2.6rem 2.6rem 2.4rem;
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--white) 0%, color-mix(in srgb, var(--paper-2) 55%, var(--white)) 100%);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -42px rgba(20,29,51,0.28), inset 0 1px 0 rgba(255,255,255,0.8);
+    overflow: hidden;
+    transition: transform 0.45s var(--ease), box-shadow 0.45s ease;
+  }
+  .sources-prose::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--ocre) 100%);
+    border-radius: 5px 0 0 5px;
+  }
+  .sources-prose::after {
+    content: '';
+    position: absolute; top: -40%; right: -12%;
+    width: 22rem; height: 22rem;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .sources-prose:hover { transform: translateY(-3px); box-shadow: 0 40px 70px -40px rgba(20,29,51,0.34), inset 0 1px 0 rgba(255,255,255,0.8); }
+  .sources-prose .sources-label {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent-deep);
+    background: color-mix(in srgb, var(--accent) 10%, var(--white));
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+    padding: 0.45rem 0.95rem; border-radius: 999px;
+    margin: 0 0 1.75rem;
+    box-shadow: 0 6px 16px -10px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  .sources-prose .sources-label::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ocre);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ocre) 22%, transparent);
+  }
+  .sources-prose p { font-family: var(--sans); font-size: 1.02rem; line-height: 1.78; color: var(--ink-soft); text-align: justify; -webkit-hyphens: auto; hyphens: auto; margin: 0; }
+  .sources-prose a {
+    position: relative; color: var(--accent-deep); font-weight: 600;
+    text-decoration: none; text-underline-offset: 0.18em;
+    word-break: break-word;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 1.5px; background-repeat: no-repeat; background-position: 0 100%;
+    transition: color 0.28s ease, background-size 0.32s var(--ease);
+  }
+  .sources-prose a:hover { color: var(--accent); background-size: 100% 1.5px; }
+  .sources-prose a:active { color: var(--ocre); }
 
   /* ============ About split (photo + text) ============ */
   .about-split { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 3.25rem; align-items: center; margin-bottom: 3.75rem; }

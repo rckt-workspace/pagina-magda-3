@@ -385,6 +385,35 @@ export const siteHtml = `
         <span class="pill">⏱ Respuesta en 1 día laborable</span>
         <span class="pill">📍 Madrid, España</span>
       </div>
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="cf-grid">
+          <div class="cf-field">
+            <label for="cf-empresa">Empresa</label>
+            <input type="text" id="cf-empresa" name="empresa" placeholder="Nombre de su empresa" required maxlength="100" />
+          </div>
+          <div class="cf-field">
+            <label for="cf-area">Área que desea solicitar</label>
+            <select id="cf-area" name="area" required>
+              <option value="" disabled selected>Seleccione un área</option>
+              <option>Economía de la salud y HEOR</option>
+              <option>Pricing y lanzamiento</option>
+              <option>Comunicación científica</option>
+              <option>Capacitación y formación</option>
+              <option>Otra</option>
+            </select>
+          </div>
+          <div class="cf-field cf-full">
+            <label for="cf-email">Correo electrónico</label>
+            <input type="email" id="cf-email" name="email" placeholder="su.correo@empresa.com" required maxlength="255" />
+          </div>
+          <div class="cf-field cf-full">
+            <label for="cf-comentario">Comentario</label>
+            <textarea id="cf-comentario" name="comentario" rows="4" placeholder="Cuénteme brevemente su necesidad..." required maxlength="1000"></textarea>
+          </div>
+        </div>
+        <p class="cf-error" id="cfError" role="alert" hidden>Por favor, complete todos los campos con un correo válido.</p>
+        <button type="submit" class="btn btn-white cf-submit">Enviar solicitud →</button>
+      </form>
     </div>
   </section>
 </main>
@@ -452,6 +481,25 @@ export const siteScript = `
   });
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Formulario de contacto — compone un correo con los datos
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const empresa = contactForm.elements['empresa'].value.trim();
+      const area = contactForm.elements['area'].value;
+      const email = contactForm.elements['email'].value.trim();
+      const comentario = contactForm.elements['comentario'].value.trim();
+      const error = document.getElementById('cfError');
+      const valid = empresa && area && comentario && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+      if (!valid) { if (error) error.hidden = false; return; }
+      if (error) error.hidden = true;
+      const subject = 'Solicitud de consultoría — ' + empresa + ' (' + area + ')';
+      const body = 'Empresa: ' + empresa + '\\nÁrea solicitada: ' + area + '\\nCorreo: ' + email + '\\n\\nComentario:\\n' + comentario;
+      window.location.href = 'mailto:magda.vianey.g@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  }
 
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');

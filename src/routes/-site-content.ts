@@ -507,7 +507,8 @@ export const siteScript = `
     body.className = 'sources-body';
     Array.from(col.querySelectorAll('a')).forEach(a => body.appendChild(a));
     col.appendChild(body);
-    if (body.scrollHeight <= 272) return; // cabe sin recortar: no hace falta toggle
+    if (body.scrollHeight <= 276) { body.style.maxHeight = 'none'; return; } // cabe sin recortar: no hace falta toggle
+    col.classList.add('clipped');
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'sources-toggle';

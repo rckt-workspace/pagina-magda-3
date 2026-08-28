@@ -496,7 +496,7 @@ export const siteScript = `
       if (!valid) { if (error) error.hidden = false; return; }
       if (error) error.hidden = true;
       const subject = 'Solicitud de consultoría — ' + empresa + ' (' + area + ')';
-      const body = 'Empresa: ' + empresa + '\nÁrea solicitada: ' + area + '\nCorreo: ' + email + '\n\nComentario:\n' + comentario;
+      const body = 'Empresa: ' + empresa + '\\nÁrea solicitada: ' + area + '\\nCorreo: ' + email + '\\n\\nComentario:\\n' + comentario;
       window.location.href = 'mailto:magda.vianey.g@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
   }

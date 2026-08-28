@@ -185,7 +185,7 @@ export const siteHtml = `
           </div>
           <div class="method-flex-note">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-            <span><strong>Flexibilidad total:</strong> las fases y entregables pueden desarrollarse de manera independiente, sin requerir la contratación del flujo completo.</span>
+            <span><strong>Flexibilidad total:</strong> las fases y entregables pueden desarrollarse de manera independiente sin requerir la contratación del flujo completo.</span>
           </div>
         </div>
 

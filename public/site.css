@@ -46,7 +46,7 @@
   img { max-width: 100%; display: block; }
   a { color: inherit; }
   h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; text-wrap: balance; }
-  p { margin: 0; }
+  p, blockquote { margin: 0; text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); position: relative; z-index: 1; }
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }

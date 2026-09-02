@@ -248,6 +248,28 @@ export const siteHtml = `
           <p>Entrenamientos a medida para equipos comerciales y de acceso en economía de la salud, generalidades de farmacoeconomía y conceptos clave.</p>
         </div>
       </div>
+
+      <div class="advisory-band reveal">
+        <div class="advisory-copy">
+          <span class="advisory-eyebrow">Formato ágil</span>
+          <h3>Sesión de asesoría · 60 minutos</h3>
+          <p>Para resolver una cuestión concreta sin abrir un proyecto. Sesión con honorario, agenda reservada y conclusiones por escrito.</p>
+        </div>
+        <a class="advisory-btn magnetic" href="mailto:magda.vianey.g@gmail.com">Reservar una sesión →</a>
+      </div>
+
+      <div class="areas-band reveal">
+        <span class="areas-label">Áreas terapéuticas</span>
+        <div class="areas-chips">
+          <span class="area-chip dark">Oncología</span>
+          <span class="area-chip">Inmunología</span>
+          <span class="area-chip dark">Dermatología</span>
+          <span class="area-chip">Vacunas</span>
+          <span class="area-chip dark">Antiinfectivos</span>
+          <span class="area-chip">Salud femenina</span>
+          <span class="area-chip dark">Otras</span>
+        </div>
+      </div>
     </div>
   </section>
 

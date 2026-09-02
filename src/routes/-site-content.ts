@@ -256,7 +256,7 @@ export const siteHtml = `
       <div class="sec-head reveal">
         <span class="eyebrow">Por qué trabajar conmigo</span>
         <h2>Pensado para equipos que necesitan foco, no burocracia</h2>
-        <p>Frente a una agencia generalista o un equipo interno saturado, una consultora independiente especializada en HEOR.</p>
+        <p>Un partner independiente en HEOR: foco 100% especializado y capacidad flexible para sumarse donde se necesite, ya sea directamente con la farmacéutica o como extensión de tu equipo consultor.</p>
       </div>
 
       <div class="compare-cards reveal-group">

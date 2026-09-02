@@ -585,3 +585,86 @@
     .about-panel-text { padding: 2rem 1.5rem; }
     .about-panel-photo { height: 420px; }
   }
+
+/* ---- Servicios: franja de asesoría y áreas terapéuticas ---- */
+.advisory-band{
+  margin-top:2.5rem;
+  background:#1E2A4A;
+  border-radius:12px;
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.advisory-copy{max-width:62ch}
+.advisory-eyebrow{
+  display:block;
+  font-family:"Public Sans",system-ui,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:12px;
+  color:#9FB0CC;
+  margin-bottom:.5rem;
+}
+.advisory-band h3{
+  font-family:"Newsreader",Georgia,serif;
+  font-size:24px;
+  color:#F7F5F1;
+  margin:0 0 .5rem;
+}
+.advisory-band p{
+  font-family:"Public Sans",system-ui,sans-serif;
+  font-size:15px;
+  color:#C9D2E0;
+  margin:0;
+  text-align:left;
+}
+.advisory-btn{
+  flex:none;
+  background:#0096C7;
+  color:#fff;
+  border-radius:8px;
+  padding:14px 22px;
+  font-family:"Public Sans",system-ui,sans-serif;
+  font-size:15px;
+  font-weight:600;
+  text-decoration:none;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  box-shadow:0 6px 18px rgba(0,150,199,.25);
+}
+.advisory-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 28px rgba(0,150,199,.35)}
+
+.areas-band{
+  margin-top:1.5rem;
+  padding:24px 4px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.areas-label{
+  font-family:"Public Sans",system-ui,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:11px;
+  color:#5A6B85;
+  white-space:nowrap;
+}
+.areas-chips{display:flex;flex-wrap:wrap;gap:8px}
+.area-chip{
+  font-family:"Public Sans",system-ui,sans-serif;
+  font-size:13px;
+  padding:8px 16px;
+  border-radius:20px;
+  background:#E3ECF4;
+  color:#1E2A4A;
+  transition:transform .2s ease;
+}
+.area-chip.dark{background:#1E2A4A;color:#F7F5F1}
+.area-chip:hover{transform:translateY(-2px)}
+@media (max-width:720px){
+  .advisory-band{padding:24px;flex-direction:column;align-items:flex-start}
+  .advisory-btn{width:100%;text-align:center}
+}

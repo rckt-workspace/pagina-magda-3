@@ -523,10 +523,10 @@
   html, body { max-width: 100%; overflow-x: clip; }
   img, svg, video { max-width: 100%; height: auto; }
   .wrap { width: 100%; }
-  h1, h2, h3, p, li, a { overflow-wrap: anywhere; }
+  h1, h2, h3, p, li { overflow-wrap: normal; word-break: normal; hyphens: manual; -webkit-hyphens: manual; }
 
   /* Enlaces largos de fuentes: que nunca desborden */
-  .sources-prose a, .source-link, a[href^="http"] { word-break: break-word; }
+  .sources-prose a, .source-link, a[href^="http"] { overflow-wrap: break-word; word-break: break-word; }
 
   @media (max-width: 1024px) {
     :root { --gutter: 1.5rem; }

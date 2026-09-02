@@ -92,35 +92,46 @@ export const siteHtml = `
 
   <section class="light">
     <div class="wrap">
-      <div class="about-split reveal-group">
-        <div class="about-photo reveal" style="--i:0">
-          <img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Retrato de Magda Gutiérrez">
-          <div class="badge">14+ años · Pfizer · AbbVie</div>
+      <div class="about-head reveal">
+        <span class="sec-num">04</span>
+        <span class="eyebrow">Sobre mí</span>
+        <h2>Rigor científico, autoridad analítica y visión ejecutiva</h2>
+      </div>
+
+      <div class="about-panel reveal">
+        <div class="about-panel-text">
+          <span class="eyebrow">Magda Gutiérrez Ardila, MSc, eMBA</span>
+          <p class="about-panel-sub">HEOR · Pricing · Market Access</p>
+          <p>Consultora especializada en Health Economics and Outcomes Research (HEOR), Pricing y Market Access. Acompaño a compañías farmacéuticas y grandes consultoras en el desarrollo de modelos económicos, el análisis de impacto presupuestario y la construcción de estrategias de precio y evidencia de valor, con un enfoque que combina rigor científico, autoridad analítica y visión estratégica ejecutiva.</p>
+          <p>Antes de iniciar mi práctica independiente, lideré estrategias de precio y evidencia económica en Pfizer y AbbVie. Soy Máster en Economía de la Salud (MSc), en Epidemiología Clínica (MSc) y cuento con un eMBA, formación que combino a diario con la práctica de traducir evidencia clínica en decisiones de negocio.</p>
+          <div class="about-chips">
+            <span>HEOR</span>
+            <span>Pricing y Market Access</span>
+            <span>Comunicación científica</span>
+            <span>Capacitación</span>
+          </div>
         </div>
-        <div class="about-text reveal" style="--i:1">
-          <span class="eyebrow">Sobre mí</span>
-          <h2>Rigor científico, autoridad analítica y visión ejecutiva</h2>
-          <p>Más de catorce años construyendo modelos económicos y estrategias de precio para lanzamientos en mercados con financiadores exigentes.</p>
-          <p>Antes de fundar mi práctica independiente, lideré estrategias de precio y evidencia económica en Pfizer y AbbVie, donde construí los modelos y argumentos que sostuvieron el acceso de nuevos tratamientos frente a financiadores en distintos países. Soy Máster en Economía de la Salud (MSc) y cuento con un eMBA, formación que combino a diario con la práctica de traducir evidencia clínica en decisiones de negocio.</p>
-          <p>Formo parte activa de la comunidad ISPOR, donde actualizo constantemente mi conocimiento sobre metodología HEOR internacional. Hoy trabajo con equipos que necesitan foco y rigor técnico sin la burocracia de una agencia grande, acompañando cada proyecto desde el diagnóstico hasta la defensa final ante el pagador.</p>
+        <div class="about-panel-photo">
+          <img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Retrato de Magda Gutiérrez">
         </div>
       </div>
+
 
       <div class="value-grid reveal-group">
         <div class="value-card reveal" style="--i:0">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18M3 9v10a2 2 0 0 0 2 2h4"/></svg></div>
           <h3>Rigor científico</h3>
-          <p>Modelos económicos y evidencia construidos con la misma exigencia metodológica que revisa un financiador.</p>
+          <p>Modelos económicos con rigor científico, construidos de la mano del cliente sobre la evidencia clínica disponible.</p>
         </div>
         <div class="value-card reveal" style="--i:1">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
           <h3>Autoridad analítica</h3>
-          <p>Catorce años en Pfizer y AbbVie construyendo estrategias de precio frente a pagadores en mercados exigentes.</p>
+          <p>Catorce años en Pfizer y AbbVie construyendo estrategias de posicionamiento de valor frente a pagadores en mercados exigentes y cambiantes.</p>
         </div>
         <div class="value-card reveal" style="--i:2">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div>
           <h3>Visión ejecutiva</h3>
-          <p>Traduzco datos clínicos en argumentos de negocio que sostienen un precio frente a cualquier evaluador.</p>
+          <p>Traduzco datos clínicos en argumentos de negocio que disminuyen la incertidumbre de los evaluadores y tomadores de decisión.</p>
         </div>
       </div>
 

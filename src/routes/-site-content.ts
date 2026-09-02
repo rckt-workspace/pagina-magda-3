@@ -93,7 +93,6 @@ export const siteHtml = `
   <section class="light">
     <div class="wrap">
       <div class="about-head reveal">
-        <span class="sec-num">04</span>
         <span class="eyebrow">Sobre mí</span>
         <h2>Rigor científico, autoridad analítica y visión ejecutiva</h2>
       </div>

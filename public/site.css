@@ -565,7 +565,8 @@
   }
 
   /* ============ Sobre mí — panel oscuro ============ */
-  section:has(.about-head) { padding-top: 3rem; }
+  #contexto { padding-bottom: 2.5rem; }
+  section:has(.about-head) { padding-top: 2.25rem; }
   .about-head { margin-bottom: 1.75rem; }
   .about-head .sec-num { display: block; font-family: var(--mono); font-size: 0.9rem; color: var(--ink-faint); letter-spacing: 0.08em; margin-bottom: 0.6rem; }
   .about-head .eyebrow { justify-content: flex-start; color: var(--accent); }

@@ -222,7 +222,6 @@ export const siteHtml = `
       <div class="sec-head reveal">
         <span class="eyebrow">Servicios</span>
         <h2>Cuatro frentes para sostener el valor de su producto</h2>
-        <p>Sesión de asesoría de 60 minutos disponible para resolver una cuestión concreta sin abrir un proyecto completo.</p>
       </div>
 
       <div class="services-grid reveal-group">

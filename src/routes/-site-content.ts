@@ -349,7 +349,7 @@ export const siteHtml = `
     <div class="hero-glow g1"></div>
     <div class="wrap">
       <span class="eyebrow" style="color:var(--accent-soft); justify-content:center; display:flex;">Contacto</span>
-      <h2 style="margin-top:1rem;">¿Necesita apoyo en pricing y HEOR?</h2>
+      <h2 style="margin-top:1rem;">¿Necesitas apoyo en HEOR o pricing?</h2>
       <p>Hablemos de cómo construir su estrategia de acceso desde la evidencia.</p>
       <div class="hero-cta-row">
         <a class="btn btn-white" href="mailto:magda.vianey.g@gmail.com">Escribir a magda.vianey.g@gmail.com →</a>

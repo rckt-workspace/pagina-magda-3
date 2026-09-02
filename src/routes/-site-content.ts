@@ -256,7 +256,7 @@ export const siteHtml = `
       <div class="sec-head reveal">
         <span class="eyebrow">Por qué trabajar conmigo</span>
         <h2>Pensado para equipos que necesitan foco, no burocracia</h2>
-        <p>Frente a una agencia generalista o un equipo interno saturado, una consultora independiente especializada en HEOR.</p>
+        <p>Un partner independiente en HEOR: foco 100% especializado y capacidad flexible para sumarse donde se necesite, ya sea directamente con la farmacéutica o como extensión de tu equipo consultor.</p>
       </div>
 
       <div class="compare-cards reveal-group">
@@ -276,13 +276,11 @@ export const siteHtml = `
         <div class="compare-card us reveal" style="--i:1">
           <div class="head">
             <span class="head-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg>Magda Gutiérrez</span>
-            <span class="badge-win">Mejor opción</span>
           </div>
           <ul class="compare-list">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Especialización exclusiva en HEOR y farma</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Modelos a medida, adaptados por país y financiador</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Comunicación directa, sin intermediarios</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dedicación exclusiva por proyecto</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dedicación exclusiva por indicación</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Conclusiones siempre entregadas por escrito</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Contratación flexible por fases</li>
           </ul>

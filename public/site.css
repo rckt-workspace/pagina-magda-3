@@ -565,10 +565,12 @@
   }
 
   /* ============ Sobre mí — panel oscuro ============ */
-  .about-head { margin-bottom: 2.25rem; }
+  #contexto { padding-bottom: 2.5rem; }
+  section:has(.about-head) { padding-top: 2.25rem; }
+  .about-head { margin-bottom: 1.75rem; }
   .about-head .sec-num { display: block; font-family: var(--mono); font-size: 0.9rem; color: var(--ink-faint); letter-spacing: 0.08em; margin-bottom: 0.6rem; }
   .about-head .eyebrow { justify-content: flex-start; color: var(--accent); }
-  .about-head h2 { font-size: var(--fs-h2); line-height: 1.15; margin-top: 0.75rem; color: var(--ink); }
+  .about-head h2 { font-size: var(--fs-h2); line-height: 1.15; margin-top: 0.6rem; color: var(--ink); }
   .about-panel { display: grid; grid-template-columns: 45% 55%; background: var(--ink); border-radius: var(--radius); overflow: hidden; margin-bottom: 3.75rem; box-shadow: 0 34px 64px -32px rgba(20,29,51,0.45); }
   .about-panel-text { padding: 4rem 3rem; }
   .about-panel-text .eyebrow { justify-content: flex-start; color: rgba(237,239,234,0.65); letter-spacing: 0.05em; font-size: 0.75rem; }

@@ -121,17 +121,17 @@ export const siteHtml = `
         <div class="value-card reveal" style="--i:0">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18M3 9v10a2 2 0 0 0 2 2h4"/></svg></div>
           <h3>Rigor científico</h3>
-          <p>Modelos económicos y evidencia construidos con la misma exigencia metodológica que revisa un financiador.</p>
+          <p>Modelos económicos con rigor científico, construidos de la mano del cliente sobre la evidencia clínica disponible.</p>
         </div>
         <div class="value-card reveal" style="--i:1">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
           <h3>Autoridad analítica</h3>
-          <p>Catorce años en Pfizer y AbbVie construyendo estrategias de precio frente a pagadores en mercados exigentes.</p>
+          <p>Catorce años en Pfizer y AbbVie construyendo estrategias de posicionamiento de valor frente a pagadores en mercados exigentes y cambiantes.</p>
         </div>
         <div class="value-card reveal" style="--i:2">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div>
           <h3>Visión ejecutiva</h3>
-          <p>Traduzco datos clínicos en argumentos de negocio que sostienen un precio frente a cualquier evaluador.</p>
+          <p>Traduzco datos clínicos en argumentos de negocio que disminuyen la incertidumbre de los evaluadores y tomadores de decisión.</p>
         </div>
       </div>
 

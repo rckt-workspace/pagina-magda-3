@@ -227,36 +227,27 @@ export const siteHtml = `
 
       <div class="services-grid reveal-group">
         <div class="service-card reveal" style="--i:0">
+          <span class="badge">Más solicitado</span>
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3.5-5 3 3L19 6"/></svg></div>
           <h3>Economía de la salud y HEOR</h3>
-          <p>Modelos de coste-efectividad, coste-utilidad y de impacto presupuestario, adaptados a la regulación local.</p>
+          <p>Modelos de costo-efectividad, costo-utilidad y de impacto presupuestario, adaptados a la regulación local.</p>
         </div>
         <div class="service-card reveal" style="--i:1">
-          <span class="badge">Más solicitado</span>
+          <span class="badge">Nuevo</span>
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24L4 3a1 1 0 0 0-1 1l.24 5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83Z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg></div>
           <h3>Pricing y lanzamiento</h3>
-          <p>Business cases de precio, referenciación internacional y propuestas de valor por stakeholder.</p>
+          <p>Business cases de precio, referenciación internacional y posicionamiento vs. competidores.</p>
         </div>
         <div class="service-card reveal" style="--i:2">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6M9 17h6"/></svg></div>
           <h3>Comunicación científica y evidencia</h3>
-          <p>Dossiers de valor, manuscritos y traducción de evidencia técnica en insights comerciales.</p>
+          <p>Dossiers de valor por stakeholder, traducción de evidencia técnica en insights comerciales, manuscritos (abstracts y artículos científicos).</p>
         </div>
         <div class="service-card reveal" style="--i:3">
-          <span class="badge">Nuevo</span>
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div>
           <h3>Capacitación y formación</h3>
-          <p>Entrenamientos a medida para equipos comerciales y de acceso en economía de la salud.</p>
+          <p>Entrenamientos a medida para equipos comerciales y de acceso en economía de la salud, generalidades de farmacoeconomía y conceptos clave.</p>
         </div>
-      </div>
-
-      <div class="resource-card reveal" style="margin-top:3rem;">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></div>
-        <div class="body">
-          <h3>Guía práctica del nuevo marco de ETS español</h3>
-          <p>Descarga directa, sin registro — próximamente.</p>
-        </div>
-        <span class="pill" style="background:color-mix(in srgb, var(--ocre) 14%, var(--paper)); color: var(--ocre);">Próximamente</span>
       </div>
     </div>
   </section>

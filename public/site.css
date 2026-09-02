@@ -315,8 +315,7 @@
   .service-card p { color: var(--ink-soft); margin-top: 0.75rem; font-size: 0.9rem; }
 
   /* ============ Comparación — tarjetas enfrentadas ============ */
-  .compare-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: stretch; }
-  @media (max-width: 760px) { .compare-cards { grid-template-columns: 1fr; } }
+  .compare-cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: stretch; max-width: 620px; margin-inline: auto; }
   .compare-card { border-radius: var(--radius); padding: 2.25rem; }
   .compare-card.them { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); }
   .compare-card.us { background: linear-gradient(160deg, var(--accent-deep), var(--ink) 130%); border: 1px solid color-mix(in srgb, var(--accent-soft) 45%, transparent); box-shadow: 0 44px 76px -34px rgba(4,7,16,0.65); }

@@ -92,19 +92,30 @@ export const siteHtml = `
 
   <section class="light">
     <div class="wrap">
-      <div class="about-split reveal-group">
-        <div class="about-photo reveal" style="--i:0">
-          <img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Retrato de Magda Gutiérrez">
-          <div class="badge">14+ años · Pfizer · AbbVie</div>
+      <div class="about-head reveal">
+        <span class="sec-num">04</span>
+        <span class="eyebrow">Sobre mí</span>
+        <h2>Rigor científico, autoridad analítica y visión ejecutiva</h2>
+      </div>
+
+      <div class="about-panel reveal">
+        <div class="about-panel-text">
+          <span class="eyebrow">Magda Gutiérrez Ardila, MSc, eMBA</span>
+          <p class="about-panel-sub">HEOR · Pricing · Market Access</p>
+          <p>Consultora especializada en Health Economics and Outcomes Research (HEOR), Pricing y Market Access. Acompaño a compañías farmacéuticas y grandes consultoras en el desarrollo de modelos económicos, el análisis de impacto presupuestario y la construcción de estrategias de precio y evidencia de valor, con un enfoque que combina rigor científico, autoridad analítica y visión estratégica ejecutiva.</p>
+          <p>Antes de iniciar mi práctica independiente, lideré estrategias de precio y evidencia económica en Pfizer y AbbVie. Soy Máster en Economía de la Salud (MSc), en Epidemiología Clínica (MSc) y cuento con un eMBA, formación que combino a diario con la práctica de traducir evidencia clínica en decisiones de negocio.</p>
+          <div class="about-chips">
+            <span>HEOR</span>
+            <span>Pricing y Market Access</span>
+            <span>Comunicación científica</span>
+            <span>Capacitación</span>
+          </div>
         </div>
-        <div class="about-text reveal" style="--i:1">
-          <span class="eyebrow">Sobre mí</span>
-          <h2>Rigor científico, autoridad analítica y visión ejecutiva</h2>
-          <p>Más de catorce años construyendo modelos económicos y estrategias de precio para lanzamientos en mercados con financiadores exigentes.</p>
-          <p>Antes de fundar mi práctica independiente, lideré estrategias de precio y evidencia económica en Pfizer y AbbVie, donde construí los modelos y argumentos que sostuvieron el acceso de nuevos tratamientos frente a financiadores en distintos países. Soy Máster en Economía de la Salud (MSc) y cuento con un eMBA, formación que combino a diario con la práctica de traducir evidencia clínica en decisiones de negocio.</p>
-          <p>Formo parte activa de la comunidad ISPOR, donde actualizo constantemente mi conocimiento sobre metodología HEOR internacional. Hoy trabajo con equipos que necesitan foco y rigor técnico sin la burocracia de una agencia grande, acompañando cada proyecto desde el diagnóstico hasta la defensa final ante el pagador.</p>
+        <div class="about-panel-photo">
+          <img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Retrato de Magda Gutiérrez">
         </div>
       </div>
+
 
       <div class="value-grid reveal-group">
         <div class="value-card reveal" style="--i:0">

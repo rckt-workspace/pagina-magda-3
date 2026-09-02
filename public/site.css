@@ -553,7 +553,7 @@
     .marquee-strip { padding: 0.9rem 0; }
     .method-card-wrap { min-height: auto; }
     .stats-row div { padding: 1.25rem 0; }
-    p, li, blockquote { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
+    p, li, blockquote { text-align: justify; -webkit-hyphens: manual; hyphens: manual; overflow-wrap: normal; word-break: normal; }
   }
 
   @media (max-width: 560px) {

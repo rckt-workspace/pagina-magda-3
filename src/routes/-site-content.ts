@@ -341,7 +341,7 @@ export const siteHtml = `
     <div class="wrap">
       <span class="eyebrow" style="color:var(--accent-soft); justify-content:center; display:flex;">Contacto</span>
       <h2 style="margin-top:1rem;">¿Necesita apoyo en pricing y HEOR?</h2>
-      <p>Hablemos de cómo construir su estrategia de precio y su evidencia de valor — o de cómo preparar su dossier para el nuevo marco de evaluación de tecnologías sanitarias.</p>
+      <p>Hablemos de cómo construir su estrategia de acceso desde la evidencia.</p>
       <div class="hero-cta-row">
         <a class="btn btn-white" href="mailto:magda.vianey.g@gmail.com">Escribir a magda.vianey.g@gmail.com →</a>
         <a class="btn btn-outline-dark" href="https://linkedin.com/in/magda-gutierrez-ardila" target="_blank" rel="noopener">Ver LinkedIn</a>

@@ -32,21 +32,11 @@ export const siteHtml = `
     <div class="hero-glow g2"></div>
     <div class="wrap">
       <div class="hero-badge reveal"><span class="stars">★★★★★</span> 14 años ayudando a farmacéuticas a defender su precio</div>
-      <h1 class="reveal">Más de catorce años de <span class="accent">pricing y HEOR</span> en la industria farmacéutica.</h1>
-      <p class="hero-lead reveal">Ayudo a estructurar modelos farmacoeconómicos y argumentos a medida para que tu producto demuestre su verdadero impacto frente a las realidades específicas de cada financiador y autoridad sanitaria.</p>
+      <h1 class="reveal">14 años aportando evidencia para el posicionamiento</h1>
+      <p class="hero-lead reveal">Ayudo a diseñar, estructurar o adaptar modelos farmacoeconómicos y argumentos a medida para que tu producto demuestre su verdadero impacto frente a las realidades específicas de cada financiador y autoridad sanitaria.</p>
       <div class="hero-cta-row reveal">
         <a class="btn btn-glow" href="mailto:magda.vianey.g@gmail.com">Hablemos →</a>
         <a class="btn btn-outline-light" href="#servicios">Ver servicios</a>
-      </div>
-
-      <div class="trust-strip reveal">
-        <div class="lbl">Trayectoria construida en</div>
-        <div class="trust-chips">
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pfizer</span>
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>AbbVie</span>
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>ISPOR</span>
-          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Madrid · España</span>
-        </div>
       </div>
     </div>
   </section>

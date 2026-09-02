@@ -224,7 +224,7 @@
     background: var(--ocre);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--ocre) 22%, transparent);
   }
-  .sources-prose p { font-family: var(--sans); font-size: 1.02rem; line-height: 1.78; color: var(--ink-soft); text-align: justify; -webkit-hyphens: auto; hyphens: auto; margin: 0; }
+  .sources-prose p { font-family: var(--sans); font-size: 1.02rem; line-height: 1.78; color: var(--ink-soft); text-align: justify; -webkit-hyphens: manual; hyphens: manual; overflow-wrap: normal; word-break: normal; margin: 0; }
   .sources-prose a {
     position: relative; color: var(--accent-deep); font-weight: 600;
     text-decoration: none; text-underline-offset: 0.18em;

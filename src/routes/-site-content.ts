@@ -111,7 +111,7 @@ export const siteHtml = `
           </div>
         </div>
         <div class="about-panel-photo">
-          <img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Retrato de Magda Gutiérrez">
+          <img src="/__l5e/assets-v1/79febb39-a5c5-4700-96b0-27b8e389cf5b/magda-sobre-mi.jpg" alt="Retrato de Magda Gutiérrez">
         </div>
       </div>
 

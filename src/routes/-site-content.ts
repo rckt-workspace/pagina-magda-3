@@ -309,7 +309,7 @@ export const siteHtml = `
         <div class="trust-card reveal" style="--i:2">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3.5-5 3 3L19 6"/></svg></div>
           <h4>Metodología validada</h4>
-          <p>Modelos construidos con el rigor de HEOR internacional.</p>
+          <p>Modelos construidos con rigor académico.</p>
         </div>
         <div class="trust-card reveal" style="--i:3">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg></div>
@@ -323,7 +323,7 @@ export const siteHtml = `
   <section class="alt">
     <div class="wrap">
       <div class="testimonial-card reveal">
-        <blockquote>"Cada cambio regulatorio redefine cómo se construye el caso de precio."</blockquote>
+        <blockquote>"El valor de un producto se construye con evidencia sólida, comunicada de forma clara para quien toma la decisión."</blockquote>
         <div class="attrib">
           <div class="av"><img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Magda Gutiérrez"></div>
           <div>

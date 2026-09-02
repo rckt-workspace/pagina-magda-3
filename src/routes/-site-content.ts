@@ -276,7 +276,6 @@ export const siteHtml = `
         <div class="compare-card us reveal" style="--i:1">
           <div class="head">
             <span class="head-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg>Magda Gutiérrez</span>
-            <span class="badge-win">Mejor opción</span>
           </div>
           <ul class="compare-list">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Especialización exclusiva en HEOR y farma</li>

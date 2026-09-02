@@ -153,7 +153,7 @@ export const siteHtml = `
       <div class="method-grid">
         <div class="method-pin reveal">
           <span class="k">Cómo trabajo</span>
-          <h3>Un proceso, cuatro fases, un solo objetivo: un precio que resiste revisión.</h3>
+          <h3>Un proceso, cuatro fases, un solo objetivo: posicionamiento robusto frente al tomador de decisión.</h3>
           <p>Cada fase se apoya en la anterior — del contexto regulatorio a la defensa frente al financiador.</p>
           <div class="method-progress" aria-hidden="true">
             <span class="dash active" data-dash="1"></span>
@@ -183,7 +183,7 @@ export const siteHtml = `
             <div class="method-card">
               <div class="idx">02</div>
               <h4>Modelado</h4>
-              <p>Construyo el modelo económico-sanitario: costo-efectividad, impacto presupuestario o comparación de costos, según el caso.</p>
+              <p>Construyo o adapto el modelo económico: costo-efectividad, impacto presupuestario o comparación de costos, según el caso.</p>
               <ul>
                 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Modelos de coste-efectividad y coste-utilidad</li>
                 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Análisis de impacto presupuestario</li>

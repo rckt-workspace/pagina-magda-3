@@ -106,7 +106,8 @@
   .menu-toggle { display: none; }
   @media (max-width: 860px) { .nav-links { display: none; } .menu-toggle { display: inline-flex; background: none; border: 1px solid var(--line); padding: 0.5rem 0.7rem; border-radius: var(--radius-sm); cursor: pointer; } }
   @media (max-width: 560px) { .btn-outline-light.btn-sm { display: none; } }
-  @media (max-width: 480px) { .nav { padding: 0.85rem 1.1rem; } .brand .sub { display: none; } .btn { padding: 0.65rem 1.05rem; font-size: 0.82rem; } }
+  @media (max-width: 480px) { .nav { padding: 0.65rem 0.9rem; } .brand .sub { display: none; } .btn { padding: 0.6rem 0.95rem; font-size: 0.8rem; } }
+  @media (max-width: 380px) { .brand .name { font-size: 0.88rem; } .btn-sm { padding: 0.45rem 0.75rem; font-size: 0.76rem; } }
 
   /* ============ Hero (light, on-brand) ============ */
   .hero { position: relative; overflow: hidden; background: var(--paper); color: var(--ink); padding: 5rem 0 4rem; isolation: isolate; }

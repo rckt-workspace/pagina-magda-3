@@ -100,7 +100,7 @@
   .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -4px; height: 2px; background: var(--accent); transition: right 0.28s var(--ease); }
   .nav-links a:hover { color: var(--ink); }
   .nav-links a:hover::after { right: 0; }
-  .nav-right { display: flex; align-items: center; gap: 0.65rem; flex: none; }
+  .nav-right { display: flex; align-items: center; gap: 0.65rem; flex: none; min-width: 0; }
   .btn-sm { padding: 0.6rem 1.1rem; font-size: 0.85rem; }
   .btn-sm svg { width: 1rem; height: 1rem; }
   .menu-toggle { display: none; }

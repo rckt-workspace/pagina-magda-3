@@ -332,7 +332,7 @@ export const siteHtml = `
   <section class="alt">
     <div class="wrap">
       <div class="testimonial-card reveal">
-        <blockquote>"El valor de un producto se construye con evidencia sólida, comunicada de forma clara para quien toma la decisión."</blockquote>
+        <blockquote>"El valor de un producto se respalda con evidencia sólida, comunicada de forma clara para quien toma la decisión."</blockquote>
         <div class="attrib">
           <div class="av"><img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Magda Gutiérrez"></div>
           <div>

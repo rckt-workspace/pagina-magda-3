@@ -16,7 +16,8 @@
 ### Source of Truth
 - **GitHub** is the single source of truth for all project state
 - Every change must flow through Git
-- Lovable Cloud syncs to/from the `main`, `design/*`, and `feature/*` branches
+- Lovable Cloud synchronizes commits on the currently connected branch
+- RCKT organizational policy: `design/*` for Lovable visual work, `feature/*` for Claude Code architecture/backend
 
 ### Lovable ↔ Claude Code Separation
 
@@ -48,7 +49,7 @@
 ### Branch Policy
 
 **Branch Structure:**
-- `main` — production-ready, protected
+- `main` — stable integration branch; protection rules recommended and TBD in GitHub settings
 - `design/*` — Lovable Cloud edits (design/animations/copy iterations)
 - `feature/*` — Claude Code features (architecture, backend, integrations)
 - `fix/*` — bug fixes (either team)

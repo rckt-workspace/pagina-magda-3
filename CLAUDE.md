@@ -38,8 +38,8 @@ The project is visual-first and design-driven. Lovable Cloud owns the presentati
 ┌──────────v──────────────────────────────────────────────┐
 │ Supabase PostgreSQL                                     │
 ├─────────────────────────────────────────────────────────┤
-│ RLS-protected tables (auth, leads, usage metrics)       │
-│ Lovable Cloud generated schema + migrations             │
+│ Lovable Cloud generated schema (auth currently)         │
+│ Future: business tables (leads, metrics) + RLS policies │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -65,8 +65,8 @@ Render hosts: Frontend + FastAPI
    - Future: move to FastAPI auth layer when backend exists
 
 3. **No Incremental Static Regeneration (ISR)**: Each page is fully dynamic
-   - OK for now (traffic is low)
-   - Future: ISR for marketing pages once we have scale
+   - Current: Dynamic rendering (acceptable for current deployment)
+   - Future: ISR for marketing pages if scale/performance requires optimization
 
 4. **CSS in Public**: `public/site.css` is hand-crafted and extensive
    - Lovable Cloud preserves it on exports
@@ -122,7 +122,7 @@ Render hosts: Frontend + FastAPI
 - **No RAG, Redis, or task queues** — until demonstrable need with architecture review
 - **No LangChain or LangGraph** — use OpenRouter API directly; no framework lock-in
 - **No multiple backends** — keep the stack flat until complexity justifies microservices
-- **No secrets in client code** — OpenRouter key stays server-side (FastAPI future)
+- **No secrets in client code** — Future secrets (OpenRouter, database creds) will stay server-side
 
 ### What to DO
 

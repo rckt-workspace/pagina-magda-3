@@ -110,16 +110,18 @@ CREATE TABLE metrics (
 
 **Principle**: Trust the client for read-only content; use RLS for sensitive data.
 
-### Current RLS Setup (via Lovable Cloud)
+### Planned RLS Setup (Target Policy - Not Yet Implemented)
 
-**For leads table**:
+**Note**: The `leads` table does not yet exist. The following RLS policy is the planned approach when the table is created in Phase 2.
+
+**For leads table** (planned):
 
 - ✅ Anonymous users CAN insert (contact form submission)
 - ❌ Anonymous users CANNOT read, update, or delete
 - ✅ Authenticated admins CAN read all leads
 - ❌ Regular authenticated users CANNOT access leads
 
-**Example Policy**:
+**Example Policy** (planned SQL):
 
 ```sql
 -- Allow anonymous to insert

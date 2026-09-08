@@ -2,14 +2,14 @@
 
 ## Overview
 
-Magda is deployed on Render, a modern deployment platform that integrates directly with GitHub.
+Magda will be deployed on Render, a modern deployment platform that integrates directly with GitHub. This document describes the target deployment architecture.
 
-**Current Setup** (v1):
+**Planned Setup** (v1):
 
 - **Service**: Static site (TanStack Start frontend)
 - **Repository**: rckt-workspace/pagina-magda-3
 - **Branch**: `main`
-- **URL**: https://magda-3.onrender.com (custom domain: TBD)
+- **URL**: To be configured (Render preview + custom domain TBD)
 
 **Future Setup** (v2):
 
@@ -17,7 +17,7 @@ Magda is deployed on Render, a modern deployment platform that integrates direct
 - **Service 2**: FastAPI backend
 - **Service 3**: Job scheduler (optional)
 
-## Current Deployment (v1)
+## Planned Deployment Configuration (v1)
 
 ### Service Configuration
 

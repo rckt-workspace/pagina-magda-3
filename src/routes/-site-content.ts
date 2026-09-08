@@ -526,14 +526,14 @@ export const siteScript = `
   }
 
 
-  // Scroll reveal
+  // Scroll reveal — bidirectional (enter and exit)
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+        entry.target.classList.toggle('is-visible', entry.isIntersecting);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
     revealEls.forEach(el => io.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('is-visible'));
@@ -663,5 +663,39 @@ export const siteScript = `
       });
     }, { threshold: 0.6 });
     document.querySelectorAll('.num[data-count]').forEach(el => countIO.observe(el));
+  }
+
+  // Agregar variable CSS --i para stagger en reveal groups
+  document.querySelectorAll('.reveal-group > *').forEach((el, i) => {
+    el.style.setProperty('--i', i.toString());
+  });
+
+  // Scroll hide/show navbar
+  const navbar = document.querySelector('.site');
+  if (navbar) {
+    let lastScroll = 0;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          const currentScroll = window.scrollY;
+          if (currentScroll > 80) {
+            if (currentScroll > lastScroll) {
+              navbar.classList.remove('show');
+              navbar.classList.add('hide');
+            } else {
+              navbar.classList.remove('hide');
+              navbar.classList.add('show');
+            }
+          } else {
+            navbar.classList.remove('hide');
+            navbar.classList.add('show');
+          }
+          lastScroll = currentScroll;
+          ticking = false;
+        });
+      }
+    }, { passive: true });
   }
 `;

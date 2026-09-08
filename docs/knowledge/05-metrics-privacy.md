@@ -4,43 +4,64 @@
 
 **Principle**: Collect what we need to improve; don't collect "just in case."
 
-We track:
+**IMPLEMENTED**:
 
-- ✅ Aggregate page views (no PII)
-- ✅ User journey (funnel: visit → explore → contact)
-- ✅ Lead volume and quality
-- ✅ AI agent usage (tokens, cost, performance)
+- ✅ Leads table schema (public.leads in Supabase)
+- ✅ LLM usage observability table (public.llm_usage in Supabase)
+- ✅ RLS protection (zero public access by default on both tables)
+- ✅ Database constraints and indexes
 
-We do NOT track:
+**PLANNED (Future)**:
+
+- ⏳ FastAPI backend to integrate leads form with database
+- ⏳ FastAPI backend to integrate OpenRouter with llm_usage logging
+- ⏳ AI agent service implementation (uses llm_usage for observability)
+- ⏳ Aggregate page views tracking (no PII)
+- ⏳ User journey funnel analytics (visit → explore → contact)
+- ⏳ Lead quality metrics and reporting
+
+**We do NOT and will NOT track**:
 
 - ❌ Individual user identities (anonymous sessions only)
 - ❌ Full browsing history (no page-by-page tracking)
-- ❌ User location (GeoIP is anonymized)
-- ❌ Device identifiers (no persistent cookies)
-- ❌ Email addresses (leads are separate)
+- ❌ User location (GeoIP anonymized if used)
+- ❌ Device identifiers (no persistent tracking cookies)
+- ❌ Email addresses in metrics (leads table separate from analytics)
 
 ## Data Categories
 
 ### Category 1: Leads (Business Value)
 
 **What**: Contact form submissions  
-**Fields**:
+**Schema**: See 03-data-contract.md (authoritative source)
 
-- `email` — User-provided
-- `name` — User-provided
-- `message` — User-provided
-- `submitted_at` — Timestamp
-- `status` — Internal (new, contacted, converted, spam)
+**Implementation Status**:
+- ✅ Table `public.leads` deployed in Lovable Cloud Supabase
+- ✅ Schema defined with privacy constraints
+- ⏳ Contact form NOT YET connected (awaiting FastAPI backend integration)
+- ⏳ Admin panel NOT YET implemented
 
-**Retention**: Indefinite (business critical)  
-**Access**: Admin only (Magdalena)  
-**Disclosure**: Not shared with third parties without consent
+**Fields** (as stored):
 
-**Uses**:
+- `email` — User-provided, explicit consent required
+- `company` — Business name provided by inquirer
+- `area` — Department/area of inquiry
+- `comment` — Inquiry message (3–2000 chars)
+- `consent_privacy` — Boolean flag (must be true to save)
+- `source` — Origin tracking (default: 'website')
+- `status` — Lead state (new, contacted, qualified, closed, spam)
+- `session_id` — Anonymous session identifier (nullable, for future use)
+- `metadata` — Non-sensitive contextual data (JSON)
 
-- Follow up on inquiries
-- Track conversion funnel
-- Identify repeating spam
+**Retention**: To be determined (legal + business review)
+**Access**: Via FastAPI service role (when backend is ready); admin UI TBD
+**Disclosure**: Not shared without explicit consent
+
+**Future Uses** (when frontend is connected):
+
+- Follow up on qualified inquiries
+- Track conversion funnel (visitor → lead → engaged)
+- Identify and filter spam submissions
 
 ### Category 2: Site Metrics (Usage Analytics)
 
@@ -70,28 +91,63 @@ We do NOT track:
 - Supabase Events table (self-hosted analytics)
 - Custom queries on `metrics` table
 
-### Category 3: AI Agent Usage (Performance + Cost)
+### Category 3: AI Agent Usage (Observability Infrastructure)
 
-**What**: LLM token consumption and response quality  
-**Fields**:
+**What**: LLM integration observability (append-only, technical metrics only)
 
-- `model` — Which LLM model was used
-- `input_tokens` — Tokens in prompt
-- `output_tokens` — Tokens in response
-- `cost_usd` — Calculated cost
-- `latency_ms` — Response time
-- `created_at` — Timestamp
+**Implementation Status**:
+- ✅ Table `public.llm_usage` deployed in Lovable Cloud Supabase
+- ✅ Schema defined with privacy constraints
+- ⏳ AI Agent service NOT YET implemented (awaiting FastAPI backend)
+- ⏳ OpenRouter integration NOT YET active (backend-only when ready)
 
-**Retention**: 12 months (cost tracking)  
-**Access**: Admin only  
-**Disclosure**: Never shared
+**Fields** (as stored in llm_usage table):
 
-**Uses**:
+| Field | Type | Purpose |
+|-------|------|---------|
+| `id` | UUID | Unique call identifier |
+| `created_at` | TIMESTAMPTZ | Event timestamp |
+| `request_id` | VARCHAR(150) | External request correlator |
+| `session_id` | UUID | Pseudonymous session marker (no FK) |
+| `provider` | VARCHAR(50) | API provider (default: 'openrouter') |
+| `model` | VARCHAR(150) | Model name (e.g., openrouter/openai/gpt-4) |
+| `input_tokens` | INTEGER | Tokens sent to provider (≥ 0) |
+| `output_tokens` | INTEGER | Tokens returned from provider (≥ 0) |
+| `latency_ms` | INTEGER | Response time in milliseconds (NULL or ≥ 0) |
+| `cost_usd` | NUMERIC(12,6) | Calculated provider cost (NULL or ≥ 0) |
+| `fallback_used` | BOOLEAN | Fallback model activation (true/false) |
+| `status` | VARCHAR(30) | Call outcome: 'success' or 'error' |
+| `error_code` | VARCHAR(100) | Error identifier if status='error' |
+| `metadata` | JSONB | Non-sensitive technical metadata |
 
-- Monitor agent performance
-- Budget tracking (OpenRouter costs)
-- Identify runaway costs or abuse
-- A/B test model versions
+**What IS Stored**:
+- Model selection, token consumption, latency, cost
+- Call success/failure status and error codes
+- Feature flags, model versions, A/B test variants
+
+**What IS NEVER Stored**:
+- ❌ Complete prompts or user queries
+- ❌ Complete AI responses or transcripts
+- ❌ Email addresses or user names
+- ❌ IP addresses or device identifiers
+- ❌ PII (personally identifiable information)
+- ❌ Medical records or patient data
+
+**Access Control**:
+- RLS: ENABLED, zero public policies
+- Browser: Cannot access directly
+- Backend: FastAPI will write via `service_role_key` (when implemented)
+- Monitoring: Admin queries via service role only
+
+**Future Uses** (when FastAPI + Agent are ready):
+
+- Monitor agent performance and reliability
+- Track OpenRouter API costs and budgets
+- Identify runaway costs or abuse patterns
+- A/B test different models for quality/cost
+- Debugging conversation flows via session_id correlation
+
+**Retention**: To be determined (depends on compliance + business requirements; currently no auto-delete policy)
 
 ### Category 4: Error Logs (Debugging)
 
@@ -143,10 +199,10 @@ We do NOT track:
 
 | Right             | How We Implement                                            |
 | ----------------- | ----------------------------------------------------------- |
-| Right to access   | Email Magdalena with request; provide export within 30 days |
-| Right to delete   | Email with request; delete all PII and logs within 30 days  |
-| Right to rectify  | Contact form resubmission (overwrites old data)             |
-| Right to restrict | Mark lead as "do not contact" in Supabase                   |
+| Right to access   | Contact via privacy email (TBD); provide export within 30 days |
+| Right to delete   | Contact via privacy email (TBD); delete all PII within 30 days |
+| Right to rectify  | Contact via privacy email (TBD); or contact form resubmission |
+| Right to restrict | Contact via privacy email (TBD); mark as "do not contact"  |
 
 **Data Processing Agreement**:
 
@@ -217,7 +273,7 @@ Visiting the site implies consent to anonymous aggregate analytics.
 
 | Data Type         | Retention  | Reason            | Deletion Method          |
 | ----------------- | ---------- | ----------------- | ------------------------ |
-| Leads             | Forever    | Business critical | Manual (email Magdalena) |
+| Leads             | TBD (legal review) | Business value vs legal obligation | Manual request via email |
 | Site Metrics      | 90 days    | Monthly analysis  | Auto-delete via cron     |
 | AI Usage          | 12 months  | Cost tracking     | Auto-delete via cron     |
 | Error Logs        | 30 days    | Debugging         | Render auto-deletes      |
@@ -236,14 +292,15 @@ Visiting the site implies consent to anonymous aggregate analytics.
 | API Keys  | N/A (server-side only) | Environment variables (Render) |
 | Passwords | N/A (Supabase managed) | Supabase bcrypt + salt         |
 
-### Access Control
+### Access Control (Design Intent)
 
-| Role              | Can Read            | Can Write                | Can Delete |
-| ----------------- | ------------------- | ------------------------ | ---------- |
-| Anonymous User    | None (RLS)          | Leads only (anon insert) | None       |
-| Magdalena (admin) | All                 | All                      | All        |
-| AI Agent (future) | AGENT.md, knowledge | Usage logs               | None       |
-| Render (hosting)  | App code only       | Logs                     | None       |
+| Role              | Can Read            | Can Write                      | Can Delete |
+| ----------------- | ------------------- | ------------------------------ | ---------- |
+| Anonymous User    | None (RLS protected)| None (RLS protected)           | None       |
+| Frontend          | None directly       | Via FastAPI + service role (future) | None       |
+| Magdalena (admin) | Via FastAPI/UI      | Via FastAPI/UI                 | Via UI     |
+| AI Agent (future) | Via service role    | Usage logs only                | None       |
+| Render (hosting)  | App code only       | Logs                           | None       |
 
 ### Secrets Management
 
@@ -287,9 +344,9 @@ Visiting the site implies consent to anonymous aggregate analytics.
 
 ### Contact
 
-- **Security Report**: security@magda.rckt
-- **Privacy Concern**: privacy@magda.rckt
-- **Response Target**: 48 hours
+- **Security Report**: To be established
+- **Privacy Concern**: To be established
+- **Response Target**: 48 hours (goal)
 
 ## Transparency Report
 
@@ -337,11 +394,11 @@ Security Audits: 0 issues
 
 **You can**:
 
-- Request your data (email privacy@magda.rckt)
-- Request data deletion (same email)
+- Request your data (privacy contact TBD)
+- Request data deletion (same contact)
 - Opt out of metrics (browser "Do Not Track")
 
-**Questions?** Email privacy@magda.rckt
+**Questions?** Contact details TBD
 
 ---
 

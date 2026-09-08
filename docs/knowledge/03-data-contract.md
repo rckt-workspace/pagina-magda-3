@@ -62,8 +62,8 @@ Business lead/contact submissions from website.
 **RLS Status**: ENABLED, NO PUBLIC POLICIES
 
 - Table is protected by RLS (no default access)
-- Policies will be defined when backend architecture is ready
-- Intended flow: Frontend → FastAPI → Supabase (via service role)
+- No direct browser writes (RLS enforces this)
+- Intended flow: Browser → `POST /api/leads` → TanStack server route → Supabase (via service role)
 
 ### `llm_usage` (Migration 002 - Implemented)
 
@@ -94,7 +94,7 @@ Technical observability table for OpenRouter API integration (append-only design
 
 - Table is protected by RLS (no default access)
 - Browser cannot access directly
-- FastAPI (when implemented) will write via `service_role_key`
+- TanStack Start server route (when implemented) will write via `service_role_key`
 
 **What IS Stored**:
 - Model used, token counts, latency, cost, status
@@ -109,7 +109,7 @@ Technical observability table for OpenRouter API integration (append-only design
 - ❌ IP addresses
 - ❌ PII or medical/patient data
 
-**Access**: Via FastAPI service role when backend is implemented; monitoring/admin queries via service role only
+**Access**: Via server route (when implemented); monitoring/admin queries via service role only
 
 ### `metrics` (Future)
 
@@ -141,18 +141,18 @@ CREATE TABLE metrics (
 - ✅ RLS is ENABLED
 - ✅ Zero public policies (anonymous users cannot access)
 - ✅ Frontend cannot directly read/write (protected by RLS)
-- ⏳ Admin/FastAPI access: To be implemented when backend is ready
+- ⏳ Admin/server route access: To be implemented when API is ready
 
 **Access Flow** (target architecture):
 
 1. Frontend renders contact form (Lovable, no direct DB access)
-2. Form submission → TanStack Start server function (future FastAPI)
+2. Form submission → TanStack Start `POST /api/leads` server route
 3. Server validates and inserts via `service_role_key` (not exposed to client)
 4. RLS prevents any direct anonymous access to table
 
 **Future Policies** (Phase 2+):
 
-When FastAPI backend is implemented:
+When server routes are implemented:
 
 ```sql
 -- Admin reads leads
@@ -196,8 +196,8 @@ CREATE POLICY leads_update_admin ON leads
 
 1. Contact form in Lovable includes consent checkbox (UI ready)
 2. Email collection explicit in consent checkbox (not pre-checked)
-3. Form is NOT YET connected to `leads` table (awaiting FastAPI integration)
-4. Data deletion process: To be implemented with backend and legal review
+3. Form is NOT YET connected to `leads` table (awaiting `POST /api/leads` server route)
+4. Data deletion process: To be implemented with server route and legal review
 5. DPA: To be confirmed with Supabase and legal counsel
 
 ## Secrets Management
@@ -218,8 +218,8 @@ All production secrets live in Render, not Git.
 | --------------------------- | ------------------------- | ------------------------- |
 | `SUPABASE_URL`              | `https://abc.supabase.co` | Public (frontend)         |
 | `SUPABASE_ANON_KEY`         | `eyJ...`                  | Public (frontend)         |
-| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` (secret)         | Private (backend only)    |
-| `OPENROUTER_API_KEY`        | `sk_or_...`               | Private (FastAPI backend) |
+| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` (secret)         | Private (server routes)   |
+| `OPENROUTER_API_KEY`        | `sk_or_...`               | Private (server routes)   |
 
 ### Local Development (.env.local)
 
@@ -333,14 +333,14 @@ migrations/
 
 ## Data Access in Code
 
-### Server-Side Only (FastAPI or TanStack Start)
+### Server-Side Only (TanStack Start Server Routes)
 
-```python
-# FastAPI example
-from supabase import create_client
+```typescript
+// TanStack Start server route (src/routes/api/leads.ts)
+import { createClient } from "@supabase/supabase-js";
 
-supabase = create_client(url, service_role_key)  # ← Never expose key
-leads = supabase.table("leads").select("*").execute()
+const supabase = createClient(url, service_role_key);  // ← Never expose key
+const leads = await supabase.from("leads").select("*");
 ```
 
 ### Client-Side (React)

@@ -31,7 +31,7 @@
 
 **Claude Code owns:**
 - Project architecture and structure
-- Backend services (FastAPI, agents)
+- Server routes in TanStack Start (`src/routes/api/*`)
 - Server-side integrations (OpenRouter, Supabase service role)
 - Database migrations and RLS policies
 - CI/CD pipeline
@@ -113,8 +113,8 @@
 - No RAG (Retrieval-Augmented Generation) without demonstrable need
 - No Redis, task queues, or background workers without architecture review
 - No LangChain, LangGraph, or AI framework lock-in without decision record
-- No microservices; monolith until proven otherwise
+- No microservices; full-stack TanStack Start by default (backend separation only if justified by scale/complexity)
 - Incremental refactor only; no big-bang rewrites
-- Supabase PostgreSQL now; FastAPI backend future
+- See RCKT Principle in docs/knowledge/07-change-policy.md for architectural decision framework
 
 ---

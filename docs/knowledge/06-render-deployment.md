@@ -4,41 +4,77 @@
 
 Magda will be deployed on Render, a modern deployment platform that integrates directly with GitHub. This document describes the target deployment architecture.
 
-**Planned Setup** (v1):
+**Current Status**: 
+- ✅ TanStack Start + React 19 (local development via `bun run dev`)
+- ✅ Supabase PostgreSQL (public.leads, public.llm_usage deployed)
+- ❌ Render Web Service: NOT YET configured or deployed
+- ❌ Server routes (/api/leads, /api/chat): NOT YET implemented (Phase 2 task)
 
-- **Service**: Static site (TanStack Start frontend)
+**Planned Setup** (v1 - Target for Production):
+
+- **Service**: TanStack Start (full-stack: frontend + server routes)
 - **Repository**: rckt-workspace/pagina-magda-3
 - **Branch**: `main`
 - **URL**: To be configured (Render preview + custom domain TBD)
+- **Status**: Ready when Phase 2 server routes are completed
 
 **Future Setup** (v2):
 
-- **Service 1**: Frontend (unchanged)
-- **Service 2**: FastAPI backend
-- **Service 3**: Job scheduler (optional)
+- **Service**: Single Render Web Service (TanStack Start)
+- **Additional**: Optional job scheduler (async tasks, future)
+- **Note**: Backend logic lives in server routes (`src/routes/api/*`), not separate microservice
 
 ## Planned Deployment Configuration (v1)
 
 ### Service Configuration
 
-**Name**: `magda-3-frontend`  
-**Type**: Static site + TanStack Start (Node.js runtime)  
-**Runtime**: Node.js 18.x  
+**Name**: `magda-3`  
+**Type**: Full-stack TanStack Start (Node.js runtime, not just frontend)  
+**Runtime**: Node.js 18.x (or later, as specified by Nitro preset)  
 **Region**: US East (N. Virginia)  
 **Auto-deploy**: On push to `main`
 
-### Build Settings
+### Build and Start Commands (TBD - Nitro Preset Dependent)
+
+**Current Configuration (LOCAL - bun run dev)**:
 
 ```
-Build Command: bun install && bun run build
-Start Command: bun run preview
+Local Dev: bun run dev
+Nitro Preset: Currently auto-detected
 ```
+
+**Render Deployment (NOT YET CONFIGURED)**:
+
+Before deploying to Render, you MUST:
+
+1. **Verify current Nitro preset**:
+   ```bash
+   # After building locally:
+   bun run build
+   cat dist/package.json  # or inspect build output
+   ```
+
+2. **Select appropriate Nitro preset for Node.js/Render**:
+   - Options: `node-server`, `node-cluster`, `bun`, etc.
+   - Check: https://nitro.unjs.io/deploy/providers
+
+3. **Test locally**:
+   ```bash
+   bun run build
+   [Run the generated start command locally to verify]
+   ```
+
+4. **Configure Render with verified commands**:
+   ```
+   Build Command: bun install && bun run build
+   Start Command: [TBD - depends on Nitro preset output]
+   ```
 
 **Explanation**:
 
 - `bun install` — Install dependencies (package.json + bun.lock)
-- `bun run build` — Build frontend (Vite) and run TypeScript check
-- `bun run preview` — Serve built site
+- `bun run build` — Build with Vite + compile TypeScript + Nitro runtime
+- Start command: **TBD** (e.g., `node .output/server/index.mjs`, `bun .output/server/index.mjs`, or `node_modules/.bin/nitro`, depending on preset)
 
 ### Environment Variables
 
@@ -49,34 +85,41 @@ VITE_SUPABASE_URL=https://abc.supabase.co
 VITE_SUPABASE_ANON_KEY=eyJ...
 ```
 
-**Private** (Render dashboard only):
+**Private** (Render dashboard only, when Phase 2 server routes are ready):
 
 ```
-# None needed for v1 (frontend only)
+# Current (v1): None in Render (Render not yet configured)
+# Phase 2 (when implemented): 
+#   - OPENROUTER_API_KEY (for /api/chat)
+#   - SUPABASE_SERVICE_ROLE_KEY (for /api/leads)
+# Both stay server-side in TanStack routes, never exposed to client
 ```
 
-### Health Check
+### Health Check (Future - When Deployed)
 
 **Endpoint**: `https://magda-3.onrender.com/`  
 **Frequency**: Every 30 seconds  
 **Timeout**: 30 seconds  
-**Expected**: HTTP 200
+**Expected**: HTTP 200  
+**Status**: TBD (not yet configured)
 
-## Deployment Process
+## Deployment Process (Future - When Render is Configured)
 
-### Deploy on Push to Main
+### Deploy on Push to Main (Target Workflow - When Render is Ready)
 
-1. **Push to GitHub**
+**Current Status**: This workflow is NOT YET ACTIVE. Render is not configured. Use local development (`bun run dev`) until Phase 2 is complete.
+
+1. **Push to GitHub** (future, when ready to deploy)
 
    ```bash
    git push origin main
    ```
 
-2. **Render Webhook Triggered**
+2. **Render Webhook Triggered** (future)
    - GitHub sends webhook to Render
    - Render clones repository
 
-3. **Build Phase**
+3. **Build Phase** (future)
 
    ```
    # Install dependencies
@@ -86,37 +129,39 @@ VITE_SUPABASE_ANON_KEY=eyJ...
    $ bun run lint      # ESLint
    $ bun x tsc --noEmit  # TypeScript
 
-   # Build
+   # Build TanStack Start with Nitro
    $ bun run build
-
-   # Output: dist/ folder (static + server runtime)
+   # Output: .output/ folder (Nitro server runtime) + dist/ (static assets)
    ```
 
-4. **Start Phase**
+4. **Start Phase** (future - Command TBD)
 
    ```
-   $ bun run preview
-   # TanStack Start server listening on port 3000
+   # Start command TBD based on Nitro preset
+   # Examples:
+   # $ node .output/server/index.mjs
+   # $ bun .output/server/index.mjs
+   # TanStack Start server listening on port specified by Render
    ```
 
-5. **Health Check**
+5. **Health Check** (future)
    - Render hits `/` endpoint
    - Waits for 200 response
    - Marks deployment as "Live"
 
-6. **DNS Switch**
+6. **DNS Switch** (future)
    - Render updates DNS (if configured)
    - Site is live
 
-### Rollback
+### Rollback (Future - When Deployed)
 
-If deployment fails:
+When Render is deployed, if deployment fails:
 
 1. Render keeps previous successful build
 2. Traffic automatically redirects to previous version
 3. No manual action needed
 
-If you need to rollback:
+To rollback manually:
 
 1. Push a revert commit to `main`:
    ```bash
@@ -125,31 +170,39 @@ If you need to rollback:
    ```
 2. Render re-deploys automatically
 
-## Custom Domain
+**Current Status**: Rollback procedures apply only after Render is configured.
 
-**Current**: https://magda-3.onrender.com  
-**Desired**: https://magda.rckt.es (or similar)
+## Custom Domain (Future - When Ready)
 
-**To Set Up**:
+**Target**: https://magda.rckt.es (or similar custom domain)  
+**Render Default**: https://magda-3.onrender.com (will be assigned when service is created)
 
-1. Go to Render Dashboard → Service → Settings
-2. Custom Domain → Add Custom Domain
-3. Update DNS at domain registrar:
+**To Set Up Custom Domain** (future, when Render service is created):
+
+1. Create Render service first (when Phase 2 is complete)
+2. Go to Render Dashboard → Service → Settings
+3. Custom Domain → Add Custom Domain
+4. Enter: `magda.rckt.es`
+5. Update DNS at domain registrar:
    - Type: CNAME
    - Name: `magda` (or `www`)
-   - Value: `magda-3.onrender.com`
-4. Wait for DNS propagation (15 min - 48 hours)
+   - Value: `[render-assigned-url].onrender.com`
+6. Wait for DNS propagation (15 min - 48 hours)
 
-## Monitoring and Logs
+**Current Status**: Custom domain configuration is TBD (Render service not yet created)
 
-### Real-time Logs
+## Monitoring and Logs (Future - When Render is Deployed)
 
-**Render Dashboard**:
+### Real-time Logs (Target Procedure)
+
+**Render Dashboard** (when service is active):
 
 - Click service name
 - View "Logs" tab
 - Last 1000 lines available
 - Auto-tail enabled (optional)
+
+**Current Status**: Not applicable (Render not yet configured)
 
 ### Common Issues
 
@@ -196,14 +249,16 @@ If metrics exceed targets:
 | `VITE_SUPABASE_ANON_KEY` | `eyJ...`                  | Supabase Dashboard | ✅ Yes  |
 | `NODE_ENV`               | `production`              | Render (auto)      | ✅ Yes  |
 
-### For Future FastAPI Backend
+### For Future Server Routes (TanStack Start)
+
+When backend features are added (chat, advanced leads handling), these private variables will be added to the same service:
 
 | Variable                    | Value              | Source               | Public? |
 | --------------------------- | ------------------ | -------------------- | ------- |
 | `OPENROUTER_API_KEY`        | `sk_or_...`        | OpenRouter Dashboard | ❌ No   |
 | `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...`           | Supabase Dashboard   | ❌ No   |
-| `DATABASE_URL`              | `postgresql://...` | Supabase Conn String | ❌ No   |
-| `PYTHONUNBUFFERED`          | `1`                | For logging          | N/A     |
+
+**Note**: All server-side logic runs in the same TanStack Start service, not a separate backend.
 
 ## Secrets Rotation
 
@@ -227,103 +282,130 @@ If metrics exceed targets:
 - No manual action needed
 - Notify team if emergency rotation needed
 
-## Deployment Strategy (Future v2)
+## Deployment Strategy (Future v2+)
 
-### Multi-Service Architecture
+### Single Service, Full-Stack Architecture
+
+All logic (frontend + server routes + business services) runs in ONE Render Web Service:
 
 ```
 Render Dashboard
-├─ Service: magda-frontend
-│  ├─ Build: bun install && bun run build
-│  ├─ Start: bun run preview
-│  └─ Env: VITE_SUPABASE_* (public)
-│
-└─ Service: magda-backend
-   ├─ Build: pip install -r requirements.txt
-   ├─ Start: gunicorn -w 4 -b 0.0.0.0:8000 app:app
-   └─ Env: OPENROUTER_API_KEY, DATABASE_URL (private)
+└─ Service: magda-fullstack
+   ├─ Build: bun install && bun run build
+   ├─ Start: bun run preview
+   ├─ Framework: TanStack Start (Node.js runtime)
+   │
+   ├─ Public Env: VITE_SUPABASE_*
+   │
+   └─ Private Env: OPENROUTER_API_KEY, SUPABASE_SERVICE_ROLE_KEY
+      ├─ Used by src/routes/api/leads.ts
+      ├─ Used by src/routes/api/chat.ts
+      └─ Used by src/routes/api/metrics.ts
 ```
 
-### Inter-Service Communication
+**RCKT Principle**: Full-stack by default for light projects. Backend separation (microservices) only if complexity explicitly justifies it.
 
-**Frontend → Backend**:
+### Adding Backend Features (Phase 2+)
+
+When new features require server-side logic (chat, advanced leads processing):
+
+1. **Add server route locally** (`src/routes/api/chat.ts`)
+   - Test locally with `bun run dev`
+   
+2. **Create service layer** (`src/services/ChatService.ts`)
+   - Test with unit tests
+   
+3. **Create provider** (`src/providers/OpenRouterProvider.ts`)
+   - Test integration
+   
+4. **Push to feature branch**
+   ```bash
+   git commit -m "feat: add /api/chat server route"
+   git push origin feature/chat-integration
+   # Create PR, review, merge to main
+   ```
+
+5. **Render re-deploys same service** (when Render is configured)
+   - No new service needed
+   - Same build/start commands apply
+   - All logic stays in-process (no inter-service communication)
+
+Example: Chat feature rollout
 
 ```typescript
-// TanStack Start server function (server-side only)
-const response = await fetch("https://magda-backend.onrender.com/api/chat", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ message: "..." }),
-});
+// src/routes/api/chat.ts (new in same service)
+export async function POST({ request }) {
+  const { message } = await request.json();
+  const chatService = new ChatService(supabaseProvider, openrouterProvider);
+  return chatService.handleMessage(message);
+}
 ```
 
-**No direct backend calls from client** (all via frontend middleware)
+**Development Workflow**: Test locally → PR → Merge → Render auto-deploys (when configured)  
+**No inter-service communication**: All logic stays in-process in single TanStack Start service
 
-### Deploy Order
+## Disaster Recovery (Future - When Production Deployed)
 
-1. **Deploy backend first** (FastAPI)
-   - Push to `feature/fastapi-backend`
-   - Render builds and starts
-   - Test endpoint manually
+### Backup Plan (Target Procedures)
 
-2. **Update frontend to call backend** (TanStack Start)
-   - Push to `feature/integrate-backend`
-   - TanStack Start now makes API calls to FastAPI
-   - Test end-to-end
+**If Render is down** (when deployed):
 
-3. **Merge to main**
-   - Full integration test
-   - Production deployment
-
-## Disaster Recovery
-
-### Backup Plan
-
-**If Render is down**:
-
-1. Site is unavailable (no failover)
+1. Site is unavailable (no failover configured)
 2. Check Render status: https://status.render.com
 3. Wait for Render to restore (typically < 1 hour)
 
 **If database is corrupted**:
 
 1. Restore from Supabase backup (see Data Contract)
-2. Redeploy frontend (no code changes needed)
+2. Redeploy from main (no code changes needed)
 
 **If secrets are exposed**:
 
-1. Immediately revoke in provider dashboard
+1. Immediately revoke in provider dashboard (OpenRouter, Supabase)
 2. Rotate to new secrets
-3. Update Render Dashboard
-4. Re-deploy
+3. Update Render Dashboard environment variables
+4. Trigger re-deploy by pushing empty commit: `git commit --allow-empty -m "chore: rotate secrets"`
 
-### Monitoring for Disasters
+### Monitoring for Disasters (Target State)
 
 - **Uptime monitoring**: (future) Add Uptime Robot or similar
 - **Error tracking**: (future) Add Sentry for JavaScript errors
 - **Performance tracking**: (future) Add Datadog or New Relic
 
+**Current Status**: Disaster recovery procedures apply only after Render is in production
+
 ## Cost Estimation (2026)
 
-### Current (v1)
+### Current (v1 - Development, NOT Yet in Render)
+
+| Component                 | Tier           | Cost/Month       |
+| ------------------------- | -------------- | ---------------- |
+| Render Web Service        | Not yet active | $0               |
+| Supabase (PostgreSQL)     | Free (preview) | $0               |
+| OpenRouter (AI)           | Not yet used   | $0               |
+| **Total**                 | —              | **$0 (dev only)** |
+
+**Note**: Using local development (`bun run dev`) and Supabase preview environment. Render deployment TBD.
+
+### Target (v1 - Production, When Deployed)
 
 | Component                 | Tier     | Cost/Month       |
 | ------------------------- | -------- | ---------------- |
-| Frontend (TanStack Start) | Standard | $10/month        |
+| Render Web Service        | Standard | $10/month        |
 | Supabase (PostgreSQL)     | Free/Pro | $0–50/month      |
-| **Total**                 | —        | **$10–60/month** |
+| OpenRouter (AI, Phase 2)  | Usage    | $0–100/month     |
+| **Total**                 | —        | **$10–160/month** |
 
-### Future (v2)
+### Future (v2+, With Advanced Features)
 
-| Component         | Tier        | Cost/Month          |
-| ----------------- | ----------- | ------------------- |
-| Frontend          | Standard    | $10/month           |
-| Backend (FastAPI) | Standard    | $10/month           |
-| Supabase          | Pro         | $25/month           |
-| OpenRouter (AI)   | Usage-based | $10–100/month (TBD) |
-| **Total**         | —           | **$55–245/month**   |
+| Component              | Tier        | Cost/Month          |
+| ---------------------- | ----------- | ------------------- |
+| TanStack Start (single) | Standard    | $10/month           |
+| Supabase               | Pro         | $25/month           |
+| OpenRouter (AI, chat)  | Usage-based | $10–100/month (TBD) |
+| **Total**              | —           | **$45–235/month**   |
 
-**Note**: Costs scale with traffic/usage. Start with free/standard; upgrade as needed.
+**Note**: Still ONE Render service (no multi-service overhead). Costs scale with traffic/usage. Start with free/standard; upgrade as needed.
 
 ## Performance Optimization
 
@@ -335,11 +417,11 @@ const response = await fetch("https://magda-backend.onrender.com/api/chat", {
 - **Use WebP for images** (with JPEG fallback)
 - **Cache static assets** (Render handles this)
 
-### Backend Optimization (Future)
+### Server Route Optimization (Future, when APIs added)
 
-- **Connection pooling** (PgBouncer for Supabase)
-- **Response caching** (Redis, optional)
-- **Rate limiting** (to prevent abuse)
+- **Connection pooling** (via Supabase)
+- **Response caching** (server-side with headers)
+- **Rate limiting** (middleware on server routes)
 - **Query optimization** (indexes, N+1 fixes)
 
 ### Monitoring Performance
@@ -356,7 +438,7 @@ Before deploying to production:
 - [ ] HTTPS enforced (Render default)
 - [ ] CORS headers set correctly (if needed)
 - [ ] CSRF protection enabled (TanStack Start middleware)
-- [ ] Rate limiting enabled (future backend)
+- [ ] Rate limiting enabled (when server routes added)
 - [ ] Database RLS policies tested
 - [ ] Error messages don't leak PII
 - [ ] Environment variables are private (not in public env list)
@@ -366,8 +448,18 @@ Before deploying to production:
 ---
 
 **Render Deployment Version**: 1.0  
-**Current Status**: v1 (Frontend only)  
-**Last Updated**: 2026-09-07  
-**Deployment Frequency**: On-demand (push to main)  
-**Average Deploy Time**: 2–3 minutes  
-**Rollback Time**: < 1 minute
+**Current Status**: Development (v1, Render NOT YET deployed)  
+  - TanStack Start: ✅ Local development (`bun run dev`)
+  - Supabase: ✅ Deployed (public.leads, public.llm_usage)
+  - Render Web Service: ❌ Not configured or deployed
+  - Server routes (/api/leads, /api/chat): ❌ Not implemented (Phase 2)
+
+**Target Status** (When Ready): v1 Production (ONE Render Web Service, full-stack TanStack Start)  
+**Last Updated**: 2026-09-08 (Factual correction: Render not yet active)  
+**Architecture**: ONE Render Web Service (full-stack TanStack Start) — target design, not yet active
+**Next Steps**: 
+  1. Complete Phase 2 (implement server routes)
+  2. Verify Nitro preset configuration
+  3. Set up Render service with verified build/start commands
+  4. Test deployment to Render staging
+  5. Deploy to production

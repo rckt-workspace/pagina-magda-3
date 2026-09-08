@@ -13,8 +13,8 @@
 
 **PLANNED (Future)**:
 
-- ⏳ FastAPI backend to integrate leads form with database
-- ⏳ FastAPI backend to integrate OpenRouter with llm_usage logging
+- ⏳ TanStack Start server route (`/api/leads`) to integrate leads form with database
+- ⏳ TanStack Start server route (`/api/chat`) to integrate OpenRouter with llm_usage logging
 - ⏳ AI agent service implementation (uses llm_usage for observability)
 - ⏳ Aggregate page views tracking (no PII)
 - ⏳ User journey funnel analytics (visit → explore → contact)
@@ -38,7 +38,7 @@
 **Implementation Status**:
 - ✅ Table `public.leads` deployed in Lovable Cloud Supabase
 - ✅ Schema defined with privacy constraints
-- ⏳ Contact form NOT YET connected (awaiting FastAPI backend integration)
+- ⏳ Contact form NOT YET connected (awaiting `POST /api/leads` server route)
 - ⏳ Admin panel NOT YET implemented
 
 **Fields** (as stored):
@@ -54,7 +54,7 @@
 - `metadata` — Non-sensitive contextual data (JSON)
 
 **Retention**: To be determined (legal + business review)
-**Access**: Via FastAPI service role (when backend is ready); admin UI TBD
+**Access**: Via server route (when implemented); admin UI TBD
 **Disclosure**: Not shared without explicit consent
 
 **Future Uses** (when frontend is connected):
@@ -98,8 +98,8 @@
 **Implementation Status**:
 - ✅ Table `public.llm_usage` deployed in Lovable Cloud Supabase
 - ✅ Schema defined with privacy constraints
-- ⏳ AI Agent service NOT YET implemented (awaiting FastAPI backend)
-- ⏳ OpenRouter integration NOT YET active (backend-only when ready)
+- ⏳ AI Agent service NOT YET implemented (awaiting `POST /api/chat` server route)
+- ⏳ OpenRouter integration NOT YET active (server-side when ready)
 
 **Fields** (as stored in llm_usage table):
 
@@ -136,10 +136,10 @@
 **Access Control**:
 - RLS: ENABLED, zero public policies
 - Browser: Cannot access directly
-- Backend: FastAPI will write via `service_role_key` (when implemented)
+- Server Route: Will write via `service_role_key` (when implemented)
 - Monitoring: Admin queries via service role only
 
-**Future Uses** (when FastAPI + Agent are ready):
+**Future Uses** (when Agent service is ready):
 
 - Monitor agent performance and reliability
 - Track OpenRouter API costs and budgets
@@ -297,8 +297,8 @@ Visiting the site implies consent to anonymous aggregate analytics.
 | Role              | Can Read            | Can Write                      | Can Delete |
 | ----------------- | ------------------- | ------------------------------ | ---------- |
 | Anonymous User    | None (RLS protected)| None (RLS protected)           | None       |
-| Frontend          | None directly       | Via FastAPI + service role (future) | None       |
-| Magdalena (admin) | Via FastAPI/UI      | Via FastAPI/UI                 | Via UI     |
+| Frontend          | None directly       | Via server route + service role (future) | None       |
+| Magdalena (admin) | Via server route/UI | Via server route/UI            | Via UI     |
 | AI Agent (future) | Via service role    | Usage logs only                | None       |
 | Render (hosting)  | App code only       | Logs                           | None       |
 

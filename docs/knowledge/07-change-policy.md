@@ -6,6 +6,36 @@ This document defines how changes flow through the project, from idea to product
 
 **Core Principle**: All changes go through Git. No exceptions.
 
+## RCKT Architecture Principle
+
+**Full-stack by default; backend separation only if justified.**
+
+Magda uses a **full-stack TanStack Start architecture** by default:
+- Server routes in `src/routes/api/*` handle all business logic
+- Services layer (`src/services/*`) manages domain operations
+- Providers layer (`src/providers/*`) handles infrastructure (OpenRouter, Supabase)
+- **Single Render Web Service** deployment (no microservices overhead)
+
+**Why full-stack by default?**
+- Simpler operations (one service, one deploy, one failure domain)
+- Faster development (no inter-service communication latency or complexity)
+- Better for light to medium projects (Magda's scope)
+- Easier debugging (full stack in one runtime)
+- Clearer limits (when monolith gets too complex, refactor with data)
+
+**Backend separation is allowed only if:**
+1. **Data scale** justifies separate database (e.g., separate analytics store)
+2. **Operational complexity** proves monolith is unmanageable (metrics and monitoring needed first)
+3. **Technical requirement** demands different runtime (e.g., background workers for long-running jobs)
+4. **Explicit decision record** exists documenting the trade-off
+
+**This applies to any major change:**
+- ❌ "We should use FastAPI" — No, unless above conditions met
+- ❌ "We should add Redis" — No, until in-process state is proven insufficient
+- ❌ "We should use a message queue" — No, until synchronous calls are proven inadequate
+- ✅ "We're hitting rate limits with OpenRouter" — Yes, archive old data to separate table
+- ✅ "Leads table has 10M rows and queries are slow" — Yes, consider data separation with documented decision
+
 ### Line Ending Handling (CRLF vs LF)
 
 Windows developers and Lovable Cloud may have different line ending preferences (CRLF vs LF).
@@ -91,9 +121,9 @@ Two files have specific ESLint rule overrides due to their lifecycle stage:
 
 **What's in feature branches**:
 
-- Backend implementation (FastAPI, future)
+- Backend features (server routes in TanStack Start)
 - Database migrations
-- New endpoints or server functions
+- New API endpoints or server functions
 - Type definitions and contracts
 - Security and configuration changes
 
@@ -550,5 +580,7 @@ Target deploy: [date] (or "immediate")
 
 **Change Policy Version**: 1.0  
 **Effective Date**: 2026-09-07  
+**Last Updated**: 2026-09-08  
 **Enforcement**: Mandatory for all changes  
 **Review Frequency**: Q2 2027
+**RCKT Principle Added**: 2026-09-08 (full-stack by default, backend separation requires explicit justification)

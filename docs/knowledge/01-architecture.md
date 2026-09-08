@@ -4,12 +4,12 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                        CURRENT STATE (v1)                               │
+│                   CURRENT STATE (v1 - Development)                      │
 └─────────────────────────────────────────────────────────────────────────┘
 
-User Device (Browser)
+Developer Machine
     │
-    ├─ TanStack Start (SSR/Hydration)
+    ├─ Local TanStack Start (bun run dev)
     │  ├─ React 19 + TypeScript
     │  ├─ TanStack Router (client-side routing)
     │  ├─ Tailwind CSS (utility-first styles)
@@ -18,75 +18,82 @@ User Device (Browser)
     ├─ HTML Injection (src/routes/-site-content.ts)
     │  └─ Sections: hero, work, testimonials, about, contact
     │  └─ DOM Imperatives (scroll triggers, animations)
-    │  └─ Contact form (name, email, message)
+    │  └─ Contact form (name, email, message) — NOT YET wired to /api/leads
     │
-    └─ Supabase Client (JWT auth)
+    └─ Supabase Client (JWT auth, via preview environment)
         └─ ANON_KEY (public anonymous key)
 
                     │ HTTPS
                     ▼
 
-    Render Edge (Frontend Deployment)
-    ├─ TanStack Start SSR Runtime
-    ├─ Static Assets (CSS, JS, images)
-    └─ API Routes (server functions)
-        └─ Middleware: CSRF protection
-        └─ Auth: Supabase JWT extraction
-        └─ Handlers: Form submission, etc.
-
-                    │ HTTPS
-                    ▼
-
-    Supabase Cloud
+    Supabase Cloud (Development/Preview)
     ├─ Authentication (JWT issued)
     ├─ PostgreSQL Database
-    │  ├─ leads table (name, email, message, status)
+    │  ├─ public.leads (DEPLOYED, RLS enabled, no public policies)
+    │  ├─ public.llm_usage (DEPLOYED, RLS enabled, no public policies)
     │  ├─ auth.users (managed by Supabase Auth)
     │  └─ RLS policies (row-level security)
-    ├─ Storage (optional, for image hosting)
-    └─ Real-time subscriptions (optional)
+    └─ Storage (optional, for image hosting)
+
+NOTE: /api/leads and /api/chat endpoints do NOT exist yet (Phase 2 task)
+NOTE: Render Web Service is NOT YET configured or deployed
 
 
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                        FUTURE STATE (v2+)                               │
+│         TARGET STATE (v1 Production - After Phase 2 Implementation)     │
+│            (When server routes are built and deployed to Render)        │
 └─────────────────────────────────────────────────────────────────────────┘
 
 User Device (Browser)
     │
-    ├─ TanStack Start (SSR/Hydration, UNCHANGED)
-    │  └─ Same as v1
+    ├─ TanStack Start (SSR/Hydration, via Render)
+    │  ├─ React 19 + TypeScript
+    │  ├─ Marketing pages (Hero, work, about)
+    │  ├─ Chat UI component (React)
+    │  └─ Forms (contact, lead submission)
     │
-    └─ Chat UI Component (React)
-        └─ Sends messages to backend
+    └─ Client-side routing (TanStack Router)
 
                     │ HTTPS
                     ▼
 
-    Render Compute (New Layer)
-    ├─ FastAPI Backend (Python)
-    │  ├─ Agent Service
-    │  │  ├─ OpenRouter API client
-    │  │  └─ Agent prompt/persona
-    │  ├─ Endpoints:
-    │  │  ├─ POST /api/chat (message → response)
-    │  │  ├─ POST /api/leads (contact form)
-    │  │  └─ GET /api/metrics (usage stats)
-    │  └─ Middleware: Auth, logging, rate limits
+    Render Web Service (ONE Service, Node.js Runtime)
+    ├─ TanStack Start Runtime (Nitro runtime)
+    │  ├─ SSR + Hydration
+    │  ├─ Server Routes (src/routes/api/*, to be implemented in Phase 2)
+    │  │  ├─ POST /api/leads (validation → Supabase via service role)
+    │  │  ├─ POST /api/chat (OpenRouter → llm_usage logging)
+    │  │  └─ GET /api/metrics (observability data)
+    │  │
+    │  ├─ Services (business logic, to be implemented in Phase 2)
+    │  │  ├─ ChatService (message handling, context)
+    │  │  ├─ LeadService (validation, persistence)
+    │  │  └─ MetricsService (observability)
+    │  │
+    │  └─ Providers (infrastructure, to be implemented in Phase 2)
+    │     ├─ SupabaseProvider (admin client, service role)
+    │     ├─ OpenRouterProvider (LLM API calls)
+    │     └─ MetricsProvider (logging)
     │
-    ├─ Session Store (Redis or in-memory, future)
-    └─ Logging (stdout or DataDog, future)
+    └─ Environment Secrets (Render Dashboard, server-only):
+       ├─ OPENROUTER_API_KEY
+       └─ SUPABASE_SERVICE_ROLE_KEY
 
                     │
         ┌───────────┼───────────┐
         │           │           │
         ▼           ▼           ▼
 
-    Supabase      OpenRouter    External
+    Supabase      OpenRouter    Future
     (data)        (AI)          (email, etc.)
     │             │             │
     ├─ leads      ├─ Chat       └─ Resend
-    ├─ users      └─ Response      (future)
-    └─ metrics
+    ├─ llm_usage  └─ Response      (optional)
+    ├─ metrics
+    └─ auth.users
+
+NOTE: This diagram shows the TARGET architecture.
+Current development state uses local TanStack Start (bun run dev).
 ```
 
 ## Component Layers
@@ -126,24 +133,27 @@ User Device (Browser)
 - No GraphQL or complex state management
 - Keep animations performant (60fps target)
 
-### Layer 2: API / Middleware (TanStack Start Server Functions)
+### Layer 2: Server Routes & Business Logic (TanStack Start + TypeScript)
 
 **Technologies**:
 
-- TanStack Start server-side rendering
-- Nitro runtime (Cloudflare Workers, Node.js)
-- CSRF middleware
+- TanStack Start server routes (`src/routes/api/*`)
+- Nitro runtime (Cloudflare Workers, Node.js compatible)
+- CSRF middleware (built-in)
 - Supabase Auth middleware
+- TypeScript for type safety
 
 **Owner**: Claude Code
 
 **Responsibilities**:
 
-- Route handlers (form submission, etc.)
-- Request validation
+- API route handlers (`/api/leads`, `/api/chat`, `/api/metrics`)
+- Request validation (Zod, custom validators)
 - CSRF protection
-- JWT token extraction and verification
-- Database queries via Supabase client
+- Business logic orchestration (Services)
+- Infrastructure integration (Providers)
+- Secrets management (server-side only)
+- Logging and observability
 
 **Key Files**:
 
@@ -154,8 +164,8 @@ User Device (Browser)
 
 **Constraints**:
 
-- Keep logic light; complex business logic belongs in FastAPI (future)
-- Use server functions for isolated operations
+- Keep routes light; complex business logic belongs in Services layer
+- Use server routes for API operations, Services for domain logic
 - Never expose service role key in responses
 
 ### Layer 3: Data (Supabase PostgreSQL)
@@ -203,15 +213,16 @@ User Device (Browser)
 - **RLS**: Row-level security native to database
 - **Open source**: Can self-host if needed
 - **Cost**: Generous free tier for lead gen sites
-- **Integrations**: Works with any backend (FastAPI, Node, etc.)
+- **Integrations**: Works with any backend (TanStack Start, Node, Python, etc.)
 
-### Why FastAPI (future)?
+### Why TanStack Start (Full-Stack)?
 
-- **Python**: Data science / AI is Python-first
-- **OpenRouter**: Python client library is mature
-- **Type hints**: Pydantic for schema validation
-- **Async**: High concurrency for chat workloads
-- **Separation**: API microservice (on Render) decoupled from frontend
+- **Single Language**: TypeScript across frontend + backend
+- **Type Safety**: End-to-end type safety with shared types
+- **Server Routes**: No inter-service communication overhead
+- **Developer Experience**: Unified project structure, Vite feedback loop
+- **Deployment**: One Render service, simpler operations
+- **Future Flexibility**: Can add separate backend later if scale/complexity justifies it (see RCKT Principle in Change Policy)
 
 ### Why OpenRouter (not native LLM)?
 
@@ -222,50 +233,80 @@ User Device (Browser)
 
 ## Deployment Topology
 
-### Current (v1)
+### Current (v1 - Development)
 
 ```
 GitHub (repo)
     ↓
-Render (frontend builder + hosting)
-    ├─ Install deps (bun install)
-    ├─ Build (bun run build)
-    ├─ Serve (TanStack Start runtime)
-    └─ Health checks (/api/health)
+Local Development Machine
+    ├─ TanStack Start dev server (bun run dev)
+    ├─ Nitro preset: Currently auto-detected
+    └─ Connected to Lovable Cloud + Supabase (preview env)
 
-Environment Variables:
-- SUPABASE_URL (public)
-- SUPABASE_ANON_KEY (public)
+Status: 
+- Render NOT YET configured or deployed
+- /api/leads, /api/chat endpoints: NOT YET implemented
 ```
 
-### Future (v2)
+### Planned (v1 - Production Deployment)
 
 ```
 GitHub (repo)
     ↓
-Render (multi-service)
-    ├─ Service 1: Frontend
-    │  └─ Same as v1
-    ├─ Service 2: FastAPI
-    │  ├─ Build: python:3.11
-    │  ├─ Start: gunicorn app:app
-    │  ├─ Env: OPENROUTER_API_KEY, DATABASE_URL
-    │  └─ Health: /health
-    └─ Networking:
-        └─ Frontend → FastAPI (internal Render network)
-        └─ FastAPI → Supabase (HTTPS, encrypted)
-        └─ FastAPI → OpenRouter (HTTPS)
+Render Web Service (ONE service for full-stack)
+    ├─ Build: bun install && bun run build
+    ├─ Start: [TBD - depends on Nitro preset configuration]
+    ├─ Nitro Preset: Must verify and configure before deployment
+    ├─ Framework: TanStack Start (Node.js runtime)
+    │  ├─ Install deps (bun install)
+    │  ├─ Build (bun run build)
+    │  ├─ Output artifact: dist/ (server + static)
+    │  └─ Start command: TBD (depends on preset)
+    │
+    ├─ Environment Variables:
+    │  ├─ Public: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+    │  └─ Private: OPENROUTER_API_KEY, SUPABASE_SERVICE_ROLE_KEY
+    │
+    └─ Health checks: / (HTTP 200)
+
+IMPORTANT: Before deploying to Render:
+1. Verify current Nitro preset (bun run build → inspect build output)
+2. Select appropriate Nitro preset for Render/Node.js
+3. Test build and start command locally
+4. Define final start command based on preset configuration
+```
+
+### Future (v2+, With Backend Features)
+
+```
+GitHub (repo)
+    ↓
+Render (Single Web Service)
+    ├─ Build: bun install && bun run build
+    ├─ Start: bun run preview
+    ├─ Framework: TanStack Start (Node.js runtime)
+    ├─ Public Env: VITE_SUPABASE_*
+    ├─ Private Env: OPENROUTER_API_KEY, SUPABASE_SERVICE_ROLE_KEY
+    └─ Health: / (returns 200)
+        ├─ Server Routes: /api/leads, /api/chat, /api/metrics
+        ├─ Services: LeadService, ChatService, MetricsService
+        └─ Providers: SupabaseProvider, OpenRouterProvider
+            ├─ Supabase (data)
+            ├─ OpenRouter (AI)
+            └─ Resend (future email)
+
+Note: No inter-service communication; all in-process.
 ```
 
 ## Scaling Considerations
 
 | Scenario            | Action                                      |
 | ------------------- | ------------------------------------------- |
-| High lead volume    | Add rate limiting on form endpoint          |
-| Chat feature needed | Deploy FastAPI independently                |
+| High lead volume    | Add rate limiting on `/api/leads` endpoint  |
+| Chat feature needed | Add `/api/chat` server route                |
 | Database grows      | Implement connection pooling (PgBouncer)    |
 | API rate limits hit | Implement queue + retry logic               |
-| Analytics needed    | Add event table + aggregation jobs (future) |
+| At scale (10M rows) | Separate backend only if justified (RCKT)   |
 
 ## Dependencies and Versions
 
@@ -315,5 +356,6 @@ Render (multi-service)
 ---
 
 **Architecture Version**: 1.0 (Current: v1, Foundation Phase)  
-**Last Updated**: 2026-09-07  
-**Next Review**: Before FastAPI integration (Phase 3)
+**Last Updated**: 2026-09-08  
+**Architecture Decision**: Full-stack TanStack Start (see RCKT Principle in 07-change-policy.md)  
+**Next Review**: When considering backend separation (justified by scale/complexity)

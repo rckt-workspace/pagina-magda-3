@@ -7,15 +7,18 @@
 **IMPLEMENTED**:
 
 - ✅ Leads table schema (public.leads in Supabase)
-- ✅ RLS protection (zero public access by default)
-- ✅ Schema design for future integrations
+- ✅ LLM usage observability table (public.llm_usage in Supabase)
+- ✅ RLS protection (zero public access by default on both tables)
+- ✅ Database constraints and indexes
 
 **PLANNED (Future)**:
 
+- ⏳ FastAPI backend to integrate leads form with database
+- ⏳ FastAPI backend to integrate OpenRouter with llm_usage logging
+- ⏳ AI agent service implementation (uses llm_usage for observability)
 - ⏳ Aggregate page views tracking (no PII)
-- ⏳ User journey funnel (visit → explore → contact)
-- ⏳ Lead volume and quality metrics
-- ⏳ AI agent usage tracking (tokens, cost, performance)
+- ⏳ User journey funnel analytics (visit → explore → contact)
+- ⏳ Lead quality metrics and reporting
 
 **We do NOT and will NOT track**:
 
@@ -88,28 +91,63 @@
 - Supabase Events table (self-hosted analytics)
 - Custom queries on `metrics` table
 
-### Category 3: AI Agent Usage (Performance + Cost)
+### Category 3: AI Agent Usage (Observability Infrastructure)
 
-**What**: LLM token consumption and response quality  
-**Fields**:
+**What**: LLM integration observability (append-only, technical metrics only)
 
-- `model` — Which LLM model was used
-- `input_tokens` — Tokens in prompt
-- `output_tokens` — Tokens in response
-- `cost_usd` — Calculated cost
-- `latency_ms` — Response time
-- `created_at` — Timestamp
+**Implementation Status**:
+- ✅ Table `public.llm_usage` deployed in Lovable Cloud Supabase
+- ✅ Schema defined with privacy constraints
+- ⏳ AI Agent service NOT YET implemented (awaiting FastAPI backend)
+- ⏳ OpenRouter integration NOT YET active (backend-only when ready)
 
-**Retention**: 12 months (cost tracking)  
-**Access**: Admin only  
-**Disclosure**: Never shared
+**Fields** (as stored in llm_usage table):
 
-**Uses**:
+| Field | Type | Purpose |
+|-------|------|---------|
+| `id` | UUID | Unique call identifier |
+| `created_at` | TIMESTAMPTZ | Event timestamp |
+| `request_id` | VARCHAR(150) | External request correlator |
+| `session_id` | UUID | Pseudonymous session marker (no FK) |
+| `provider` | VARCHAR(50) | API provider (default: 'openrouter') |
+| `model` | VARCHAR(150) | Model name (e.g., openrouter/openai/gpt-4) |
+| `input_tokens` | INTEGER | Tokens sent to provider (≥ 0) |
+| `output_tokens` | INTEGER | Tokens returned from provider (≥ 0) |
+| `latency_ms` | INTEGER | Response time in milliseconds (NULL or ≥ 0) |
+| `cost_usd` | NUMERIC(12,6) | Calculated provider cost (NULL or ≥ 0) |
+| `fallback_used` | BOOLEAN | Fallback model activation (true/false) |
+| `status` | VARCHAR(30) | Call outcome: 'success' or 'error' |
+| `error_code` | VARCHAR(100) | Error identifier if status='error' |
+| `metadata` | JSONB | Non-sensitive technical metadata |
 
-- Monitor agent performance
-- Budget tracking (OpenRouter costs)
-- Identify runaway costs or abuse
-- A/B test model versions
+**What IS Stored**:
+- Model selection, token consumption, latency, cost
+- Call success/failure status and error codes
+- Feature flags, model versions, A/B test variants
+
+**What IS NEVER Stored**:
+- ❌ Complete prompts or user queries
+- ❌ Complete AI responses or transcripts
+- ❌ Email addresses or user names
+- ❌ IP addresses or device identifiers
+- ❌ PII (personally identifiable information)
+- ❌ Medical records or patient data
+
+**Access Control**:
+- RLS: ENABLED, zero public policies
+- Browser: Cannot access directly
+- Backend: FastAPI will write via `service_role_key` (when implemented)
+- Monitoring: Admin queries via service role only
+
+**Future Uses** (when FastAPI + Agent are ready):
+
+- Monitor agent performance and reliability
+- Track OpenRouter API costs and budgets
+- Identify runaway costs or abuse patterns
+- A/B test different models for quality/cost
+- Debugging conversation flows via session_id correlation
+
+**Retention**: To be determined (depends on compliance + business requirements; currently no auto-delete policy)
 
 ### Category 4: Error Logs (Debugging)
 

@@ -65,25 +65,51 @@ Business lead/contact submissions from website.
 - Policies will be defined when backend architecture is ready
 - Intended flow: Frontend → FastAPI → Supabase (via service role)
 
-### `llm_usage` (Future)
+### `llm_usage` (Migration 002 - Implemented)
 
-Tracks OpenRouter API consumption.
+Technical observability table for OpenRouter API integration (append-only design).
 
-**Fields** (proposed):
+**Current Status**: Table `public.llm_usage` deployed in Lovable Cloud Supabase. Migration 002 executed and verified. RLS enabled with zero public policies.
 
-```sql
-CREATE TABLE llm_usage (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  model TEXT NOT NULL,  -- e.g., "openrouter/openai/gpt-4"
-  input_tokens INT NOT NULL,
-  output_tokens INT NOT NULL,
-  cost_usd DECIMAL(10, 4),
-  created_at TIMESTAMP DEFAULT now(),
-  user_id UUID REFERENCES auth.users(id)  -- NULL for anonymous
-);
-```
+**Schema** (as deployed):
 
-**Access**: Admin only (no user access)
+| Field | Type | Constraints | Notes |
+|-------|------|-----------|-------|
+| `id` | UUID | PK, default gen_random_uuid() | Unique call identifier |
+| `created_at` | TIMESTAMPTZ | NOT NULL, default now() | Event timestamp |
+| `request_id` | VARCHAR(150) | NULL, trimmed length 1-150 | External request correlator |
+| `session_id` | UUID | NULL, NO FK | Pseudonymous session marker |
+| `provider` | VARCHAR(50) | NOT NULL, default 'openrouter', trimmed length 2-50 | API provider |
+| `model` | VARCHAR(150) | NOT NULL, trimmed length 1-150 | Model identifier (e.g., openrouter/openai/gpt-4) |
+| `input_tokens` | INTEGER | NOT NULL, default 0, ≥ 0 | Tokens sent to API |
+| `output_tokens` | INTEGER | NOT NULL, default 0, ≥ 0 | Tokens returned from API |
+| `latency_ms` | INTEGER | NULL or ≥ 0 | Response time in milliseconds |
+| `cost_usd` | NUMERIC(12,6) | NULL or ≥ 0 | Calculated API cost |
+| `fallback_used` | BOOLEAN | NOT NULL, default false | Fallback model activation flag |
+| `status` | VARCHAR(30) | NOT NULL, default 'success', IN (success, error) | Call outcome |
+| `error_code` | VARCHAR(100) | NULL | Error identifier if status='error' |
+| `metadata` | JSONB | NOT NULL, default '{}' | Non-sensitive technical metadata |
+
+**RLS Status**: ENABLED, NO PUBLIC POLICIES
+
+- Table is protected by RLS (no default access)
+- Browser cannot access directly
+- FastAPI (when implemented) will write via `service_role_key`
+
+**What IS Stored**:
+- Model used, token counts, latency, cost, status
+- Fallback activation tracking
+- Non-sensitive technical metadata (feature flags, model versions, A/B variants)
+
+**What IS NOT Stored**:
+- ❌ Complete prompts
+- ❌ Complete responses or transcripts
+- ❌ Email addresses
+- ❌ User names or identifiers
+- ❌ IP addresses
+- ❌ PII or medical/patient data
+
+**Access**: Via FastAPI service role when backend is implemented; monitoring/admin queries via service role only
 
 ### `metrics` (Future)
 

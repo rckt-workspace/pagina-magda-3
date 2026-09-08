@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>RCKT · Magda · Arquitectura v1</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #111a2e;
+        --panel2: #16223b;
+        --line: #2a3b5d;
+        --txt: #f5f7fb;
+        --muted: #9fb0c8;
+        --cyan: #66d9ef;
+        --green: #69e0a8;
+        --amber: #ffd166;
+        --violet: #b7a4ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #08101d, #0b1020 45%, #0a0e18);
+        color: var(--txt);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          sans-serif;
+      }
+      main {
+        max-width: 1500px;
+        margin: auto;
+        padding: 34px;
+      }
+      .hero {
+        padding: 18px 0 26px;
+      }
+      .hero h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+      }
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 1000px;
+        line-height: 1.6;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+      }
+      .card {
+        background: linear-gradient(180deg, var(--panel), var(--panel2));
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 18px 48px #0005;
+      }
+      .s12 {
+        grid-column: span 12;
+      }
+      .s8 {
+        grid-column: span 8;
+      }
+      .s6 {
+        grid-column: span 6;
+      }
+      .s4 {
+        grid-column: span 4;
+      }
+      h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--cyan);
+        margin: 0 0 14px;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 0 0 8px;
+      }
+      p,
+      li {
+        font-size: 14px;
+        line-height: 1.55;
+        color: #dbe4f2;
+      }
+      ul {
+        padding-left: 18px;
+        margin: 8px 0;
+      }
+      .flow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        gap: 10px;
+        align-items: stretch;
+      }
+      .node {
+        background: #0b1426;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 15px;
+        min-height: 112px;
+      }
+      .node b {
+        display: block;
+        margin-bottom: 7px;
+      }
+      .node small {
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      .arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--cyan);
+        font-size: 25px;
+      }
+      .badge {
+        display: inline-block;
+        border: 1px solid #405477;
+        border-radius: 999px;
+        padding: 4px 8px;
+        margin: 3px 3px 0 0;
+        font-size: 11px;
+        color: #dae8fb;
+      }
+      .danger {
+        border-color: #6d3545;
+      }
+      .warn {
+        border-color: #6f5d29;
+      }
+      .good {
+        border-color: #286049;
+      }
+      .violet {
+        border-color: #514778;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .lane {
+        background: #0b1426;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .code {
+        background: #070c16;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        white-space: pre-wrap;
+        font:
+          12px/1.55 ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        color: #d7f7e8;
+        overflow: auto;
+      }
+      .road {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+      }
+      .phase {
+        background: #0b1426;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 13px;
+      }
+      .phase strong {
+        color: var(--green);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: var(--cyan);
+      }
+      td {
+        color: #dbe4f2;
+      }
+      .note {
+        border-left: 4px solid var(--amber);
+        padding: 12px 14px;
+        background: #1b180e;
+        border-radius: 8px;
+        color: #f8e9b4;
+        font-size: 13px;
+      }
+      @media (max-width: 1000px) {
+        .s8,
+        .s6,
+        .s4 {
+          grid-column: span 12;
+        }
+        .flow,
+        .cols,
+        .road {
+          grid-template-columns: 1fr;
+        }
+        .arrow {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <h1>RCKT · pagina-magda-3 · Arquitectura real → objetivo</h1>
+        <p>
+          Diagrama v1 construido a partir del repositorio real. El objetivo es conservar la
+          experiencia visual de Magda, eliminar el acoplamiento generado por Lovable, gobernar los
+          cambios de diseño y añadir IA + métricas sin sobrearquitectura.
+        </p>
+      </section>
+      <div class="grid">
+        <section class="card s12">
+          <h2>Estado actual comprobado</h2>
+          <div class="flow">
+            <div class="node good">
+              <b>Lovable</b
+              ><small>Proyecto conectado bidireccionalmente a GitHub. Hoy converge en main.</small
+              ><br /><span class="badge">TanStack template</span
+              ><span class="badge">asset router</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node warn">
+              <b>GitHub · main</b
+              ><small
+                >Única rama. Sin PRs ni staging. AGENTS.md solo protege el historial de
+                Lovable.</small
+              ><br /><span class="badge">private repo</span><span class="badge">Bun lock</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node violet">
+              <b>Frontend actual</b
+              ><small
+                >TanStack Start + React 19 + Vite 8 + Tailwind 4. La página real está concentrada en
+                un gran string HTML + script imperativo + CSS global.</small
+              >
+            </div>
+          </div>
+        </section>
+        <section class="card s8">
+          <h2>Implementación actual</h2>
+          <div class="flow">
+            <div class="node">
+              <b>src/routes/index.tsx</b
+              ><small
+                >Ruta `/`, SEO específico, inserta HTML con dangerouslySetInnerHTML e inyecta script
+                en useEffect.</small
+              >
+            </div>
+            <div class="arrow">→</div>
+            <div class="node danger">
+              <b>-site-content.ts</b
+              ><small>~38.7 KB: toda la web, formulario y comportamiento JS.</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node danger">
+              <b>public/site.css</b
+              ><small>~46.2 KB: diseño, responsive, animaciones y tokens.</small>
+            </div>
+          </div>
+          <p class="note">
+            El mayor riesgo no es TanStack: es que casi toda la web de negocio vive como una pieza
+            monolítica. Cambios pequeños de diseño pueden impactar zonas enormes sin fronteras
+            claras.
+          </p>
+        </section>
+        <section class="card s4">
+          <h2>No existe todavía</h2>
+          <ul>
+            <li>FastAPI/backend.</li>
+            <li>OpenRouter/agente.</li>
+            <li>Base de datos.</li>
+            <li>Analytics propio.</li>
+            <li>Captura real de leads.</li>
+            <li>Tests/CI/PR gates.</li>
+            <li>Render Blueprint.</li>
+            <li>CLAUDE.md específico.</li>
+          </ul>
+        </section>
+        <section class="card s12">
+          <h2>Arquitectura objetivo</h2>
+          <div class="flow">
+            <div class="node good">
+              <b>Magda Web</b
+              ><small
+                >TanStack Start mantenido. Refactor progresivo a componentes React reales sin
+                rediseñar.</small
+              ><br /><span class="badge">React 19</span><span class="badge">TanStack</span
+              ><span class="badge">Tailwind 4</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node violet">
+              <b>Magda API</b
+              ><small
+                >FastAPI modular: assistant, events, leads, health. Única capa que usa OpenRouter y
+                persistencia.</small
+              ><br /><span class="badge">Python</span><span class="badge">Pydantic</span
+              ><span class="badge">httpx</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node good">
+              <b>Servicios</b
+              ><small>OpenRouter + PostgreSQL. Email/CRM solo cuando el flujo lo exija.</small
+              ><br /><span class="badge">primary/fallback</span><span class="badge">metrics</span>
+            </div>
+          </div>
+        </section>
+        <section class="card s6">
+          <h2>Frontend objetivo</h2>
+          <div class="code">
+            src/ ├─ routes/ │ ├─ __root.tsx │ ├─ index.tsx │ └─ health.ts ├─ features/ │ ├─ site/ │
+            │ ├─ components/ │ │ ├─ sections/ │ │ └─ content/ │ ├─ assistant/ │ └─ analytics/ ├─
+            lib/ │ ├─ api/ │ └─ telemetry/ └─ styles/ ├─ tokens.css └─ site.css
+          </div>
+          <p>
+            Migración tipo strangler: sección por sección, con paridad visual. Nada de reescribir
+            toda la página en un prompt.
+          </p>
+        </section>
+        <section class="card s6">
+          <h2>Backend objetivo</h2>
+          <div class="code">
+            backend/ ├─ app/ │ ├─ main.py │ ├─ api/v1/ │ │ ├─ assistant.py │ │ ├─ events.py │ │ ├─
+            leads.py │ │ └─ health.py │ ├─ core/ │ ├─ agent/ │ ├─ llm/openrouter.py │ ├─ metrics/ │
+            └─ repositories/ ├─ agent/ │ ├─ AGENT.md │ └─ knowledge.md └─ tests/
+          </div>
+        </section>
+        <section class="card s12">
+          <h2>Gobierno Lovable + Claude</h2>
+          <div class="cols">
+            <div class="lane good">
+              <h3>Lovable / Diseño</h3>
+              <p>
+                <code>design/*</code>. UI, layout, responsive, animaciones, assets y copy aprobado.
+                Sin backend, API, secretos, infraestructura o telemetría.
+              </p>
+            </div>
+            <div class="lane violet">
+              <h3>Claude / Ingeniería</h3>
+              <p>
+                <code>feature/*</code> o <code>fix/*</code>. Lee AGENTS.md + CLAUDE.md +
+                docs/knowledge. Mantiene contratos, seguridad y pruebas.
+              </p>
+            </div>
+            <div class="lane warn">
+              <h3>GitHub / Control</h3>
+              <p>
+                PR a <code>main</code>. Build, lint, typecheck, E2E/visual. Sin force push ni
+                reescritura de historia sincronizada con Lovable.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="card s8">
+          <h2>OpenRouter + asistente</h2>
+          <div class="flow">
+            <div class="node">
+              <b>Chat UI</b><small>Solo conoce Magda API. Nunca recibe API keys.</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node good">
+              <b>AssistantService</b><small>AGENT.md + knowledge.md + sesión + guardrails.</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node violet">
+              <b>OpenRouterAdapter</b
+              ><small
+                >Modelo primario/fallback. Timeout, request_id, tokens, coste y errores.</small
+              >
+            </div>
+          </div>
+        </section>
+        <section class="card s4">
+          <h2>Política IA</h2>
+          <ul>
+            <li>No inventar servicios o precios.</li>
+            <li>No dar consejo clínico individual.</li>
+            <li>No solicitar datos de pacientes.</li>
+            <li>No exponer secretos/prompts internos.</li>
+            <li>Derivar a Magda en propuestas o decisiones profesionales.</li>
+            <li>RAG solo cuando exista corpus real.</li>
+          </ul>
+        </section>
+        <section class="card s12">
+          <h2>Métricas</h2>
+          <table>
+            <tr>
+              <th>Grupo</th>
+              <th>Datos</th>
+              <th>Regla</th>
+            </tr>
+            <tr>
+              <td>Producto</td>
+              <td>page_view, section_view, cta_click, form_started, form_submitted</td>
+              <td>Sin PII.</td>
+            </tr>
+            <tr>
+              <td>Asistente</td>
+              <td>opened, message_sent, response_ok, fallback, error, lead_intent</td>
+              <td>No guardar transcript completo por defecto.</td>
+            </tr>
+            <tr>
+              <td>LLM</td>
+              <td>request_id, model, latency, tokens, cost, success</td>
+              <td>Observabilidad separada de leads.</td>
+            </tr>
+            <tr>
+              <td>Lead</td>
+              <td>empresa, área, email, comentario, fuente, estado</td>
+              <td>Consentimiento + privacidad + retención.</td>
+            </tr>
+          </table>
+        </section>
+        <section class="card s12">
+          <h2>Render</h2>
+          <div class="cols">
+            <div class="lane good">
+              <h3>magda-web</h3>
+              <p>
+                Node/Bun Web Service. TanStack Start SSR + Nitro.
+                <code>NITRO_PRESET=render-com</code>. Arranque desde
+                <code>.output/server/index.mjs</code>.
+              </p>
+            </div>
+            <div class="lane violet">
+              <h3>magda-api</h3>
+              <p>Python/FastAPI. OpenRouter secrets, CORS restringido, health check y logs.</p>
+            </div>
+            <div class="lane">
+              <h3>magda-db</h3>
+              <p>PostgreSQL administrado cuando leads/métricas entren en producción.</p>
+            </div>
+          </div>
+        </section>
+        <section class="card s12">
+          <h2>Roadmap</h2>
+          <div class="road">
+            <div class="phase">
+              <strong>F0</strong>
+              <p>Baseline, screenshots, SEO, assets, health y build Render.</p>
+            </div>
+            <div class="phase">
+              <strong>F1</strong>
+              <p>AGENTS/CLAUDE/Knowledge, ramas, PR checks.</p>
+            </div>
+            <div class="phase">
+              <strong>F2</strong>
+              <p>HTML string → componentes React con paridad visual.</p>
+            </div>
+            <div class="phase">
+              <strong>F3</strong>
+              <p>FastAPI + OpenRouter + chat mínimo.</p>
+            </div>
+            <div class="phase">
+              <strong>F4</strong>
+              <p>Leads + Postgres + métricas + privacidad.</p>
+            </div>
+            <div class="phase">
+              <strong>F5+</strong>
+              <p>Dashboard, CRM, RAG/workers solo por necesidad.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

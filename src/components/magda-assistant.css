@@ -12,16 +12,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
   z-index: 99;
+  animation: pulseOnce 0.8s ease-out;
+}
+
+@keyframes pulseOnce {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .magda-chat-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
 .magda-chat-toggle svg {
@@ -37,13 +52,15 @@
   max-width: calc(100vw - 40px);
   height: 600px;
   max-height: 70vh;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   z-index: 99;
-  animation: slideUp 0.3s ease-out;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideUp {
@@ -62,9 +79,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  border-bottom: 1px solid #e5e5e5;
-  background: #f9f9f9;
-  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid rgba(229, 229, 229, 0.5);
+  background: linear-gradient(135deg, rgba(250, 250, 250, 0.8) 0%, rgba(245, 245, 245, 0.6) 100%);
+  border-radius: 16px 16px 0 0;
+  backdrop-filter: blur(4px);
 }
 
 .magda-chat-header h2 {
@@ -100,6 +118,24 @@
   flex-direction: column;
   gap: 12px;
   background: white;
+  scroll-behavior: smooth;
+}
+
+.magda-chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.magda-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.magda-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(30, 42, 74, 0.2);
+  border-radius: 3px;
+}
+
+.magda-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 42, 74, 0.4);
 }
 
 .magda-message {
@@ -198,18 +234,21 @@
 
 .magda-chat-input {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   resize: none;
-  font-size: 14px;
+  transition: all 0.2s ease;
+  background: #fafafa;
 }
 
 .magda-chat-input:focus {
   outline: none;
   border-color: #1a1a1a;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(30, 42, 74, 0.08);
 }
 
 .magda-chat-input:disabled {
@@ -217,25 +256,55 @@
 }
 
 .magda-chat-send {
-  padding: 8px 16px;
-  background: #1a1a1a;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .magda-chat-send:hover:not(:disabled) {
-  background: #333;
+  background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
 }
 
 .magda-chat-send:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magda-chat-toggle {
+    animation: none;
+  }
+
+  .magda-chat-panel {
+    animation: none;
+  }
+
+  .magda-message {
+    animation: none;
+  }
+
+  .magda-typing span {
+    animation: none;
+    opacity: 1;
+  }
+
+  .magda-chat-send:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .magda-chat-input:focus {
+    transition: none;
+  }
 }
 
 @media (max-width: 480px) {

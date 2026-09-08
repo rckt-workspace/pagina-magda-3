@@ -2427,3 +2427,243 @@ section:has(.about-head) {
     text-align: center;
   }
 }
+
+/* ============ PREMIUM EFFECTS — Scroll Reveals & Interactivity ============ */
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: none;
+}
+
+.revealed {
+  animation: revealFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger effect for multiple reveals */
+.hero-badge {
+  animation-delay: 0.1s;
+}
+.hero > h1 {
+  animation-delay: 0.25s;
+}
+.hero-lead {
+  animation-delay: 0.4s;
+}
+.hero-cta-row {
+  animation-delay: 0.55s;
+}
+
+/* Navbar premium effects */
+.site {
+  transition: all 0.4s var(--ease);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site.scrolled {
+  background: rgba(238, 241, 246, 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(30, 42, 74, 0.08);
+  padding: 0.75rem var(--gutter);
+}
+
+/* Hero cinematic */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  filter: blur(40px);
+  z-index: 0;
+}
+
+.hero-glow.g1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(78, 102, 144, 0.3) 0%, transparent 70%);
+  top: -50px;
+  right: 20%;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+.hero-glow.g2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(193, 127, 46, 0.2) 0%, transparent 70%);
+  bottom: 10%;
+  left: 10%;
+  animation: glowPulse 10s ease-in-out infinite 1s;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* Premium cards */
+.highlight-cell {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.highlight-cell:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(30, 42, 74, 0.1);
+}
+
+.highlight-cell:hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .highlight-cell:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Button effects */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:hover::after {
+  animation: shine 0.5s ease-in-out;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Premium form elements */
+input,
+textarea {
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(78, 102, 144, 0.1),
+    inset 0 0 0 1px rgba(78, 102, 144, 0.2);
+}
+
+/* Marquee premium */
+.marquee-track {
+  animation: marquee 20s linear infinite;
+}
+
+.marquee-strip:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .hero-glow {
+    animation: none !important;
+  }
+
+  .site {
+    transition: none !important;
+  }
+
+  .highlight-cell {
+    transition: none !important;
+  }
+
+  .highlight-cell:hover {
+    transform: none !important;
+  }
+
+  .btn {
+    transition: none !important;
+  }
+
+  .btn:hover {
+    transform: none !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+}

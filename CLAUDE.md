@@ -71,7 +71,6 @@ All server-side secrets (`SUPABASE_SERVICE_ROLE_KEY`, `OPENROUTER_API_KEY`) stay
 
 Render hosts: **ONE Web Service** (TanStack Start + all server routes)
 
-
 ## Known Technical Debt
 
 1. **HTML + DOM Imperative**: `src/routes/-site-content.ts` contains injected HTML with DOM manipulation

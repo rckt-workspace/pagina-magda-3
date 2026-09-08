@@ -95,10 +95,10 @@ Server route implementation: `src/routes/api/chat.ts`
 // src/routes/api/chat.ts
 export async function POST({ request }) {
   const { message, conversation_id } = await request.json();
-  
+
   const service = new ChatService(supabaseProvider, openrouterProvider);
   const response = await service.chat(message, conversation_id);
-  
+
   return json(response, { status: 200 });
 }
 ```

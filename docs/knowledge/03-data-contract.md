@@ -43,21 +43,21 @@ Business lead/contact submissions from website.
 
 **Schema**:
 
-| Field | Type | Constraints | Notes |
-|-------|------|-----------|-------|
-| `id` | UUID | PK, default gen_random_uuid() | Unique identifier |
-| `created_at` | TIMESTAMPTZ | NOT NULL, default now() | Audit trail |
-| `updated_at` | TIMESTAMPTZ | NOT NULL, default now() | Auto-updated by trigger |
-| `company` | VARCHAR(120) | NOT NULL, trimmed length 2-120 | Business name |
-| `email` | VARCHAR(254) | NOT NULL, trimmed length 5-254 | Contact email |
-| `area` | VARCHAR(100) | NOT NULL, trimmed length 2-100 | Department/area |
-| `comment` | TEXT | NOT NULL, trimmed length 3-2000 | Lead message |
-| `source` | VARCHAR(50) | NOT NULL, default 'website' | Origin tracking |
-| `status` | VARCHAR(30) | NOT NULL, default 'new', IN (new, contacted, qualified, closed, spam) | Lead state |
-| `consent_privacy` | BOOLEAN | NOT NULL, default false | Explicit privacy consent |
-| `consent_at` | TIMESTAMPTZ | NULL, must align with consent_privacy | Consent timestamp |
-| `session_id` | UUID | NULL | Anonymous session identifier |
-| `metadata` | JSONB | NOT NULL, default '{}' | Non-sensitive contextual data |
+| Field             | Type         | Constraints                                                           | Notes                         |
+| ----------------- | ------------ | --------------------------------------------------------------------- | ----------------------------- |
+| `id`              | UUID         | PK, default gen_random_uuid()                                         | Unique identifier             |
+| `created_at`      | TIMESTAMPTZ  | NOT NULL, default now()                                               | Audit trail                   |
+| `updated_at`      | TIMESTAMPTZ  | NOT NULL, default now()                                               | Auto-updated by trigger       |
+| `company`         | VARCHAR(120) | NOT NULL, trimmed length 2-120                                        | Business name                 |
+| `email`           | VARCHAR(254) | NOT NULL, trimmed length 5-254                                        | Contact email                 |
+| `area`            | VARCHAR(100) | NOT NULL, trimmed length 2-100                                        | Department/area               |
+| `comment`         | TEXT         | NOT NULL, trimmed length 3-2000                                       | Lead message                  |
+| `source`          | VARCHAR(50)  | NOT NULL, default 'website'                                           | Origin tracking               |
+| `status`          | VARCHAR(30)  | NOT NULL, default 'new', IN (new, contacted, qualified, closed, spam) | Lead state                    |
+| `consent_privacy` | BOOLEAN      | NOT NULL, default false                                               | Explicit privacy consent      |
+| `consent_at`      | TIMESTAMPTZ  | NULL, must align with consent_privacy                                 | Consent timestamp             |
+| `session_id`      | UUID         | NULL                                                                  | Anonymous session identifier  |
+| `metadata`        | JSONB        | NOT NULL, default '{}'                                                | Non-sensitive contextual data |
 
 **RLS Status**: ENABLED, NO PUBLIC POLICIES
 
@@ -73,22 +73,22 @@ Technical observability table for OpenRouter API integration (append-only design
 
 **Schema** (as deployed):
 
-| Field | Type | Constraints | Notes |
-|-------|------|-----------|-------|
-| `id` | UUID | PK, default gen_random_uuid() | Unique call identifier |
-| `created_at` | TIMESTAMPTZ | NOT NULL, default now() | Event timestamp |
-| `request_id` | VARCHAR(150) | NULL, trimmed length 1-150 | External request correlator |
-| `session_id` | UUID | NULL, NO FK | Pseudonymous session marker |
-| `provider` | VARCHAR(50) | NOT NULL, default 'openrouter', trimmed length 2-50 | API provider |
-| `model` | VARCHAR(150) | NOT NULL, trimmed length 1-150 | Model identifier (e.g., openrouter/openai/gpt-4) |
-| `input_tokens` | INTEGER | NOT NULL, default 0, ≥ 0 | Tokens sent to API |
-| `output_tokens` | INTEGER | NOT NULL, default 0, ≥ 0 | Tokens returned from API |
-| `latency_ms` | INTEGER | NULL or ≥ 0 | Response time in milliseconds |
-| `cost_usd` | NUMERIC(12,6) | NULL or ≥ 0 | Calculated API cost |
-| `fallback_used` | BOOLEAN | NOT NULL, default false | Fallback model activation flag |
-| `status` | VARCHAR(30) | NOT NULL, default 'success', IN (success, error) | Call outcome |
-| `error_code` | VARCHAR(100) | NULL | Error identifier if status='error' |
-| `metadata` | JSONB | NOT NULL, default '{}' | Non-sensitive technical metadata |
+| Field           | Type          | Constraints                                         | Notes                                            |
+| --------------- | ------------- | --------------------------------------------------- | ------------------------------------------------ |
+| `id`            | UUID          | PK, default gen_random_uuid()                       | Unique call identifier                           |
+| `created_at`    | TIMESTAMPTZ   | NOT NULL, default now()                             | Event timestamp                                  |
+| `request_id`    | VARCHAR(150)  | NULL, trimmed length 1-150                          | External request correlator                      |
+| `session_id`    | UUID          | NULL, NO FK                                         | Pseudonymous session marker                      |
+| `provider`      | VARCHAR(50)   | NOT NULL, default 'openrouter', trimmed length 2-50 | API provider                                     |
+| `model`         | VARCHAR(150)  | NOT NULL, trimmed length 1-150                      | Model identifier (e.g., openrouter/openai/gpt-4) |
+| `input_tokens`  | INTEGER       | NOT NULL, default 0, ≥ 0                            | Tokens sent to API                               |
+| `output_tokens` | INTEGER       | NOT NULL, default 0, ≥ 0                            | Tokens returned from API                         |
+| `latency_ms`    | INTEGER       | NULL or ≥ 0                                         | Response time in milliseconds                    |
+| `cost_usd`      | NUMERIC(12,6) | NULL or ≥ 0                                         | Calculated API cost                              |
+| `fallback_used` | BOOLEAN       | NOT NULL, default false                             | Fallback model activation flag                   |
+| `status`        | VARCHAR(30)   | NOT NULL, default 'success', IN (success, error)    | Call outcome                                     |
+| `error_code`    | VARCHAR(100)  | NULL                                                | Error identifier if status='error'               |
+| `metadata`      | JSONB         | NOT NULL, default '{}'                              | Non-sensitive technical metadata                 |
 
 **RLS Status**: ENABLED, NO PUBLIC POLICIES
 
@@ -97,11 +97,13 @@ Technical observability table for OpenRouter API integration (append-only design
 - TanStack Start server route (when implemented) will write via `service_role_key`
 
 **What IS Stored**:
+
 - Model used, token counts, latency, cost, status
 - Fallback activation tracking
 - Non-sensitive technical metadata (feature flags, model versions, A/B variants)
 
 **What IS NOT Stored**:
+
 - ❌ Complete prompts
 - ❌ Complete responses or transcripts
 - ❌ Email addresses
@@ -214,12 +216,12 @@ CREATE POLICY leads_update_admin ON leads
 
 All production secrets live in Render, not Git.
 
-| Secret                      | Value                     | Scope                     |
-| --------------------------- | ------------------------- | ------------------------- |
-| `SUPABASE_URL`              | `https://abc.supabase.co` | Public (frontend)         |
-| `SUPABASE_ANON_KEY`         | `eyJ...`                  | Public (frontend)         |
-| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` (secret)         | Private (server routes)   |
-| `OPENROUTER_API_KEY`        | `sk_or_...`               | Private (server routes)   |
+| Secret                      | Value                     | Scope                   |
+| --------------------------- | ------------------------- | ----------------------- |
+| `SUPABASE_URL`              | `https://abc.supabase.co` | Public (frontend)       |
+| `SUPABASE_ANON_KEY`         | `eyJ...`                  | Public (frontend)       |
+| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` (secret)         | Private (server routes) |
+| `OPENROUTER_API_KEY`        | `sk_or_...`               | Private (server routes) |
 
 ### Local Development (.env.local)
 
@@ -339,7 +341,7 @@ migrations/
 // TanStack Start server route (src/routes/api/leads.ts)
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(url, service_role_key);  // ← Never expose key
+const supabase = createClient(url, service_role_key); // ← Never expose key
 const leads = await supabase.from("leads").select("*");
 ```
 

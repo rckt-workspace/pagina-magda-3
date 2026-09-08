@@ -1,0 +1,259 @@
+.magda-chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  z-index: 99;
+}
+
+.magda-chat-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.magda-chat-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+.magda-chat-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 600px;
+  max-height: 70vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+  z-index: 99;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.magda-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #f9f9f9;
+  border-radius: 12px 12px 0 0;
+}
+
+.magda-chat-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.magda-chat-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.magda-chat-close:hover {
+  color: #1a1a1a;
+}
+
+.magda-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: white;
+}
+
+.magda-message {
+  display: flex;
+  gap: 8px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.magda-message-assistant {
+  justify-content: flex-start;
+}
+
+.magda-message-user {
+  justify-content: flex-end;
+}
+
+.magda-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.magda-message-text {
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.magda-message-assistant .magda-message-text {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+
+.magda-message-user .magda-message-text {
+  background: #1a1a1a;
+  color: white;
+}
+
+.magda-typing span {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #666;
+  margin: 0 2px;
+  animation: blink 1.4s infinite;
+}
+
+.magda-typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.magda-typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+.magda-chat-input-area {
+  padding: 12px;
+  border-top: 1px solid #e5e5e5;
+  background: #f9f9f9;
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.magda-chat-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: none;
+  font-size: 14px;
+}
+
+.magda-chat-input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+
+.magda-chat-input:disabled {
+  opacity: 0.5;
+}
+
+.magda-chat-send {
+  padding: 8px 16px;
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.magda-chat-send:hover:not(:disabled) {
+  background: #333;
+}
+
+.magda-chat-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .magda-chat-panel {
+    bottom: 70px;
+    right: 10px;
+    width: calc(100vw - 20px);
+    max-width: 100%;
+    height: 50vh;
+    max-height: 60vh;
+  }
+
+  .magda-message-text {
+    max-width: 85%;
+  }
+
+  .magda-chat-toggle {
+    bottom: 10px;
+    right: 10px;
+  }
+}

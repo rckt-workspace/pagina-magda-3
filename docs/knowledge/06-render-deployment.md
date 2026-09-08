@@ -4,7 +4,8 @@
 
 Magda will be deployed on Render, a modern deployment platform that integrates directly with GitHub. This document describes the target deployment architecture.
 
-**Current Status**: 
+**Current Status**:
+
 - ✅ TanStack Start + React 19 (local development via `bun run dev`)
 - ✅ Supabase PostgreSQL (public.leads, public.llm_usage deployed)
 - ❌ Render Web Service: NOT YET configured or deployed
@@ -48,6 +49,7 @@ Nitro Preset: Currently auto-detected
 Before deploying to Render, you MUST:
 
 1. **Verify current Nitro preset**:
+
    ```bash
    # After building locally:
    bun run build
@@ -59,6 +61,7 @@ Before deploying to Render, you MUST:
    - Check: https://nitro.unjs.io/deploy/providers
 
 3. **Test locally**:
+
    ```bash
    bun run build
    [Run the generated start command locally to verify]
@@ -89,7 +92,7 @@ VITE_SUPABASE_ANON_KEY=eyJ...
 
 ```
 # Current (v1): None in Render (Render not yet configured)
-# Phase 2 (when implemented): 
+# Phase 2 (when implemented):
 #   - OPENROUTER_API_KEY (for /api/chat)
 #   - SUPABASE_SERVICE_ROLE_KEY (for /api/leads)
 # Both stay server-side in TanStack routes, never exposed to client
@@ -253,10 +256,10 @@ If metrics exceed targets:
 
 When backend features are added (chat, advanced leads handling), these private variables will be added to the same service:
 
-| Variable                    | Value              | Source               | Public? |
-| --------------------------- | ------------------ | -------------------- | ------- |
-| `OPENROUTER_API_KEY`        | `sk_or_...`        | OpenRouter Dashboard | ❌ No   |
-| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...`           | Supabase Dashboard   | ❌ No   |
+| Variable                    | Value       | Source               | Public? |
+| --------------------------- | ----------- | -------------------- | ------- |
+| `OPENROUTER_API_KEY`        | `sk_or_...` | OpenRouter Dashboard | ❌ No   |
+| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...`    | Supabase Dashboard   | ❌ No   |
 
 **Note**: All server-side logic runs in the same TanStack Start service, not a separate backend.
 
@@ -311,14 +314,15 @@ When new features require server-side logic (chat, advanced leads processing):
 
 1. **Add server route locally** (`src/routes/api/chat.ts`)
    - Test locally with `bun run dev`
-   
+
 2. **Create service layer** (`src/services/ChatService.ts`)
    - Test with unit tests
-   
+
 3. **Create provider** (`src/providers/OpenRouterProvider.ts`)
    - Test integration
-   
+
 4. **Push to feature branch**
+
    ```bash
    git commit -m "feat: add /api/chat server route"
    git push origin feature/chat-integration
@@ -378,32 +382,32 @@ export async function POST({ request }) {
 
 ### Current (v1 - Development, NOT Yet in Render)
 
-| Component                 | Tier           | Cost/Month       |
-| ------------------------- | -------------- | ---------------- |
-| Render Web Service        | Not yet active | $0               |
-| Supabase (PostgreSQL)     | Free (preview) | $0               |
-| OpenRouter (AI)           | Not yet used   | $0               |
-| **Total**                 | —              | **$0 (dev only)** |
+| Component             | Tier           | Cost/Month        |
+| --------------------- | -------------- | ----------------- |
+| Render Web Service    | Not yet active | $0                |
+| Supabase (PostgreSQL) | Free (preview) | $0                |
+| OpenRouter (AI)       | Not yet used   | $0                |
+| **Total**             | —              | **$0 (dev only)** |
 
 **Note**: Using local development (`bun run dev`) and Supabase preview environment. Render deployment TBD.
 
 ### Target (v1 - Production, When Deployed)
 
-| Component                 | Tier     | Cost/Month       |
-| ------------------------- | -------- | ---------------- |
-| Render Web Service        | Standard | $10/month        |
-| Supabase (PostgreSQL)     | Free/Pro | $0–50/month      |
-| OpenRouter (AI, Phase 2)  | Usage    | $0–100/month     |
-| **Total**                 | —        | **$10–160/month** |
+| Component                | Tier     | Cost/Month        |
+| ------------------------ | -------- | ----------------- |
+| Render Web Service       | Standard | $10/month         |
+| Supabase (PostgreSQL)    | Free/Pro | $0–50/month       |
+| OpenRouter (AI, Phase 2) | Usage    | $0–100/month      |
+| **Total**                | —        | **$10–160/month** |
 
 ### Future (v2+, With Advanced Features)
 
-| Component              | Tier        | Cost/Month          |
-| ---------------------- | ----------- | ------------------- |
+| Component               | Tier        | Cost/Month          |
+| ----------------------- | ----------- | ------------------- |
 | TanStack Start (single) | Standard    | $10/month           |
-| Supabase               | Pro         | $25/month           |
-| OpenRouter (AI, chat)  | Usage-based | $10–100/month (TBD) |
-| **Total**              | —           | **$45–235/month**   |
+| Supabase                | Pro         | $25/month           |
+| OpenRouter (AI, chat)   | Usage-based | $10–100/month (TBD) |
+| **Total**               | —           | **$45–235/month**   |
 
 **Note**: Still ONE Render service (no multi-service overhead). Costs scale with traffic/usage. Start with free/standard; upgrade as needed.
 
@@ -448,18 +452,20 @@ Before deploying to production:
 ---
 
 **Render Deployment Version**: 1.0  
-**Current Status**: Development (v1, Render NOT YET deployed)  
-  - TanStack Start: ✅ Local development (`bun run dev`)
-  - Supabase: ✅ Deployed (public.leads, public.llm_usage)
-  - Render Web Service: ❌ Not configured or deployed
-  - Server routes (/api/leads, /api/chat): ❌ Not implemented (Phase 2)
+**Current Status**: Development (v1, Render NOT YET deployed)
+
+- TanStack Start: ✅ Local development (`bun run dev`)
+- Supabase: ✅ Deployed (public.leads, public.llm_usage)
+- Render Web Service: ❌ Not configured or deployed
+- Server routes (/api/leads, /api/chat): ❌ Not implemented (Phase 2)
 
 **Target Status** (When Ready): v1 Production (ONE Render Web Service, full-stack TanStack Start)  
 **Last Updated**: 2026-09-08 (Factual correction: Render not yet active)  
 **Architecture**: ONE Render Web Service (full-stack TanStack Start) — target design, not yet active
-**Next Steps**: 
-  1. Complete Phase 2 (implement server routes)
-  2. Verify Nitro preset configuration
-  3. Set up Render service with verified build/start commands
-  4. Test deployment to Render staging
-  5. Deploy to production
+**Next Steps**:
+
+1. Complete Phase 2 (implement server routes)
+2. Verify Nitro preset configuration
+3. Set up Render service with verified build/start commands
+4. Test deployment to Render staging
+5. Deploy to production

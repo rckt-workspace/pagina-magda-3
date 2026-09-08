@@ -243,7 +243,7 @@ Local Development Machine
     ├─ Nitro preset: Currently auto-detected
     └─ Connected to Lovable Cloud + Supabase (preview env)
 
-Status: 
+Status:
 - Render NOT YET configured or deployed
 - /api/leads, /api/chat endpoints: NOT YET implemented
 ```
@@ -300,13 +300,13 @@ Note: No inter-service communication; all in-process.
 
 ## Scaling Considerations
 
-| Scenario            | Action                                      |
-| ------------------- | ------------------------------------------- |
-| High lead volume    | Add rate limiting on `/api/leads` endpoint  |
-| Chat feature needed | Add `/api/chat` server route                |
-| Database grows      | Implement connection pooling (PgBouncer)    |
-| API rate limits hit | Implement queue + retry logic               |
-| At scale (10M rows) | Separate backend only if justified (RCKT)   |
+| Scenario            | Action                                     |
+| ------------------- | ------------------------------------------ |
+| High lead volume    | Add rate limiting on `/api/leads` endpoint |
+| Chat feature needed | Add `/api/chat` server route               |
+| Database grows      | Implement connection pooling (PgBouncer)   |
+| API rate limits hit | Implement queue + retry logic              |
+| At scale (10M rows) | Separate backend only if justified (RCKT)  |
 
 ## Dependencies and Versions
 

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { siteHtml, siteScript } from "./-site-content";
+import { MagdaAssistant } from "../components/MagdaAssistant";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,5 +47,10 @@ function Index() {
     };
   }, []);
 
-  return <div ref={ref} dangerouslySetInnerHTML={{ __html: siteHtml }} />;
+  return (
+    <>
+      <div ref={ref} dangerouslySetInnerHTML={{ __html: siteHtml }} />
+      <MagdaAssistant />
+    </>
+  );
 }

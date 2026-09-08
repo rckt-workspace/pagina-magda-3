@@ -84,14 +84,14 @@ Magda is a professional services website for Magdalena Cardona, a designer/devel
 
 ## Roadmap (Indicative)
 
-| Phase | Priority | Focus                             |
-| ------- | -------- | --------------------------------- |
-| 1 | Now | Foundation, governance, stability |
-| 2 | Next | FastAPI backend, architecture     |
-| 3 | Future | AI agent integration              |
-| 4 | Future | Analytics, lead automation        |
+| Phase | Priority | Focus                                     |
+| ----- | -------- | ----------------------------------------- |
+| 1     | Now      | Foundation, governance, stability         |
+| 2     | Next     | Server routes (`/api/leads`, `/api/chat`) |
+| 3     | Future   | AI agent integration                      |
+| 4     | Future   | Analytics, lead automation                |
 
-*Specific dates TBD by project leadership*
+_Specific dates TBD by project leadership_
 
 ---
 

@@ -13,8 +13,8 @@
 
 **PLANNED (Future)**:
 
-- ⏳ FastAPI backend to integrate leads form with database
-- ⏳ FastAPI backend to integrate OpenRouter with llm_usage logging
+- ⏳ TanStack Start server route (`/api/leads`) to integrate leads form with database
+- ⏳ TanStack Start server route (`/api/chat`) to integrate OpenRouter with llm_usage logging
 - ⏳ AI agent service implementation (uses llm_usage for observability)
 - ⏳ Aggregate page views tracking (no PII)
 - ⏳ User journey funnel analytics (visit → explore → contact)
@@ -36,9 +36,10 @@
 **Schema**: See 03-data-contract.md (authoritative source)
 
 **Implementation Status**:
+
 - ✅ Table `public.leads` deployed in Lovable Cloud Supabase
 - ✅ Schema defined with privacy constraints
-- ⏳ Contact form NOT YET connected (awaiting FastAPI backend integration)
+- ⏳ Contact form NOT YET connected (awaiting `POST /api/leads` server route)
 - ⏳ Admin panel NOT YET implemented
 
 **Fields** (as stored):
@@ -54,7 +55,7 @@
 - `metadata` — Non-sensitive contextual data (JSON)
 
 **Retention**: To be determined (legal + business review)
-**Access**: Via FastAPI service role (when backend is ready); admin UI TBD
+**Access**: Via server route (when implemented); admin UI TBD
 **Disclosure**: Not shared without explicit consent
 
 **Future Uses** (when frontend is connected):
@@ -96,36 +97,39 @@
 **What**: LLM integration observability (append-only, technical metrics only)
 
 **Implementation Status**:
+
 - ✅ Table `public.llm_usage` deployed in Lovable Cloud Supabase
 - ✅ Schema defined with privacy constraints
-- ⏳ AI Agent service NOT YET implemented (awaiting FastAPI backend)
-- ⏳ OpenRouter integration NOT YET active (backend-only when ready)
+- ⏳ AI Agent service NOT YET implemented (awaiting `POST /api/chat` server route)
+- ⏳ OpenRouter integration NOT YET active (server-side when ready)
 
 **Fields** (as stored in llm_usage table):
 
-| Field | Type | Purpose |
-|-------|------|---------|
-| `id` | UUID | Unique call identifier |
-| `created_at` | TIMESTAMPTZ | Event timestamp |
-| `request_id` | VARCHAR(150) | External request correlator |
-| `session_id` | UUID | Pseudonymous session marker (no FK) |
-| `provider` | VARCHAR(50) | API provider (default: 'openrouter') |
-| `model` | VARCHAR(150) | Model name (e.g., openrouter/openai/gpt-4) |
-| `input_tokens` | INTEGER | Tokens sent to provider (≥ 0) |
-| `output_tokens` | INTEGER | Tokens returned from provider (≥ 0) |
-| `latency_ms` | INTEGER | Response time in milliseconds (NULL or ≥ 0) |
-| `cost_usd` | NUMERIC(12,6) | Calculated provider cost (NULL or ≥ 0) |
-| `fallback_used` | BOOLEAN | Fallback model activation (true/false) |
-| `status` | VARCHAR(30) | Call outcome: 'success' or 'error' |
-| `error_code` | VARCHAR(100) | Error identifier if status='error' |
-| `metadata` | JSONB | Non-sensitive technical metadata |
+| Field           | Type          | Purpose                                     |
+| --------------- | ------------- | ------------------------------------------- |
+| `id`            | UUID          | Unique call identifier                      |
+| `created_at`    | TIMESTAMPTZ   | Event timestamp                             |
+| `request_id`    | VARCHAR(150)  | External request correlator                 |
+| `session_id`    | UUID          | Pseudonymous session marker (no FK)         |
+| `provider`      | VARCHAR(50)   | API provider (default: 'openrouter')        |
+| `model`         | VARCHAR(150)  | Model name (e.g., openrouter/openai/gpt-4)  |
+| `input_tokens`  | INTEGER       | Tokens sent to provider (≥ 0)               |
+| `output_tokens` | INTEGER       | Tokens returned from provider (≥ 0)         |
+| `latency_ms`    | INTEGER       | Response time in milliseconds (NULL or ≥ 0) |
+| `cost_usd`      | NUMERIC(12,6) | Calculated provider cost (NULL or ≥ 0)      |
+| `fallback_used` | BOOLEAN       | Fallback model activation (true/false)      |
+| `status`        | VARCHAR(30)   | Call outcome: 'success' or 'error'          |
+| `error_code`    | VARCHAR(100)  | Error identifier if status='error'          |
+| `metadata`      | JSONB         | Non-sensitive technical metadata            |
 
 **What IS Stored**:
+
 - Model selection, token consumption, latency, cost
 - Call success/failure status and error codes
 - Feature flags, model versions, A/B test variants
 
 **What IS NEVER Stored**:
+
 - ❌ Complete prompts or user queries
 - ❌ Complete AI responses or transcripts
 - ❌ Email addresses or user names
@@ -134,12 +138,13 @@
 - ❌ Medical records or patient data
 
 **Access Control**:
+
 - RLS: ENABLED, zero public policies
 - Browser: Cannot access directly
-- Backend: FastAPI will write via `service_role_key` (when implemented)
+- Server Route: Will write via `service_role_key` (when implemented)
 - Monitoring: Admin queries via service role only
 
-**Future Uses** (when FastAPI + Agent are ready):
+**Future Uses** (when Agent service is ready):
 
 - Monitor agent performance and reliability
 - Track OpenRouter API costs and budgets
@@ -197,12 +202,12 @@
 
 **User Rights**:
 
-| Right             | How We Implement                                            |
-| ----------------- | ----------------------------------------------------------- |
+| Right             | How We Implement                                               |
+| ----------------- | -------------------------------------------------------------- |
 | Right to access   | Contact via privacy email (TBD); provide export within 30 days |
 | Right to delete   | Contact via privacy email (TBD); delete all PII within 30 days |
-| Right to rectify  | Contact via privacy email (TBD); or contact form resubmission |
-| Right to restrict | Contact via privacy email (TBD); mark as "do not contact"  |
+| Right to rectify  | Contact via privacy email (TBD); or contact form resubmission  |
+| Right to restrict | Contact via privacy email (TBD); mark as "do not contact"      |
 
 **Data Processing Agreement**:
 
@@ -213,6 +218,7 @@
 ### CCPA (California Users - Future)
 
 **Planned approach** (if US expansion occurs):
+
 - No sale of personal information
 - Clear privacy disclosures
 - Right to delete (same as GDPR process)
@@ -271,15 +277,15 @@ Visiting the site implies consent to anonymous aggregate analytics.
 
 ## Data Retention Schedule
 
-| Data Type         | Retention  | Reason            | Deletion Method          |
-| ----------------- | ---------- | ----------------- | ------------------------ |
+| Data Type         | Retention          | Reason                             | Deletion Method          |
+| ----------------- | ------------------ | ---------------------------------- | ------------------------ |
 | Leads             | TBD (legal review) | Business value vs legal obligation | Manual request via email |
-| Site Metrics      | 90 days    | Monthly analysis  | Auto-delete via cron     |
-| AI Usage          | 12 months  | Cost tracking     | Auto-delete via cron     |
-| Error Logs        | 30 days    | Debugging         | Render auto-deletes      |
-| Conversation Logs | 30 days    | Debugging         | Auto-delete via cron     |
-| Session Tokens    | 1 hour     | Security          | Auto-expire              |
-| IP Addresses      | Not stored | Privacy           | N/A                      |
+| Site Metrics      | 90 days            | Monthly analysis                   | Auto-delete via cron     |
+| AI Usage          | 12 months          | Cost tracking                      | Auto-delete via cron     |
+| Error Logs        | 30 days            | Debugging                          | Render auto-deletes      |
+| Conversation Logs | 30 days            | Debugging                          | Auto-delete via cron     |
+| Session Tokens    | 1 hour             | Security                           | Auto-expire              |
+| IP Addresses      | Not stored         | Privacy                            | N/A                      |
 
 ## Data Security
 
@@ -294,13 +300,13 @@ Visiting the site implies consent to anonymous aggregate analytics.
 
 ### Access Control (Design Intent)
 
-| Role              | Can Read            | Can Write                      | Can Delete |
-| ----------------- | ------------------- | ------------------------------ | ---------- |
-| Anonymous User    | None (RLS protected)| None (RLS protected)           | None       |
-| Frontend          | None directly       | Via FastAPI + service role (future) | None       |
-| Magdalena (admin) | Via FastAPI/UI      | Via FastAPI/UI                 | Via UI     |
-| AI Agent (future) | Via service role    | Usage logs only                | None       |
-| Render (hosting)  | App code only       | Logs                           | None       |
+| Role              | Can Read             | Can Write                                | Can Delete |
+| ----------------- | -------------------- | ---------------------------------------- | ---------- |
+| Anonymous User    | None (RLS protected) | None (RLS protected)                     | None       |
+| Frontend          | None directly        | Via server route + service role (future) | None       |
+| Magdalena (admin) | Via server route/UI  | Via server route/UI                      | Via UI     |
+| AI Agent (future) | Via service role     | Usage logs only                          | None       |
+| Render (hosting)  | App code only        | Logs                                     | None       |
 
 ### Secrets Management
 

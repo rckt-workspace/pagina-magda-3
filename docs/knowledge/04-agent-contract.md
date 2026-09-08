@@ -6,7 +6,7 @@ This document defines how the AI agent will operate in Magda v2+. The agent is a
 
 **Status**: Architecture planning (Phase 2)  
 **Target Release**: Q1 2027  
-**Implementation**: FastAPI + OpenRouter
+**Implementation**: TanStack Start server routes (`src/routes/api/chat.ts`) + OpenRouter
 
 ## Agent Responsibilities
 
@@ -44,29 +44,31 @@ This document defines how the AI agent will operate in Magda v2+. The agent is a
 ### Components
 
 ```
-User Message (Browser)
+User Message (Browser Chat UI)
         │
         ▼
-TanStack Start (Frontend)
-        │ (POST /api/chat)
+POST /api/chat
+        │
         ▼
-Render Compute (FastAPI)
+Render Web Service (TanStack Start)
+src/routes/api/chat.ts
         │
         ├─ Middleware: Auth, rate limit
-        ├─ Handler: /api/chat endpoint
-        ├─ Message Validator: Zod schema
-        │
-        ├─ Agent Orchestrator
-        │  ├─ Read system prompt
+        ├─ ChatService (business logic)
+        │  ├─ Message Validator (Zod schema)
+        │  ├─ Load system prompt (from AGENT.md)
         │  ├─ Retrieve context (about Magdalena)
         │  ├─ Format conversation history
+        │  └─ Instantiate OpenRouterProvider
+        │
+        ├─ OpenRouterProvider
         │  └─ Call OpenRouter API
         │
-        └─ Response Formatter
+        └─ Response Handler
            ├─ Parse LLM response
            ├─ Extract action (answer, qualify, redirect)
-           ├─ Log usage metrics
-           └─ Return to client
+           ├─ Log to Supabase llm_usage
+           └─ Return response to client
 
                     ▼
             OpenRouter API
@@ -76,25 +78,29 @@ Render Compute (FastAPI)
 
                     ▼
             Supabase (Logging)
-            ├─ llm_usage (tokens, cost)
-            └─ conversation_logs (transcript, optional)
+            ├─ public.llm_usage (tokens, cost)
+            └─ (conversation transcript NOT logged)
 ```
 
 ### Deployment
 
-**Service**: FastAPI on Render  
-**Runtime**: Python 3.11  
-**Framework**: FastAPI + Pydantic  
-**Package Manager**: pip (or uv for speed)
+**Service**: Single Render Web Service (TanStack Start)  
+**Runtime**: Node.js + TanStack Start  
+**Framework**: TanStack Start with TypeScript server routes  
+**Package Manager**: Bun (or npm/yarn)
 
-```dockerfile
-# Proposed Dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
+Server route implementation: `src/routes/api/chat.ts`
+
+```typescript
+// src/routes/api/chat.ts
+export async function POST({ request }) {
+  const { message, conversation_id } = await request.json();
+
+  const service = new ChatService(supabaseProvider, openrouterProvider);
+  const response = await service.chat(message, conversation_id);
+
+  return json(response, { status: 200 });
+}
 ```
 
 ## Knowledge Base
@@ -440,4 +446,4 @@ Before deploying to production:
 **Agent Contract Version**: 1.0 (Planning)  
 **Implementation Timeline**: Phase 3 (Q1 2027)  
 **Status**: Not yet built  
-**Next Step**: FastAPI backend architecture (Phase 2)
+**Next Step**: Implement ChatService + OpenRouterProvider in TanStack Start (Phase 2)

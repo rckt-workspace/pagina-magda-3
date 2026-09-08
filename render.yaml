@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: magda-web
+    plan: free
+    runtime: node
+    region: oregon
+    buildCommand: bun install --frozen-lockfile && bun run build
+    startCommand: node .output/server/index.mjs
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: CHAT_PRIMARY_LLM
+        value: openrouter/free
+      - key: CHAT_TEMPERATURE
+        value: "0.2"
+      - key: CHAT_MAX_TOKENS
+        value: "1000"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false

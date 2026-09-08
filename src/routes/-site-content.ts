@@ -111,7 +111,7 @@ export const siteHtml = `
           </div>
         </div>
         <div class="about-panel-photo">
-          <img src="/__l5e/assets-v1/79febb39-a5c5-4700-96b0-27b8e389cf5b/magda-sobre-mi.jpg" alt="Retrato de Magda Gutiérrez">
+          <img src="/images/magda-sobre-mi.jpg" alt="Retrato de Magda Gutiérrez">
         </div>
       </div>
 
@@ -334,7 +334,7 @@ export const siteHtml = `
       <div class="testimonial-card reveal">
         <blockquote>"El valor de un producto se respalda con evidencia sólida, comunicada de forma clara para quien toma la decisión."</blockquote>
         <div class="attrib">
-          <div class="av"><img src="/__l5e/assets-v1/9d66fe83-80e9-490b-ac30-4c72c1ad2bc2/magda.jpg" alt="Magda Gutiérrez"></div>
+          <div class="av"><img src="/images/magda.jpg" alt="Magda Gutiérrez"></div>
           <div>
             <div class="name">Magda Gutiérrez Ardila</div>
             <div class="role">HEOR &amp; Access Consulting</div>
@@ -384,6 +384,12 @@ export const siteHtml = `
           <div class="cf-field cf-full">
             <label for="cf-comentario">Comentario</label>
             <textarea id="cf-comentario" name="comentario" rows="4" placeholder="Cuénteme brevemente su necesidad..." required maxlength="1000"></textarea>
+          </div>
+          <div class="cf-field cf-full">
+            <label for="cf-consent" style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" id="cf-consent" name="consent" required />
+              <span>Acepto que Magda se comunique conmigo sobre mi solicitud</span>
+            </label>
           </div>
         </div>
         <p class="cf-error" id="cfError" role="alert" hidden>Por favor, complete todos los campos con un correo válido.</p>
@@ -457,34 +463,77 @@ export const siteScript = `
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Formulario de contacto — compone un correo con los datos
+  // Formulario de contacto — envía a /api/leads
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const empresa = contactForm.elements['empresa'].value.trim();
       const area = contactForm.elements['area'].value;
       const email = contactForm.elements['email'].value.trim();
       const comentario = contactForm.elements['comentario'].value.trim();
+      const consent = contactForm.elements['consent'].checked;
+      const button = contactForm.querySelector('button[type="submit"]');
       const error = document.getElementById('cfError');
-      const valid = empresa && area && comentario && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+
+      const valid = empresa && area && comentario && consent && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
       if (!valid) { if (error) error.hidden = false; return; }
       if (error) error.hidden = true;
-      const subject = 'Solicitud de consultoría — ' + empresa + ' (' + area + ')';
-      const body = 'Empresa: ' + empresa + '\\nÁrea solicitada: ' + area + '\\nCorreo: ' + email + '\\n\\nComentario:\\n' + comentario;
-      window.location.href = 'mailto:magda.vianey.g@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
+      if (button) button.disabled = true;
+
+      try {
+        const sessionId = sessionStorage.getItem('_magda_session_id') || crypto.randomUUID();
+        sessionStorage.setItem('_magda_session_id', sessionId);
+
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            company: empresa,
+            email: email,
+            area: area,
+            comment: comentario,
+            consent_privacy: true,
+            session_id: sessionId,
+          }),
+        });
+
+        if (response.ok) {
+          contactForm.reset();
+          if (error) {
+            error.hidden = false;
+            error.textContent = 'Solicitud enviada. Magda se contactará en breve.';
+            error.style.color = '#28a745';
+          }
+          setTimeout(() => {
+            if (error) {
+              error.hidden = true;
+              error.textContent = 'Por favor, complete todos los campos con un correo válido.';
+              error.style.color = '';
+            }
+          }, 5000);
+        } else {
+          if (error) error.hidden = false;
+        }
+      } catch (err) {
+        console.error('Form submission error:', err);
+        if (error) error.hidden = false;
+      } finally {
+        if (button) button.disabled = false;
+      }
     });
   }
 
 
-  // Scroll reveal
+  // Scroll reveal — bidirectional (enter and exit)
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+        entry.target.classList.toggle('is-visible', entry.isIntersecting);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
     revealEls.forEach(el => io.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('is-visible'));
@@ -614,5 +663,39 @@ export const siteScript = `
       });
     }, { threshold: 0.6 });
     document.querySelectorAll('.num[data-count]').forEach(el => countIO.observe(el));
+  }
+
+  // Agregar variable CSS --i para stagger en reveal groups
+  document.querySelectorAll('.reveal-group > *').forEach((el, i) => {
+    el.style.setProperty('--i', i.toString());
+  });
+
+  // Scroll hide/show navbar
+  const navbar = document.querySelector('.site');
+  if (navbar) {
+    let lastScroll = 0;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          const currentScroll = window.scrollY;
+          if (currentScroll > 80) {
+            if (currentScroll > lastScroll) {
+              navbar.classList.remove('show');
+              navbar.classList.add('hide');
+            } else {
+              navbar.classList.remove('hide');
+              navbar.classList.add('show');
+            }
+          } else {
+            navbar.classList.remove('hide');
+            navbar.classList.add('show');
+          }
+          lastScroll = currentScroll;
+          ticking = false;
+        });
+      }
+    }, { passive: true });
   }
 `;

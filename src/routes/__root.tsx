@@ -77,21 +77,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Magda Gutiérrez | Pricing, HEOR & Market Access" },
+      {
+        name: "description",
+        content:
+          "Consultoría independiente en Pricing, HEOR y Market Access para la industria farmacéutica.",
+      },
+      { name: "author", content: "Magda Gutiérrez" },
+      { property: "og:title", content: "Magda Gutiérrez | Pricing, HEOR & Market Access" },
+      {
+        property: "og:description",
+        content:
+          "Consultoría independiente en Pricing, HEOR y Market Access para la industria farmacéutica.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,

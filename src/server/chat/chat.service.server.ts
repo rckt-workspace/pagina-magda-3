@@ -20,6 +20,11 @@ const ChatRequestSchema = z
 type ChatRequest = z.infer<typeof ChatRequestSchema>;
 type ChatMessage = z.infer<typeof ChatMessageSchema>;
 
+type OpenRouterMessage = {
+  role: "system" | "user" | "assistant";
+  content: string;
+};
+
 export function validateChatInput(
   data: unknown,
 ): { valid: true; data: ChatRequest } | { valid: false; error: string } {
@@ -29,6 +34,17 @@ export function validateChatInput(
   } catch (err) {
     return { valid: false, error: "Invalid input" };
   }
+}
+
+export function buildChatMessages(
+  userMessage: string,
+  history?: ChatMessage[],
+): OpenRouterMessage[] {
+  return [
+    { role: "system", content: MAGDA_SYSTEM_PROMPT },
+    ...(history || []),
+    { role: "user", content: userMessage },
+  ];
 }
 
 export async function handleChatMessage(
@@ -41,7 +57,7 @@ export async function handleChatMessage(
   usedFallback?: boolean;
   error?: string;
 }> {
-  const messages: ChatMessage[] = [...(req.history || []), { role: "user", content: req.message }];
+  const messages = buildChatMessages(req.message, req.history);
 
   const callOptions = signal ? { signal } : {};
   const result = await callOpenRouter(messages, callOptions);

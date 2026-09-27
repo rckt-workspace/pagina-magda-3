@@ -1,6 +1,11 @@
+type OpenRouterMessage = {
+  role: "system" | "user" | "assistant";
+  content: string;
+};
+
 type OpenRouterRequest = {
   model: string;
-  messages: Array<{ role: "user" | "assistant"; content: string }>;
+  messages: Array<OpenRouterMessage>;
   temperature: number;
   max_tokens: number;
 };
@@ -12,7 +17,7 @@ type OpenRouterResponse = {
 };
 
 export async function callOpenRouter(
-  messages: Array<{ role: "user" | "assistant"; content: string }>,
+  messages: Array<OpenRouterMessage>,
   options?: { signal?: AbortSignal },
 ): Promise<{
   success: boolean;

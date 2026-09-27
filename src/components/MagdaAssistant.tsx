@@ -3,6 +3,29 @@ import "./magda-assistant.css";
 
 type Message = { role: "user" | "assistant"; content: string };
 
+const QUICK_ACTIONS = [
+  {
+    label: "Conoce sus servicios",
+    message: "¿Qué servicios ofrece Magda?",
+  },
+  {
+    label: "Apoyo para lanzamientos",
+    message: "¿Cómo puede ayudar Magda en un lanzamiento farmacéutico?",
+  },
+  {
+    label: "Pricing y Market Access",
+    message: "¿Cómo trabaja Magda en Pricing y Market Access?",
+  },
+  {
+    label: "¿Cómo contactarla?",
+    message: "¿Cómo puedo contactar a Magda?",
+  },
+];
+
+function normalizeText(text: string): string {
+  return text.replace(/\*\*/g, "").replace(/##/g, "").replace(/###/g, "");
+}
+
 export function MagdaAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -25,10 +48,10 @@ export function MagdaAssistant() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || loading) return;
+  const handleSend = async (messageText?: string) => {
+    const userMessage = (messageText || input).trim();
+    if (!userMessage || loading) return;
 
-    const userMessage = input.trim();
     setInput("");
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setLoading(true);
@@ -56,7 +79,7 @@ export function MagdaAssistant() {
       }
 
       const data = (await response.json()) as { message: string };
-      setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: normalizeText(data.message) }]);
     } catch (err) {
       console.error("Chat error:", err);
       setMessages((prev) => [
@@ -78,80 +101,106 @@ export function MagdaAssistant() {
     }
   };
 
+  const showQuickActions = messages.length === 1 && messages[0] && messages[0].role === "assistant";
+
   return (
-    <>
+    <div className="magda-assistant-widget">
       {!isOpen && (
         <button
-          className="magda-chat-toggle"
+          className="magda-trigger"
           onClick={() => setIsOpen(true)}
-          aria-label="Open chat with Magda"
-          title="Chat with Magda"
+          aria-label="Open chat with Magda's assistant"
+          aria-expanded="false"
         >
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-          </svg>
+          <img src="/magda.jpg" alt="Magda" className="magda-trigger-avatar" />
+          <span className="magda-trigger-text">Habla con Magda</span>
+          <span className="magda-trigger-icon">✦</span>
         </button>
       )}
 
       {isOpen && (
-        <div className="magda-chat-panel" role="dialog" aria-labelledby="magda-chat-title">
-          <div className="magda-chat-header">
-            <h2 id="magda-chat-title">Magda Assistant</h2>
+        <div className="magda-panel" role="dialog" aria-labelledby="magda-panel-title">
+          <div className="magda-panel-header">
+            <div className="magda-panel-header-content">
+              <img src="/magda.jpg" alt="Magda Gutiérrez" className="magda-panel-avatar" />
+              <div className="magda-panel-header-text">
+                <h2 id="magda-panel-title">Magda Gutiérrez</h2>
+                <p className="magda-panel-subtitle">HEOR · Pricing · Market Access</p>
+                <p className="magda-panel-status">Asistente virtual</p>
+              </div>
+            </div>
             <button
-              className="magda-chat-close"
+              className="magda-panel-close"
               onClick={() => setIsOpen(false)}
               aria-label="Close chat"
+              aria-expanded="true"
             >
               ✕
             </button>
           </div>
 
-          <div className="magda-chat-messages" role="log">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`magda-message magda-message-${msg.role}`}>
-                {msg.role === "assistant" && (
-                  <div className="magda-avatar" aria-label="Magda">
-                    M
-                  </div>
-                )}
-                <div className="magda-message-text">{msg.content}</div>
-              </div>
-            ))}
-            {loading && (
-              <div className="magda-message magda-message-assistant">
-                <div className="magda-avatar">M</div>
-                <div className="magda-message-text magda-typing">
-                  <span></span>
-                  <span></span>
-                  <span></span>
+          <div className="magda-panel-body">
+            <div className="magda-panel-background" />
+
+            <div className="magda-panel-messages" role="log">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`magda-msg magda-msg-${msg.role}`}>
+                  <div className="magda-msg-content">{msg.content}</div>
                 </div>
+              ))}
+              {loading && (
+                <div className="magda-msg magda-msg-assistant">
+                  <div className="magda-msg-content magda-typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {showQuickActions && (
+              <div className="magda-quick-actions">
+                {QUICK_ACTIONS.map((action) => (
+                  <button
+                    key={action.message}
+                    className="magda-quick-action"
+                    onClick={() => handleSend(action.message)}
+                    disabled={loading}
+                  >
+                    {action.label}
+                  </button>
+                ))}
               </div>
             )}
-            <div ref={messagesEndRef} />
           </div>
 
-          <div className="magda-chat-input-area">
+          <div className="magda-panel-composer">
             <textarea
-              className="magda-chat-input"
-              placeholder="Pregunta algo sobre pricing, HEOR..."
+              className="magda-composer-input"
+              placeholder="Escribe tu consulta..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={loading}
-              rows={2}
+              rows={1}
               aria-label="Message input"
             />
             <button
-              className="magda-chat-send"
-              onClick={handleSend}
+              className="magda-composer-send"
+              onClick={() => handleSend()}
               disabled={loading || !input.trim()}
               aria-label="Send message"
+              title="Send (Ctrl+Enter)"
             >
-              {loading ? "..." : "Send"}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

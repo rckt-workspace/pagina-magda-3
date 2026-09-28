@@ -2081,39 +2081,8 @@ section {
   }
 }
 
-/* Mobile/tablet: velo claro detrás del texto para mantener contraste */
-@media (max-width: 980px) {
-  .hero {
-    background-size: cover;
-    background-position: 72% center;
-  }
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(247, 244, 238, 0.82), rgba(247, 244, 238, 0.7));
-    pointer-events: none;
-  }
-}
-
-/* Mobile: la foto queda detrás/debajo del texto y el bloque de texto
-   lleva un panel sólido claro para garantizar contraste */
-@media (max-width: 767px) {
-  .hero {
-    background-size: cover;
-    background-position: center bottom;
-  }
-  .hero .wrap {
-    background: #f7f4ee;
-    border-radius: 1rem;
-    padding: 1.75rem 1.35rem;
-    box-shadow: 0 18px 40px -24px rgba(20, 29, 51, 0.28);
-  }
-  .hero::before {
-    display: none;
-  }
-}
+/* Mobile/tablet + mobile overlay: se define al final del archivo
+   (después de la regla base .hero::before) para que no la sobrescriba */
 
 /* ============ Trayectoria: centrada dentro del hero ============ */
 @media (min-width: 981px) {
@@ -2492,6 +2461,39 @@ section:has(.about-head) {
 .hero .wrap {
   position: relative;
   z-index: 2;
+}
+
+/* Mobile/tablet: velo claro sobre la foto (siempre visible) para
+   mantener contraste del texto. Debe ir después de la regla base
+   .hero::before de arriba */
+@media (max-width: 980px) {
+  .hero {
+    background-size: cover;
+    background-position: 72% center;
+  }
+  .hero::before {
+    background: linear-gradient(180deg, rgba(247, 244, 238, 0.82), rgba(247, 244, 238, 0.7));
+  }
+}
+
+/* Mobile: la foto sigue visible detrás del texto; el contraste se
+   garantiza reforzando el overlay/gradiente (nada de paneles opacos) */
+@media (max-width: 767px) {
+  .hero {
+    /* La zona del texto cae sobre la parte más uniforme del banner
+       (no sobre la cara/cuerpo de la persona) */
+    background-position: 80% bottom;
+  }
+  .hero::before {
+    /* Gradiente más intenso arriba (donde está el texto) y más suave
+       abajo, para que la foto siga apreciándose */
+    background: linear-gradient(
+      180deg,
+      rgba(247, 244, 238, 0.94) 0%,
+      rgba(247, 244, 238, 0.88) 45%,
+      rgba(247, 244, 238, 0.62) 100%
+    );
+  }
 }
 
 /* ============ HERO TITLE WORD ANIMATION ============ */

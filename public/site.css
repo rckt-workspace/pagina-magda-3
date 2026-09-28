@@ -2489,9 +2489,9 @@ section:has(.about-head) {
        abajo, para que la foto siga apreciándose */
     background: linear-gradient(
       180deg,
-      rgba(247, 244, 238, 0.94) 0%,
-      rgba(247, 244, 238, 0.88) 45%,
-      rgba(247, 244, 238, 0.62) 100%
+      rgba(247, 244, 238, 0.88) 0%,
+      rgba(247, 244, 238, 0.8) 45%,
+      rgba(247, 244, 238, 0.55) 100%
     );
   }
 }

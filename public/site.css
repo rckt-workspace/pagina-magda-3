@@ -2081,42 +2081,8 @@ section {
   }
 }
 
-/* Mobile/tablet: velo claro detrás del texto para mantener contraste */
-@media (max-width: 980px) {
-  .hero {
-    background-size: cover;
-    background-position: 72% center;
-  }
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(247, 244, 238, 0.82), rgba(247, 244, 238, 0.7));
-    pointer-events: none;
-  }
-}
-
-/* Mobile: la foto sigue visible detrás del texto; el contraste se
-   garantiza reforzando el overlay/gradiente (nada de paneles opacos) */
-@media (max-width: 767px) {
-  .hero {
-    background-size: cover;
-    /* La zona del texto cae sobre la parte más uniforme del banner
-       (no sobre la cara/cuerpo de la persona) */
-    background-position: 80% bottom;
-  }
-  .hero::before {
-    /* Gradiente más intenso arriba (donde está el texto) y más suave
-       abajo, para que la foto siga apreciándose */
-    background: linear-gradient(
-      180deg,
-      rgba(247, 244, 238, 0.94) 0%,
-      rgba(247, 244, 238, 0.88) 45%,
-      rgba(247, 244, 238, 0.62) 100%
-    );
-  }
-}
+/* Mobile/tablet + mobile overlay: se define al final del archivo
+   (después de la regla base .hero::before) para que no la sobrescriba */
 
 /* ============ Trayectoria: centrada dentro del hero ============ */
 @media (min-width: 981px) {

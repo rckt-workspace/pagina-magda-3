@@ -2097,21 +2097,24 @@ section {
   }
 }
 
-/* Mobile: la foto queda detrás/debajo del texto y el bloque de texto
-   lleva un panel sólido claro para garantizar contraste */
+/* Mobile: la foto sigue visible detrás del texto; el contraste se
+   garantiza reforzando el overlay/gradiente (nada de paneles opacos) */
 @media (max-width: 767px) {
   .hero {
     background-size: cover;
-    background-position: center bottom;
-  }
-  .hero .wrap {
-    background: #f7f4ee;
-    border-radius: 1rem;
-    padding: 1.75rem 1.35rem;
-    box-shadow: 0 18px 40px -24px rgba(20, 29, 51, 0.28);
+    /* La zona del texto cae sobre la parte más uniforme del banner
+       (no sobre la cara/cuerpo de la persona) */
+    background-position: 80% bottom;
   }
   .hero::before {
-    display: none;
+    /* Gradiente más intenso arriba (donde está el texto) y más suave
+       abajo, para que la foto siga apreciándose */
+    background: linear-gradient(
+      180deg,
+      rgba(247, 244, 238, 0.94) 0%,
+      rgba(247, 244, 238, 0.88) 45%,
+      rgba(247, 244, 238, 0.62) 100%
+    );
   }
 }
 

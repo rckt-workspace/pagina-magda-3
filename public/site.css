@@ -2097,6 +2097,24 @@ section {
   }
 }
 
+/* Mobile: la foto queda detrás/debajo del texto y el bloque de texto
+   lleva un panel sólido claro para garantizar contraste */
+@media (max-width: 767px) {
+  .hero {
+    background-size: cover;
+    background-position: center bottom;
+  }
+  .hero .wrap {
+    background: #f7f4ee;
+    border-radius: 1rem;
+    padding: 1.75rem 1.35rem;
+    box-shadow: 0 18px 40px -24px rgba(20, 29, 51, 0.28);
+  }
+  .hero::before {
+    display: none;
+  }
+}
+
 /* ============ Trayectoria: centrada dentro del hero ============ */
 @media (min-width: 981px) {
   .trust-strip {

@@ -2465,7 +2465,7 @@ section:has(.about-head) {
 
 /* Mobile/tablet: velo claro sobre la foto (siempre visible) para
    mantener contraste del texto. Debe ir después de la regla base
-   .hero::previous de arriba */
+   .hero::before de arriba */
 @media (max-width: 980px) {
   .hero {
     background-size: cover;

@@ -2463,6 +2463,39 @@ section:has(.about-head) {
   z-index: 2;
 }
 
+/* Mobile/tablet: velo claro sobre la foto (siempre visible) para
+   mantener contraste del texto. Debe ir después de la regla base
+   .hero::previous de arriba */
+@media (max-width: 980px) {
+  .hero {
+    background-size: cover;
+    background-position: 72% center;
+  }
+  .hero::before {
+    background: linear-gradient(180deg, rgba(247, 244, 238, 0.82), rgba(247, 244, 238, 0.7));
+  }
+}
+
+/* Mobile: la foto sigue visible detrás del texto; el contraste se
+   garantiza reforzando el overlay/gradiente (nada de paneles opacos) */
+@media (max-width: 767px) {
+  .hero {
+    /* La zona del texto cae sobre la parte más uniforme del banner
+       (no sobre la cara/cuerpo de la persona) */
+    background-position: 80% bottom;
+  }
+  .hero::before {
+    /* Gradiente más intenso arriba (donde está el texto) y más suave
+       abajo, para que la foto siga apreciándose */
+    background: linear-gradient(
+      180deg,
+      rgba(247, 244, 238, 0.94) 0%,
+      rgba(247, 244, 238, 0.88) 45%,
+      rgba(247, 244, 238, 0.62) 100%
+    );
+  }
+}
+
 /* ============ HERO TITLE WORD ANIMATION ============ */
 .hero h1 .word {
   opacity: 0;

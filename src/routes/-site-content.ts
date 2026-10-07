@@ -476,8 +476,15 @@ export const siteScript = `
       const button = contactForm.querySelector('button[type="submit"]');
       const error = document.getElementById('cfError');
 
-      const valid = empresa && area && comentario && consent && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
-      if (!valid) { if (error) error.hidden = false; return; }
+      const valid = empresa && area && comentario && consent && /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email);
+      if (!valid) {
+        if (error) {
+          error.textContent = 'Por favor, complete todos los campos con un correo válido.';
+          error.style.color = '';
+          error.hidden = false;
+        }
+        return;
+      }
       if (error) error.hidden = true;
 
       if (button) button.disabled = true;
@@ -514,11 +521,23 @@ export const siteScript = `
             }
           }, 5000);
         } else {
-          if (error) error.hidden = false;
+          const detail = await response.text();
+          console.error('Error /api/leads:', response.status, detail);
+          if (error) {
+            error.hidden = false;
+            error.style.color = '';
+            error.textContent = response.status === 400
+              ? 'Revise los datos del formulario e intente de nuevo.'
+              : 'No pudimos enviar su solicitud en este momento. Puede escribir a magda.vianey.g@gmail.com.';
+          }
         }
       } catch (err) {
         console.error('Form submission error:', err);
-        if (error) error.hidden = false;
+        if (error) {
+          error.hidden = false;
+          error.style.color = '';
+          error.textContent = 'No pudimos enviar su solicitud en este momento. Puede escribir a magda.vianey.g@gmail.com.';
+        }
       } finally {
         if (button) button.disabled = false;
       }

@@ -10,12 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiLeadsRouteImport } from './routes/api/leads'
+import { Route as ApiAdminExportRouteImport } from './routes/api/admin/export'
+import { Route as ApiAdminLeadsRouteImport } from './routes/api/admin/leads'
+import { Route as ApiAdminStatsRouteImport } from './routes/api/admin/stats'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -28,35 +37,88 @@ const ApiLeadsRoute = ApiLeadsRouteImport.update({
   path: '/api/leads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminExportRoute = ApiAdminExportRouteImport.update({
+  id: '/api/admin/export',
+  path: '/api/admin/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminLeadsRoute = ApiAdminLeadsRouteImport.update({
+  id: '/api/admin/leads',
+  path: '/api/admin/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminStatsRoute = ApiAdminStatsRouteImport.update({
+  id: '/api/admin/stats',
+  path: '/api/admin/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/api/chat': typeof ApiChatRoute
   '/api/leads': typeof ApiLeadsRoute
+  '/api/admin/export': typeof ApiAdminExportRoute
+  '/api/admin/leads': typeof ApiAdminLeadsRoute
+  '/api/admin/stats': typeof ApiAdminStatsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/api/chat': typeof ApiChatRoute
   '/api/leads': typeof ApiLeadsRoute
+  '/api/admin/export': typeof ApiAdminExportRoute
+  '/api/admin/leads': typeof ApiAdminLeadsRoute
+  '/api/admin/stats': typeof ApiAdminStatsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/api/chat': typeof ApiChatRoute
   '/api/leads': typeof ApiLeadsRoute
+  '/api/admin/export': typeof ApiAdminExportRoute
+  '/api/admin/leads': typeof ApiAdminLeadsRoute
+  '/api/admin/stats': typeof ApiAdminStatsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/chat' | '/api/leads'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/api/chat'
+    | '/api/leads'
+    | '/api/admin/export'
+    | '/api/admin/leads'
+    | '/api/admin/stats'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat' | '/api/leads'
-  id: '__root__' | '/' | '/api/chat' | '/api/leads'
+  to:
+    | '/'
+    | '/admin'
+    | '/api/chat'
+    | '/api/leads'
+    | '/api/admin/export'
+    | '/api/admin/leads'
+    | '/api/admin/stats'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/api/chat'
+    | '/api/leads'
+    | '/api/admin/export'
+    | '/api/admin/leads'
+    | '/api/admin/stats'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiLeadsRoute: typeof ApiLeadsRoute
+  ApiAdminExportRoute: typeof ApiAdminExportRoute
+  ApiAdminLeadsRoute: typeof ApiAdminLeadsRoute
+  ApiAdminStatsRoute: typeof ApiAdminStatsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -66,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -82,13 +151,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiLeadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/export': {
+      id: '/api/admin/export'
+      path: '/api/admin/export'
+      fullPath: '/api/admin/export'
+      preLoaderRoute: typeof ApiAdminExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/leads': {
+      id: '/api/admin/leads'
+      path: '/api/admin/leads'
+      fullPath: '/api/admin/leads'
+      preLoaderRoute: typeof ApiAdminLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/stats': {
+      id: '/api/admin/stats'
+      path: '/api/admin/stats'
+      fullPath: '/api/admin/stats'
+      preLoaderRoute: typeof ApiAdminStatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   ApiChatRoute: ApiChatRoute,
   ApiLeadsRoute: ApiLeadsRoute,
+  ApiAdminExportRoute: ApiAdminExportRoute,
+  ApiAdminLeadsRoute: ApiAdminLeadsRoute,
+  ApiAdminStatsRoute: ApiAdminStatsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

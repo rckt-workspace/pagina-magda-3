@@ -63,7 +63,7 @@ export function MagdaAssistant() {
         body: JSON.stringify({
           message: userMessage,
           sessionId,
-          history: messages,
+          history: messages.slice(-8).map((m) => ({ ...m, content: m.content.slice(0, 2000) })),
         }),
       });
 

@@ -29,6 +29,9 @@ export const Route = createFileRoute("/")({
         href: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
       },
       { rel: "stylesheet", href: "/site.css" },
+      { rel: "alternate", hrefLang: "es", href: "https://magdagutierrez.com/" },
+      { rel: "alternate", hrefLang: "en", href: "https://magdagutierrez.com/en" },
+      { rel: "alternate", hrefLang: "x-default", href: "https://magdagutierrez.com/" },
     ],
   }),
   component: Index,
@@ -50,7 +53,7 @@ function Index() {
   return (
     <>
       <div ref={ref} dangerouslySetInnerHTML={{ __html: siteHtml }} />
-      <MagdaAssistant />
+      <MagdaAssistant lang="es" />
     </>
   );
 }

@@ -2,7 +2,7 @@ export const siteHtml = `
 
 <div class="scroll-progress" aria-hidden="true"><div class="bar" id="scrollBar"></div></div>
 
-<header class="site">
+<header class="site" data-site-lang="es">
   <nav class="nav">
     <div class="nav-left">
       <a class="brand" href="#top">
@@ -19,6 +19,10 @@ export const siteHtml = `
       <li><a href="#contacto">Contacto</a></li>
     </ul>
     <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <a href="/" hreflang="es" lang="es" aria-current="page">ES</a>
+        <a href="/en" hreflang="en" lang="en">EN</a>
+      </div>
       <a class="btn btn-outline-light btn-sm" href="https://linkedin.com/in/magda-gutierrez-ardila" target="_blank" rel="noopener">Ver LinkedIn</a>
       <a class="btn btn-glow btn-sm nav-cta" href="mailto:magda.vianey.g@gmail.com" aria-label="Hablemos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="nav-cta-label">Hablemos</span></a>
       <button class="menu-toggle" type="button" aria-label="Abrir menú">☰</button>
@@ -79,13 +83,13 @@ export const siteHtml = `
 
       <p class="context-closing reveal">Frente a este mapa regulatorio diverso, traduzco la complejidad de cada país en modelos y narrativas de valor técnicamente sólidos y adaptados a la toma de decisiones del financiador.</p>
 
-      <div class="sources-prose reveal">
-        <div class="sources-label">Marco normativo consultado</div>
+      <details class="sources-prose reveal">
+        <summary class="sources-label">Marco normativo consultado</summary>
         <p>En Europa, el marco vigente es el <a href="https://www.boe.es/doue/2021/458/L00001-00032.pdf" target="_blank" rel="noopener">Reglamento (UE) 2021/2282</a> del Parlamento Europeo y del Consejo, sobre evaluación de las tecnologías sanitarias y por el que se modifica la Directiva 2011/24/UE (aplicable desde el 12 de enero de 2025); en España, el <a href="https://www.boe.es/boe/dias/2026/05/29/pdfs/BOE-A-2026-11587.pdf" target="_blank" rel="noopener">Real Decreto 415/2026</a> crea el Sistema para la Evaluación de las Tecnologías Sanitarias, con dos oficinas independientes: AEMPS para medicamentos (coordinada con las evaluaciones clínicas conjuntas europeas, JCA) y RedETS para tecnologías no farmacológicas, además de un Grupo de Adopción que actúa de puente hacia los órganos decisorios.</p>
         <p>En Colombia, la Comisión Nacional de Precios de Medicamentos y Dispositivos Médicos (CNPMDM) regula el control directo de precios mediante la <a href="https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/DIJ/circular-018-de-2024.pdf" target="_blank" rel="noopener">Circular 18 de 2024</a> (metodología para régimen de control directo de precios vía referenciación internacional) y sus circulares de actualización, articuladas con el artículo 87 de la <a href="https://www.minsalud.gov.co/Normatividad_Nuevo/LEY%201438%20DE%202011.pdf" target="_blank" rel="noopener">Ley 1438 de 2011</a> (que otorga competencia a la CNPMDM) y el <a href="https://www.minsalud.gov.co/Normatividad_Nuevo/Decreto%200705%20de%202016.pdf" target="_blank" rel="noopener">Decreto 705 de 2016</a>; el IETS, creado por la misma Ley 1438/2011, es el organismo técnico de evaluación de tecnologías en salud en el país, aunque opera en procesos distintos a la fijación de precios.</p>
         <p>En Brasil, la <a href="https://www.gov.br/saude/pt-br/assuntos/noticias-ms/2026/julho/ministerio-da-saude-institui-comite-para-negociacao-de-precos-nas-compras-do-sus" target="_blank" rel="noopener">Portaria GM/MS nº 12.011</a> (julio de 2026) del Ministério da Saúde crea el Comitê de Negociação de Preços e Condições Econômicas de Tecnologias em Saúde para el SUS, permitiendo modelos de acceso gestionado y descuentos confidenciales (desconto silenciado / preço confidencial), en un marco legal sostenido por la <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12401.htm" target="_blank" rel="noopener">Ley 12.401/2011</a> y el <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/decreto/d7646.htm" target="_blank" rel="noopener">Decreto 7.646/2011</a> que regulan a CONITEC (Comissão Nacional de Incorporação de Tecnologias no SUS).</p>
         <p>En Chile, la <a href="https://www.bcn.cl/leychile/navegar?idNorma=1078148" target="_blank" rel="noopener">Ley Nº 20.850</a> (Ley Ricarte Soto) crea el Sistema de Protección Financiera para Diagnósticos y Tratamientos de Alto Costo y establece la obligación de un proceso sistemático de evaluación de tecnologías sanitarias basado en evidencia para respaldar las decisiones de cobertura, proceso que hoy ejecuta el Departamento de Evaluación de Tecnologías Sanitarias y Salud Basada en Evidencia (ETESA-SBE) del MINSAL, creado en 2017.</p>
-      </div>
+      </details>
 
     </div>
   </section>
@@ -454,6 +458,21 @@ export const siteHtml = `
 export const siteScript = `
   document.documentElement.classList.add('js-ready');
 
+  const SITE_LANG = document.querySelector('[data-site-lang]')?.getAttribute('data-site-lang') === 'en' ? 'en' : 'es';
+  const MSG = SITE_LANG === 'en'
+    ? {
+        invalid: 'Please complete all fields with a valid email.',
+        sent: 'Request sent. Magda will be in touch shortly.',
+        check: 'Please check the form details and try again.',
+        failed: 'We couldn’t send your request right now. You can write to magda.vianey.g@gmail.com.',
+      }
+    : {
+        invalid: 'Por favor, complete todos los campos con un correo válido.',
+        sent: 'Solicitud enviada. Magda se contactará en breve.',
+        check: 'Revise los datos del formulario e intente de nuevo.',
+        failed: 'No pudimos enviar su solicitud en este momento. Puede escribir a magda.vianey.g@gmail.com.',
+      };
+
   document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     const links = document.querySelector('.nav-links');
     const visible = links.style.display === 'flex';
@@ -479,7 +498,7 @@ export const siteScript = `
       const valid = empresa && area && comentario && consent && /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email);
       if (!valid) {
         if (error) {
-          error.textContent = 'Por favor, complete todos los campos con un correo válido.';
+          error.textContent = MSG.invalid;
           error.style.color = '';
           error.hidden = false;
         }
@@ -510,13 +529,13 @@ export const siteScript = `
           contactForm.reset();
           if (error) {
             error.hidden = false;
-            error.textContent = 'Solicitud enviada. Magda se contactará en breve.';
+            error.textContent = MSG.sent;
             error.style.color = '#28a745';
           }
           setTimeout(() => {
             if (error) {
               error.hidden = true;
-              error.textContent = 'Por favor, complete todos los campos con un correo válido.';
+              error.textContent = MSG.invalid;
               error.style.color = '';
             }
           }, 5000);
@@ -527,8 +546,8 @@ export const siteScript = `
             error.hidden = false;
             error.style.color = '';
             error.textContent = response.status === 400
-              ? 'Revise los datos del formulario e intente de nuevo.'
-              : 'No pudimos enviar su solicitud en este momento. Puede escribir a magda.vianey.g@gmail.com.';
+              ? MSG.check
+              : MSG.failed;
           }
         }
       } catch (err) {
@@ -536,7 +555,7 @@ export const siteScript = `
         if (error) {
           error.hidden = false;
           error.style.color = '';
-          error.textContent = 'No pudimos enviar su solicitud en este momento. Puede escribir a magda.vianey.g@gmail.com.';
+          error.textContent = MSG.failed;
         }
       } finally {
         if (button) button.disabled = false;

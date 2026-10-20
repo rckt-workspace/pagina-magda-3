@@ -3,36 +3,60 @@ import "./magda-assistant.css";
 
 type Message = { role: "user" | "assistant"; content: string };
 
-const QUICK_ACTIONS = [
-  {
-    label: "Conoce sus servicios",
-    message: "¿Qué servicios ofrece Magda?",
+type Lang = "es" | "en";
+
+const TEXT = {
+  es: {
+    greeting:
+      "Hola. Soy el asistente virtual de Magda Gutiérrez. Puedo orientarte sobre Pricing, HEOR, Market Access y sus servicios. ¿En qué puedo ayudarte?",
+    trigger: "Habla con Magda",
+    triggerAria: "Abrir chat con el asistente de Magda",
+    status: "Asistente virtual",
+    close: "Cerrar chat",
+    placeholder: "Escribe tu consulta...",
+    inputAria: "Escribe tu mensaje",
+    send: "Enviar mensaje",
+    error: "Perdona, hubo un error. Intenta de nuevo.",
+    offline: "No puedo conectar en este momento. Intenta después.",
+    quickActions: [
+      { label: "Conoce sus servicios", message: "¿Qué servicios ofrece Magda?" },
+      { label: "Apoyo para lanzamientos", message: "¿Cómo puede ayudar Magda en un lanzamiento farmacéutico?" },
+      { label: "Pricing y Market Access", message: "¿Cómo trabaja Magda en Pricing y Market Access?" },
+      { label: "¿Cómo contactarla?", message: "¿Cómo puedo contactar a Magda?" },
+    ],
   },
-  {
-    label: "Apoyo para lanzamientos",
-    message: "¿Cómo puede ayudar Magda en un lanzamiento farmacéutico?",
+  en: {
+    greeting:
+      "Hello. I’m Magda Gutiérrez’s virtual assistant. I can guide you on Pricing, HEOR, Market Access and her services. How can I help you?",
+    trigger: "Talk to Magda",
+    triggerAria: "Open chat with Magda’s assistant",
+    status: "Virtual assistant",
+    close: "Close chat",
+    placeholder: "Type your question...",
+    inputAria: "Type your message",
+    send: "Send message",
+    error: "Sorry, something went wrong. Please try again.",
+    offline: "I can’t connect right now. Please try again later.",
+    quickActions: [
+      { label: "Explore her services", message: "What services does Magda offer?" },
+      { label: "Launch support", message: "How can Magda help with a pharmaceutical launch?" },
+      { label: "Pricing & Market Access", message: "How does Magda work on Pricing and Market Access?" },
+      { label: "How to contact her", message: "How can I contact Magda?" },
+    ],
   },
-  {
-    label: "Pricing y Market Access",
-    message: "¿Cómo trabaja Magda en Pricing y Market Access?",
-  },
-  {
-    label: "¿Cómo contactarla?",
-    message: "¿Cómo puedo contactar a Magda?",
-  },
-];
+} as const;
 
 function normalizeText(text: string): string {
   return text.replace(/\*\*/g, "").replace(/##/g, "").replace(/###/g, "");
 }
 
-export function MagdaAssistant() {
+export function MagdaAssistant({ lang = "es" }: { lang?: Lang }) {
+  const T = TEXT[lang];
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content:
-        "Hola. Soy el asistente virtual de Magda Gutiérrez. Puedo orientarte sobre Pricing, HEOR, Market Access y sus servicios. ¿En qué puedo ayudarte?",
+      content: T.greeting,
     },
   ]);
   const [input, setInput] = useState("");
@@ -72,7 +96,7 @@ export function MagdaAssistant() {
           ...prev,
           {
             role: "assistant",
-            content: "Perdona, hubo un error. Intenta de nuevo.",
+            content: T.error,
           },
         ]);
         return;
@@ -86,7 +110,7 @@ export function MagdaAssistant() {
         ...prev,
         {
           role: "assistant",
-          content: "No puedo conectar en este momento. Intenta después.",
+          content: T.offline,
         },
       ]);
     } finally {
@@ -109,11 +133,11 @@ export function MagdaAssistant() {
         <button
           className="magda-trigger"
           onClick={() => setIsOpen(true)}
-          aria-label="Open chat with Magda's assistant"
+          aria-label={T.triggerAria}
           aria-expanded="false"
         >
           <img src="/magda.jpg" alt="Magda" className="magda-trigger-avatar" />
-          <span className="magda-trigger-text">Habla con Magda</span>
+          <span className="magda-trigger-text">{T.trigger}</span>
           <span className="magda-trigger-icon">✦</span>
         </button>
       )}
@@ -126,13 +150,13 @@ export function MagdaAssistant() {
               <div className="magda-panel-header-text">
                 <h2 id="magda-panel-title">Magda Gutiérrez</h2>
                 <p className="magda-panel-subtitle">HEOR · Pricing · Market Access</p>
-                <p className="magda-panel-status">Asistente virtual</p>
+                <p className="magda-panel-status">{T.status}</p>
               </div>
             </div>
             <button
               className="magda-panel-close"
               onClick={() => setIsOpen(false)}
-              aria-label="Close chat"
+              aria-label={T.close}
               aria-expanded="true"
             >
               ✕
@@ -162,7 +186,7 @@ export function MagdaAssistant() {
 
             {showQuickActions && (
               <div className="magda-quick-actions">
-                {QUICK_ACTIONS.map((action) => (
+                {T.quickActions.map((action) => (
                   <button
                     key={action.message}
                     className="magda-quick-action"
@@ -179,20 +203,20 @@ export function MagdaAssistant() {
           <div className="magda-panel-composer">
             <textarea
               className="magda-composer-input"
-              placeholder="Escribe tu consulta..."
+              placeholder={T.placeholder}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={loading}
               rows={1}
-              aria-label="Message input"
+              aria-label={T.inputAria}
             />
             <button
               className="magda-composer-send"
               onClick={() => handleSend()}
               disabled={loading || !input.trim()}
-              aria-label="Send message"
-              title="Send (Ctrl+Enter)"
+              aria-label={T.send}
+              title={T.send}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />

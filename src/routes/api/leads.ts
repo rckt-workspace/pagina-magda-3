@@ -18,8 +18,8 @@ export const Route = createFileRoute("/api/leads")({
 
           const payload = buildLeadPayload(validation.data);
 
-          const supabaseUrl = process.env["SUPABASE_URL"];
-          const supabaseKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
+          const supabaseUrl = process.env["PROD_SUPABASE_URL"];
+          const supabaseKey = process.env["PROD_SUPABASE_SERVICE_ROLE_KEY"];
 
           if (!supabaseUrl || !supabaseKey) {
             return new Response(JSON.stringify({ error: "Service unavailable" }), {
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/api/leads")({
           }
 
           try {
-            const supabaseModule = await import("../../integrations/supabase/client.server");
+            const supabaseModule = await import("@/lib/db-admin.server");
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const supabase: any = supabaseModule.supabaseAdmin;
 

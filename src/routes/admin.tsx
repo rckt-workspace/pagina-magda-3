@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { supabase } from "../integrations/supabase/client";
+import { getBrowserSupabase } from "@/lib/db-browser";
 import { AccountTab } from "../components/admin/AccountTab";
 import { adminApi, ApiError } from "../components/admin/api";
 import { relativeTime } from "../components/admin/format";
@@ -15,6 +15,11 @@ export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
       { title: "Panel de contactos · Magda Gutiérrez" },
+      { name: "description", content: "Panel privado de administración de contactos de Magda Gutiérrez." },
+      { property: "og:title", content: "Panel de contactos · Magda Gutiérrez" },
+      { property: "og:description", content: "Panel privado de administración de contactos de Magda Gutiérrez." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex, nofollow" },
     ],
     links: [
@@ -44,13 +49,33 @@ function AdminPage() {
 
   const handleAccessDenied = useCallback((message: string) => {
     setAccessError(message);
-    void supabase.auth.signOut();
+    void getBrowserSupabase().then((supabase) => supabase.auth.signOut()).catch(() => {
+      setSession(null);
+    });
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
-    return () => data.subscription.unsubscribe();
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+    void getBrowserSupabase().then(async (supabase) => {
+      if (!active) return;
+      const { data } = supabase.auth.onAuthStateChange((_event, next) => {
+        if (active) setSession(next);
+      });
+      unsubscribe = () => data.subscription.unsubscribe();
+      const { data: sessionData, error } = await supabase.auth.getSession();
+      if (error) throw error;
+      if (active) setSession(sessionData.session);
+    }).catch(() => {
+      if (active) {
+        setAccessError("No se pudo iniciar sesión. Intenta de nuevo en unos minutos.");
+        setSession(null);
+      }
+    });
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
   }, []);
 
   return (

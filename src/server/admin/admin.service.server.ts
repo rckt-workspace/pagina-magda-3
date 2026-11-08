@@ -50,7 +50,7 @@ function nextDayIso(day: string): string {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function db(): Promise<any> {
-  const { supabaseAdmin } = await import("../../integrations/supabase/client.server");
+  const { supabaseAdmin } = await import("@/lib/db-admin.server");
   return supabaseAdmin;
 }
 

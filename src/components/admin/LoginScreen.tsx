@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { supabase } from "../../integrations/supabase/client";
+import { getBrowserSupabase } from "@/lib/db-browser";
 import { Button, Field, Notice, SERIF, inputClass } from "./ui";
 
 export function LoginScreen({ notice }: { notice?: string | null }) {
@@ -12,17 +12,21 @@ export function LoginScreen({ notice }: { notice?: string | null }) {
     event.preventDefault();
     setError(null);
     setLoading(true);
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
-    setLoading(false);
-    if (authError) {
+    try {
+      const supabase = await getBrowserSupabase();
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (authError) throw authError;
+    } catch (authError) {
       setError(
-        authError.message.toLowerCase().includes("invalid")
+        authError instanceof Error && authError.message.toLowerCase().includes("invalid")
           ? "El correo o la contraseña no coinciden."
           : "No se pudo iniciar sesión. Intenta de nuevo en unos minutos.",
       );
+    } finally {
+      setLoading(false);
     }
   }
 

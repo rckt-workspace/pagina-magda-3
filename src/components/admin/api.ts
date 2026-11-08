@@ -1,4 +1,4 @@
-import { supabase } from "../../integrations/supabase/client";
+import { getBrowserSupabase } from "@/lib/db-browser";
 
 export class ApiError extends Error {
   constructor(
@@ -10,6 +10,7 @@ export class ApiError extends Error {
 }
 
 async function authHeader(): Promise<Record<string, string>> {
+  const supabase = await getBrowserSupabase();
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new ApiError("Tu sesión terminó. Vuelve a entrar.", 401);

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { validateChatInput, handleChatMessage } from "../../server/chat/chat.service.server";
+import { featureConfig } from "../../config/features";
 
 const openrouterKey = process.env["OPENROUTER_API_KEY"];
 
@@ -7,6 +8,13 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        if (!featureConfig.chat.enabled) {
+          return new Response(JSON.stringify({ ok: false, error: "El asistente está desactivado" }), {
+            status: 503,
+            headers: { "content-type": "application/json" },
+          });
+        }
+
         if (!openrouterKey) {
           return new Response(JSON.stringify({ error: "Assistant temporarily unavailable" }), {
             status: 503,

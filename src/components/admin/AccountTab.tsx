@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { supabase } from "../../integrations/supabase/client";
+import { getBrowserSupabase } from "@/lib/db-browser";
 import { Button, Field, Notice, Section, inputClass } from "./ui";
 
 export function AccountTab({ email }: { email: string }) {
@@ -20,14 +20,17 @@ export function AccountTab({ email }: { email: string }) {
       return;
     }
     setSaving(true);
-    const { error } = await supabase.auth.updateUser({ password });
-    setSaving(false);
-    if (error) {
-      setMessage({ tone: "error", text: "No se pudo cambiar la contraseña. Prueba con otra diferente." });
-    } else {
+    try {
+      const supabase = await getBrowserSupabase();
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
       setPassword("");
       setConfirm("");
       setMessage({ tone: "success", text: "Contraseña actualizada. Úsala la próxima vez que entres." });
+    } catch {
+      setMessage({ tone: "error", text: "No se pudo cambiar la contraseña. Prueba con otra diferente." });
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -37,7 +40,10 @@ export function AccountTab({ email }: { email: string }) {
         <p className="text-sm text-[#4a4e57]">
           Entraste como <strong className="text-[#1e2a4a]">{email}</strong>.
         </p>
-        <Button className="mt-4" onClick={() => supabase.auth.signOut()}>
+        <Button className="mt-4" onClick={async () => {
+          const supabase = await getBrowserSupabase();
+          await supabase.auth.signOut();
+        }}>
           Cerrar sesión
         </Button>
       </Section>

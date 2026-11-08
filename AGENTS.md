@@ -87,6 +87,8 @@
 
 ### Secrets and Security
 
+- Application database operations and admin authentication use production-only `src/lib/db-admin.server.ts` and the singleton browser client from `src/lib/db-browser.ts`; a server function returns public configuration without a Cloud fallback, keeping secrets isolated and sessions on the same external database.
+
 **Server-side only (never in client code):**
 
 - `OPENROUTER_API_KEY` — AI provider access

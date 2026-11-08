@@ -44,7 +44,7 @@ export async function requireAdmin(request: Request): Promise<AdminCheck> {
   }
 
   try {
-    const { supabaseAdmin } = await import("../../integrations/supabase/client.server");
+    const { supabaseAdmin } = await import("@/lib/db-admin.server");
     const { data, error } = await supabaseAdmin.auth.getUser(token);
 
     if (error || !data.user?.email) {

@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { validateChatInput, handleChatMessage } from "../../server/chat/chat.service.server";
 import { featureConfig } from "../../config/features";
 
-const openrouterKey = process.env["OPENROUTER_API_KEY"];
-
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -15,6 +13,7 @@ export const Route = createFileRoute("/api/chat")({
           });
         }
 
+        const openrouterKey = process.env["OPENROUTER_API_KEY"];
         if (!openrouterKey) {
           return new Response(JSON.stringify({ error: "Assistant temporarily unavailable" }), {
             status: 503,
@@ -48,7 +47,7 @@ export const Route = createFileRoute("/api/chat")({
 
             // Best-effort logging to llm_usage (don't fail if it does)
             try {
-              const supabaseModule = await import("../../integrations/supabase/client.server");
+              const supabaseModule = await import("@/lib/db-admin.server");
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const sa: any = supabaseModule.supabaseAdmin;
               await sa.from("llm_usage").insert([

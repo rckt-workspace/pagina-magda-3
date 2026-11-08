@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { siteScript } from "./-site-content";
 import { siteHtmlEn } from "./-site-content.en";
 import { MagdaAssistant } from "../components/MagdaAssistant";
+import { featureConfig } from "../config/features";
 
 export const Route = createFileRoute("/en")({
   head: () => ({
@@ -55,7 +56,7 @@ function IndexEn() {
   return (
     <>
       <div ref={ref} dangerouslySetInnerHTML={{ __html: siteHtmlEn }} />
-      <MagdaAssistant lang="en" />
+      {featureConfig.chat.enabled && <MagdaAssistant lang="en" />}
     </>
   );
 }
